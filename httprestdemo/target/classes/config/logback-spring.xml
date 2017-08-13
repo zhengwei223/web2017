@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <!--根据profile来定制不同的日志级别-->
+  <springProfile name="dev">
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="org.lanqiao.restdemo" level="DEBUG"/>
+  </springProfile>
+</configuration>
