@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+
 /*以前关于mvc的配置在这里进行，继承WebMvcConfigurerAdapter，并覆写相关方法*/
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
