@@ -6,10 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration  // 必须
-//@ComponentScan // 必须
+//@Configuration
+//@ComponentScan
 //@EnableAutoConfiguration // 启动自动配置
-
 @SpringBootApplication // 等价于上面三行
 public class Main  {
   public static void main(String[] args) {

@@ -16,6 +16,9 @@
 
   <properties>
     <java.version>1.8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <spring-boot-version>1.5.6.RELEASE</spring-boot-version>
   </properties>
   <!--这些依赖自动被子模块继承-->
@@ -31,24 +34,21 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
+      <version>${spring-boot-version}</version>
     </dependency>
     <!--官方推荐开发工具-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
+      <version>${spring-boot-version}</version>
       <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
   <!--dependencyManagement里只是声明依赖，并不实现引入，子模块需要声明依赖，但不写version和scope-->
   <dependencyManagement>
     <dependencies>
+      <!--starter系列-->
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
@@ -59,33 +59,35 @@
         <artifactId>spring-boot-starter-test</artifactId>
         <version>${spring-boot-version}</version>
       </dependency>
+      <!--会自动引入jdbc-->
       <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-jdbc</artifactId>
-        <version>${spring-boot-version}</version>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>1.2.0</version>
       </dependency>
+
       <!--阿里的json序列化和反序列化工具包-->
       <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>
         <version>1.2.36</version>
       </dependency>
-      <dependency>
-        <groupId>org.mybatis.spring.boot</groupId>
-        <artifactId>mybatis-spring-boot-starter</artifactId>
-        <version>1.2.0</version>
-      </dependency>
+
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>6.0.2</version>
       </dependency>
-
       <!--一个新的连接池-->
       <dependency>
         <groupId>com.zaxxer</groupId>
         <artifactId>HikariCP</artifactId>
         <version>2.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.4.180</version>
       </dependency>
 
     </dependencies>

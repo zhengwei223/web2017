@@ -12,7 +12,12 @@
 
 因为使用springboot很多配置都和原来不一样了，要注意**MvcConfig**这个类的使用方法
 
-Spring 提供了基础类WebMvcConfigurerAdapter ，我们只需要重写其中的方法就可以轻松完成很多配置，如修改DispatcherServlet的URL拦截规则；添加拦截器等。
+Spring 提供了基础类WebMvcConfigurerAdapter ，我们只需要重写其中的方法就可以轻松完成很多配置，
+如修改DispatcherServlet的URL拦截规则；添加拦截器等。
+
+第一个控制器：org.lanqiao.restdemo.endpoint.Greet
+
+其测试类：org.lanqiao.restdemo.endpoint.GreetTest
 
 # 连接池
 
@@ -20,8 +25,9 @@ Spring 提供了基础类WebMvcConfigurerAdapter ，我们只需要重写其中�
 
 # 内存数据库
 
-使用Spring Boot时，默认情况下，配置DataSource非常容易。Spring Boot会自动为我们配置好一个DataSource。
-如果在application.yml中指定了spring.datasource的相关配置，Spring Boot就会使用该配置创建一个DataSource。如果在application.yml中没有指定任何spring.datasource的相关配置，Spring Boot会在classpath中搜索H2、hsqldb等内存数据库的jar包，如果找到了，就会自动配置一个内存数据库的DataSource，所以，我们只要引入jar包即可。例如，配置一个hsqldb数据源：
+使用Spring Boot时，默认情况下，配置DataSource非常容易。
+
+添加依赖：
 
     <dependency>
         <groupId>org.hsqldb</groupId>
@@ -29,11 +35,32 @@ Spring 提供了基础类WebMvcConfigurerAdapter ，我们只需要重写其中�
         <scope>runtime</scope>
     </dependency>
 
-scheme和data两个sql文件放在classpath根目录下。
+配置连接信息
 
+    spring.datasource.driverClassName=org.h2.Driver
+    spring.datasource.url=jdbc:h2:mem:db_users;MODE=MYSQL;\
+      INIT=RUNSCRIPT FROM './src/main/resources/init-table-user.sql'
+    spring.datasource.username=
+    spring.datasource.password=
+    
+url后头那个脚本是建表的语句；测试类：org.lanqiao.restdemo.DataSourceTest
+
+# profile
+
+在主配置文件中：
+
+    # 激活dev
+    spring.profiles.active=dev
+    
+上面的连接用于开发环境，因此其文件命名为
+
+    application-dev.properties
+    
 # 引入mybatis
 
-通用泛型Mapper、代码生成工具
-
-分页插件
+1. 添加依赖；
+2. 编写Mapper接口，见：org.lanqiao.restdemo.repository.UserMapper
+3. 配置MyBatis，扫描mapper接口：org.lanqiao.restdemo.config.MybatisConfig
+4. 编写测试类：org.lanqiao.restdemo.repository.UserMapperTest
+5. 注意测试类可以限定Spring容器加载哪些bean，在测试Mapper的时候没必要启动MVC
 
