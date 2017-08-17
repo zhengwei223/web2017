@@ -2,7 +2,6 @@ package org.lanqiao.restdemo.repository;
 
 import org.apache.ibatis.annotations.*;
 import org.lanqiao.restdemo.entity.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

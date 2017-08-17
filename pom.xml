@@ -8,94 +8,115 @@
   <artifactId>web2017</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+
+  <name>web2017</name>
+  <description>java web 开发集成</description>
+  <url>https://github.com/zhengwei223/web2017.git</url>
+  <developers>
+    <developer>
+      <id>zhengwei223</id>
+      <name>zheng wei</name>
+      <email>zhengwei223 at 163.com</email>
+      <roles>
+        <role>Project leader</role>
+      </roles>
+      <timezone>+8</timezone>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
   <modules>
-    <module>rbacservice</module>
+    <module>rbac-traditional</module>
     <module>ssoservice</module>
     <module>httprestdemo</module>
+    <module>commons</module>
   </modules>
+
+  <!-- 设定除中央仓库 (repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查询，如有Nexus私服, 取消注释并指向正确的服务器地址
+  <repositories>
+    <repository>
+      <id>nexus</id>
+      <name>Team Nexus Repository</name>
+      <url>http://localhost:8081/nexus/content/groups/public</url>
+    </repository>
+  </repositories>-->
+
+  <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址
+  <pluginRepositories>
+    <pluginRepository>
+      <id>nexus</id>
+      <name>Team Nexus Repository</name>
+      <url>http://localhost:8081/nexus/content/groups/public</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories> -->
 
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <junit.version>4.12</junit.version>
+    <assertj.version>3.8.0</assertj.version>
+
     <spring-boot-version>1.5.6.RELEASE</spring-boot-version>
+    <spring.baseline.version>4.3.10.RELEASE</spring.baseline.version>
+    <aspectjweaver.version>1.8.10</aspectjweaver.version>
+    <fastjson.version>1.2.36</fastjson.version>
+
+    <javax.validation.version>1.1.0.Final</javax.validation.version>
+
+    <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
+    <mybatis.version>3.2.7</mybatis.version>
+    <mybatis-spring.version>1.2.2</mybatis-spring.version>
+    <HikariCP.version>2.6.0</HikariCP.version>
+    <mysql-connector-java.version>6.0.2</mysql-connector-java.version>
+
+    <h2.version>1.4.180</h2.version>
+
+    <jetty.version>9.2.3.v20140905</jetty.version>
+    <jetty.jsp.version>7.5.4.v20111024</jetty.jsp.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <jsp-api.version>2.1</jsp-api.version>
+    <freemarker.version>2.3.26-incubating</freemarker.version>
+
+    <shiro.version>1.3.2</shiro.version>
+
+    <commons-lang3.version>3.5</commons-lang3.version>
+    <commons-pool.version>2.4.2</commons-pool.version>
+    <commons-collections.version>4.1</commons-collections.version>
+    <commons-io.version>2.5</commons-io.version>
+    <commons-codec.version>1.10</commons-codec.version>
+    <commons-beanutils.version>1.9.3</commons-beanutils.version>
+    <commons-fileupload.version>1.3.2</commons-fileupload.version>
+    <guava.version>18.0</guava.version>
+
+    <slf4j-api.version>1.7.25</slf4j-api.version>
+    <logback.version>1.2.3</logback.version>
+
+    <spring-boot-maven-plugin></spring-boot-maven-plugin>
+
   </properties>
+
   <!--这些依赖自动被子模块继承-->
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-dependencies</artifactId>
-      <version>${spring-boot-version}</version>
-      <type>pom</type>
-    </dependency>
-    <!--用于监控app的运行状态-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-      <version>${spring-boot-version}</version>
-    </dependency>
-    <!--官方推荐开发工具-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <version>${spring-boot-version}</version>
-      <optional>true</optional>
-    </dependency>
 
   </dependencies>
+
   <!--dependencyManagement里只是声明依赖，并不实现引入，子模块需要声明依赖，但不写version和scope-->
   <dependencyManagement>
-    <dependencies>
-      <!--starter系列-->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-        <version>${spring-boot-version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <version>${spring-boot-version}</version>
-      </dependency>
-      <!--会自动引入jdbc-->
-      <dependency>
-        <groupId>org.mybatis.spring.boot</groupId>
-        <artifactId>mybatis-spring-boot-starter</artifactId>
-        <version>1.2.0</version>
-      </dependency>
-
-      <!--阿里的json序列化和反序列化工具包-->
-      <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>fastjson</artifactId>
-        <version>1.2.36</version>
-      </dependency>
-
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>6.0.2</version>
-      </dependency>
-      <!--一个新的连接池-->
-      <dependency>
-        <groupId>com.zaxxer</groupId>
-        <artifactId>HikariCP</artifactId>
-        <version>2.6.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>1.4.180</version>
-      </dependency>
-
-    </dependencies>
 
   </dependencyManagement>
-  <!-- Package as an executable JAR -->
+
   <build>
     <plugins>
+      <!--boot打包插件-->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
