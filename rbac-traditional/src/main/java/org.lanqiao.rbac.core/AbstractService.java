@@ -3,6 +3,7 @@ package org.lanqiao.rbac.core;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 
 import java.lang.reflect.Field;
@@ -14,10 +15,9 @@ import java.util.List;
  */
 public abstract class AbstractService<T> implements Service<T> {
 
-    @Autowired
     protected Mapper<T> mapper;
 
-    private Class<T> modelClass;    // 当前泛型真实类型的Class
+  private Class<T> modelClass;    // 当前泛型真实类型的Class
 
     public AbstractService() {
         ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -43,12 +43,13 @@ public abstract class AbstractService<T> implements Service<T> {
     public void update(T model) {
         mapper.updateByPrimaryKeySelective(model);
     }
-
+    @Transactional(readOnly = true)
     public T findById(Integer id) {
         return mapper.selectByPrimaryKey(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public T findBy(String property, Object value) throws TooManyResultsException {
         try {
             T model = modelClass.newInstance();
@@ -60,15 +61,15 @@ public abstract class AbstractService<T> implements Service<T> {
             throw new ServiceException(e.getMessage(), e);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<T> findByIds(String ids) {
         return mapper.selectByIds(ids);
     }
-
+    @Transactional(readOnly = true)
     public List<T> findByCondition(Condition condition) {
         return mapper.selectByCondition(condition);
     }
-
+    @Transactional(readOnly = true)
     public List<T> findAll() {
         return mapper.selectAll();
     }
