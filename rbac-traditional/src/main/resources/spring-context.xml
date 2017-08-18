@@ -6,11 +6,11 @@
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/beans/spring-aop.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/beans/spring-context.xsd
-		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/beans/spring-jdbc.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/beans/spring-tx.xsd"
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/beans/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/beans/spring-context-4.3.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/beans/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/beans/spring-tx-4.3.xsd"
        default-lazy-init="true">
 
   <description>Spring公共配置</description>
@@ -34,7 +34,7 @@
   <!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="org.lanqiao.rbac"/>
-    <property name="annotationClass" value="org.lanqiao.commons.mybatis.MyBatisRepository"/>
+    <property name="annotationClass" value="org.lanqiao.rbac.core.MyBatisRepository"/>
   </bean>
 
 

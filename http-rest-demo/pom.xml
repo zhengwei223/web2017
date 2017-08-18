@@ -10,7 +10,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>httprestdemo</artifactId>
+  <artifactId>http-rest-demo</artifactId>
 
   <dependencies>
     <!--starter系列-->

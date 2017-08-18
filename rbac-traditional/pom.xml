@@ -18,7 +18,6 @@
       <artifactId>commons</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -172,9 +171,9 @@
     <!-- jsr303 validation dependencies-->
     <!-- =========================== -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>${javax.validation.version}</version>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${javax.validation.version}</version>
     </dependency>
 
 
@@ -276,7 +275,31 @@
       <artifactId>mybatis-spring</artifactId>
       <version>${mybatis-spring.version}</version>
     </dependency>
-
+    <!--通用mapper-->
+    <dependency>
+      <groupId>tk.mybatis</groupId>
+      <artifactId>mapper</artifactId>
+      <version>${mybatis.mapper.version}</version>
+    </dependency>
+    <!--分页插件-->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>${mybatis.pagehelper.version}</version>
+    </dependency>
+    <!--代码生成器-->
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${freemarker.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis.generator</groupId>
+      <artifactId>mybatis-generator-core</artifactId>
+      <version>${mybatis-generator.version}</version>
+      <scope>test</scope>
+    </dependency>
     <!--db-->
     <dependency>
       <groupId>mysql</groupId>

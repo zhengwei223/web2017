@@ -1,4 +1,4 @@
-package org.lanqiao.commons.mybatis;
+package org.lanqiao.rbac.core;
 
 import org.springframework.stereotype.Component;
 
