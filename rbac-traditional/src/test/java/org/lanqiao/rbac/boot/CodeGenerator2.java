@@ -32,14 +32,14 @@ public class CodeGenerator2 {
 
   private String projectPath;
   private final String TEMPLATE_FILE_PATH;
-  private  String BASE_PACKAGE ;
-  private  String CONTROLLER_FTL ;
-  private  String JAVA_PATH ;
-  private  String RESOURCES_PATH ;
-  private  String BASE_PACKAGE_PATH ;
-  private  String PACKAGE_PATH_SERVICE ;
-  private  String PACKAGE_PATH_SERVICE_IMPL ;
-  private  String PACKAGE_PATH_CONTROLLER ;
+  private String BASE_PACKAGE;
+  private String CONTROLLER_FTL;
+  private String JAVA_PATH;
+  private String RESOURCES_PATH;
+  private String BASE_PACKAGE_PATH;
+  private String PACKAGE_PATH_SERVICE;
+  private String PACKAGE_PATH_SERVICE_IMPL;
+  private String PACKAGE_PATH_CONTROLLER;
 
   private String JDBC_USERNAME;
   private String JDBC_URL;
@@ -88,13 +88,13 @@ public class CodeGenerator2 {
       BASE_PACKAGE = props.getProperty("gen.basepackage");
       JAVA_PATH = props.getProperty("java.path");
       RESOURCES_PATH = props.getProperty("resources.path");
-      BASE_PACKAGE_PATH= "/" + BASE_PACKAGE.replaceAll("\\.", "/") + "/";//项目基础包路径
+      BASE_PACKAGE_PATH = "/" + BASE_PACKAGE.replaceAll("\\.", "/") + "/";//项目基础包路径
       boolean NEED_REST = Boolean.parseBoolean(props.getProperty("rest"));
-      CONTROLLER_FTL= "controller" + (NEED_REST ? "-restful" : "") + ".ftl"; // controller.ftl
+      CONTROLLER_FTL = "controller" + (NEED_REST ? "-restful" : "") + ".ftl"; // controller.ftl
       TEMPLATE_FILE_PATH = projectPath + "/src/test/resources/generator/template";
-      PACKAGE_PATH_SERVICE =BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
-      PACKAGE_PATH_SERVICE_IMPL=BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
-      PACKAGE_PATH_CONTROLLER =BASE_PACKAGE_PATH + "/web/";//生成的Controller实现存放路径;
+      PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
+      PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
+      PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/web/";//生成的Controller实现存放路径;
 
       config = cp.parseConfiguration(new ClassPathResource(configFileName).getInputStream());
       context = config.getContext(contextId);
@@ -136,6 +136,39 @@ public class CodeGenerator2 {
       throw Exceptions.unchecked(e);
     }
   }
+  private String tablePrefix;
+
+  public CodeGenerator2 setTablePrefix(String tablePrefix) {
+    this.tablePrefix = tablePrefix;
+    return this;
+  }
+
+  private String columnPrefix;
+
+  public CodeGenerator2 setColumnPrefix(String columnPrefix) {
+    this.columnPrefix = columnPrefix;
+    return this;
+  }
+
+  public CodeGenerator2 removePrefix() {
+    List<TableConfiguration> tableConfigs = context.getTableConfigurations();
+    for (TableConfiguration conf : tableConfigs) {
+      final String tableName = conf.getTableName();
+      // 处理前缀匹配的
+      if (StringUtils.isNotEmpty(tablePrefix) && tableName.startsWith(tablePrefix)) {
+        String domainObjectName = tableName.replaceFirst(tablePrefix, BLANK_STRING);
+        conf.setDomainObjectName(tableNameConvertUpperCamel(domainObjectName));
+      }
+      //列前缀
+      if (StringUtils.isNotEmpty(columnPrefix)) {
+        ColumnRenamingRule columnRenamingRule = conf.getColumnRenamingRule();
+        columnRenamingRule.setSearchString(columnPrefix);
+        columnRenamingRule.setReplaceString(BLANK_STRING);
+        conf.setColumnRenamingRule(columnRenamingRule);
+      }
+    }
+    return this;
+  }
 
   private TableConfiguration configTable(String tableName, String tablePrefix, String columnPrefix) {
     TableConfiguration tableConfiguration = new TableConfiguration(context);
@@ -170,19 +203,20 @@ public class CodeGenerator2 {
   }
 
   private void genController() {
-    for (TableInfo1 table : tableInfoSet) {
-      String tableName = table.tableName;
-      if (StringUtils.isNotEmpty(table.tablePrefix))
-        tableName = tableName.replaceFirst(table.tablePrefix, BLANK_STRING);
+    List<TableConfiguration> tableConfigs = context.getTableConfigurations();
+    for (TableConfiguration conf : tableConfigs) {
+      String domainName = conf.getDomainObjectName();
+      if (StringUtils.isNotEmpty(tablePrefix))
+        domainName = domainName.replaceFirst(tablePrefix, BLANK_STRING);
       try {
         buildFreemarkerConfiguration();
         Map<String, Object> data = new HashMap<>();
         data.put("date", DATE);
         data.put("author", AUTHOR);
-        data.put("baseRequestMapping", tableNameConvertMappingPath(tableName));
-        String modelNameUpperCamel = tableNameConvertUpperCamel(tableName);
+        data.put("baseRequestMapping", tableNameConvertMappingPath(domainName));
+        String modelNameUpperCamel = tableNameConvertUpperCamel(domainName);
         data.put("modelNameUpperCamel", modelNameUpperCamel);
-        data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
+        data.put("modelNameLowerCamel", tableNameConvertLowerCamel(domainName));
         data.put("basePackage", BASE_PACKAGE);
 
 
@@ -200,20 +234,20 @@ public class CodeGenerator2 {
   }
 
   public void genService() {
-    for (TableInfo1 table : tableInfoSet) {
-
-      String tableName = table.tableName;
-      if (StringUtils.isNotEmpty(table.tablePrefix))
-        tableName = tableName.replaceFirst(table.tablePrefix, BLANK_STRING);
+    List<TableConfiguration> tableConfigs = context.getTableConfigurations();
+    for (TableConfiguration conf : tableConfigs) {
+      String domainName = conf.getDomainObjectName();
+      if (StringUtils.isNotEmpty(tablePrefix))
+        domainName = domainName.replaceFirst(tablePrefix, BLANK_STRING);
       try {
         buildFreemarkerConfiguration();
 
         Map<String, Object> data = new HashMap<>();
         data.put("date", DATE);
         data.put("author", AUTHOR);
-        String modelNameUpperCamel = tableNameConvertUpperCamel(tableName);
+        String modelNameUpperCamel = tableNameConvertUpperCamel(domainName);
         data.put("modelNameUpperCamel", modelNameUpperCamel);
-        data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
+        data.put("modelNameLowerCamel", tableNameConvertLowerCamel(domainName));
         data.put("basePackage", BASE_PACKAGE);
 
         File file = new File(projectPath + JAVA_PATH + PACKAGE_PATH_SERVICE + modelNameUpperCamel + "Service.java");
@@ -307,10 +341,11 @@ public class CodeGenerator2 {
       this.tablePrefix = tablePrefix;
       this.columnPrefix = columnPrefix;
     }
+
   }
 
   public static void main(String[] args) {
-    new CodeGenerator2().addTables("commons_").generate();
+    new CodeGenerator2().generate();
   }
 }
 

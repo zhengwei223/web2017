@@ -13,9 +13,10 @@
     <property name="beginningDelimiter" value="${db.obj.Delimiter}"/>
     <property name="endingDelimiter" value="${db.obj.Delimiter}"/>
 
-    <!--<plugin type="tk.mybatis.mapper.generator.MapperPlugin">-->
-      <!--<property name="mappers" value="${gen.basepackage}.core.Mapper"/>-->
-    <!--</plugin>-->
+    <!--通用mapper的插件-->
+    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+      <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+    </plugin>
 
     <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
                     userId="${jdbc.username}" password="${jdbc.password}"/>
@@ -39,6 +40,8 @@
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>
 
-    <table tableName="test"/>
+    <table tableName="%" >
+      <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    </table>
   </context>
 </generatorConfiguration>
