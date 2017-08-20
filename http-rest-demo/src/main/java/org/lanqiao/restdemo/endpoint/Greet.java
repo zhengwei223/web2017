@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class Greet {
   @RequestMapping(value = "/hi",method = RequestMethod.GET)
   public String sayHi(){
-    return "hi spring boot web";
+    return "hi spring core web";
   }
 }

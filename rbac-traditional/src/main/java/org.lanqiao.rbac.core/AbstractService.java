@@ -2,7 +2,6 @@ package org.lanqiao.rbac.core;
 
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 
@@ -73,4 +72,11 @@ public abstract class AbstractService<T> implements Service<T> {
     public List<T> findAll() {
         return mapper.selectAll();
     }
+
+    @Transactional(readOnly = true)
+    public int count() {
+        return mapper.selectCount( null );
+    }
+
+
 }

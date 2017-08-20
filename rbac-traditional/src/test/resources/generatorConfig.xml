@@ -2,7 +2,7 @@
     "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
     "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
 <generatorConfiguration>
-  <properties resource="application-development.properties"/>
+  <properties resource="application-dev1.properties"/>
 
   <context id="rbac" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
 
@@ -15,7 +15,7 @@
 
     <!--通用mapper的插件-->
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-      <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+      <property name="mappers" value="${mappers}"/>
     </plugin>
 
     <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
@@ -40,8 +40,11 @@
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>
 
-    <table tableName="%" >
+    <!--配合CodeGenerator的专用写法，带*的会认为tableName是前缀-->
+    <table tableName="rbac_*"  >
+      <!--主键生成方式-->
       <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
     </table>
+
   </context>
 </generatorConfiguration>

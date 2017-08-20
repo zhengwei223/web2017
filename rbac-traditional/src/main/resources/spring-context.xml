@@ -42,7 +42,8 @@
     <!--<property name="annotationClass" value="org.springframework.stereotype.Repository"/>-->
     <property name="properties">
       <value>
-        mappers=tk.mybatis.mapper.common.Mapper
+        mappers=org.lanqiao.rbac.core.Mapper
+        IDENTITY=MYSQL
       </value>
     </property>
   </bean>
@@ -85,11 +86,33 @@
     </bean>
   </beans>
 
-  <!-- local development环境 -->
-  <beans profile="development">
+  <!-- local dev1环境 -->
+  <beans profile="dev1">
     <context:property-placeholder ignore-resource-not-found="true"
                                   location="classpath*:/application.properties,
-          			  classpath*:/application-development.properties"/>
+          			  classpath*:/application-dev1.properties"/>
+
+    <!-- Hikari JDBC连接池 -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url}"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+
+    <!-- Spring Simple连接池 for quartz -->
+    <!--<bean id="quartzDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${quartz.jdbc.driver}" />
+      <property name="url" value="${quartz.jdbc.url}" />
+      <property name="username" value="${quartz.jdbc.username}" />
+      <property name="password" value="${quartz.jdbc.password}" />
+    </bean>-->
+  </beans>
+  <beans profile="dev2">
+    <context:property-placeholder ignore-resource-not-found="true"
+                                  location="classpath*:/application.properties,
+          			  classpath*:/application-dev2.properties"/>
 
     <!-- Hikari JDBC连接池 -->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

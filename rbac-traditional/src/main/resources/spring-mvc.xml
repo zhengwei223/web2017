@@ -25,12 +25,12 @@
 		<!-- 解决org.springframework.beans.BeanInstantiationException: Failed to 
 			instantiate [org.springframework.data.domain.Pageable]: Specified class is 
 			an interface -->
-		<mvc:argument-resolvers>
+<!--		<mvc:argument-resolvers>
 			<bean
 				class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" >
-	<!-- <property name="sizeParameterName" value="pageSize"></property> -->
+	&lt;!&ndash; <property name="sizeParameterName" value="pageSize"></property> &ndash;&gt;
 				</bean>
-		</mvc:argument-resolvers>
+		</mvc:argument-resolvers>-->
 
 		<mvc:message-converters register-defaults="true">
 			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
@@ -47,16 +47,6 @@
 	<!-- JSR303 Validator定义 -->
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-
-
-
 	<!-- 静态资源，无需过控制器 -->
 	<mvc:resources mapping="/static/**" location="/static/" />
-	<mvc:resources mapping="/pages/**" location="/pages/" />
-	<mvc:resources mapping="/page/**" location="/page/" />
-	<mvc:resources mapping="/assets/**" location="/assets/" />
-	<mvc:resources mapping="/example_library/**" location="/example_library/" />
-	<!-- <mvc:resources mapping="/js/**" location="/js/" /> <mvc:resources mapping="/css/**" 
-		location="/css/" /> <mvc:resources mapping="/font/**" location="/font/" /> 
-		<mvc:resources mapping="/images/**" location="/images/" /> -->
 </beans>

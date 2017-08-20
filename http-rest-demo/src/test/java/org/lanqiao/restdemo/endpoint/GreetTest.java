@@ -22,7 +22,7 @@ public class GreetTest {
     assertThat( result.getStatusCode() ).isEqualTo( HttpStatus.OK );
     System.out.println(result.getHeaders().getContentType());
     assertThat( result.getHeaders().getContentType().toString().contains( MediaType.APPLICATION_JSON_VALUE ) ).isTrue();
-    assertThat(result.getBody()).isEqualTo( "\"hi spring boot web\"" );
+    assertThat(result.getBody()).isEqualTo( "\"hi spring core web\"" );
   }
 
 }

@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.boot;
+package org.lanqiao.rbac.generator;
 
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.Date;
 
 
-public abstract class CodeGenerator {
+public class MBGDemo {
   public static void main(String[] args) throws IOException, XMLParserException, InvalidConfigurationException, SQLException, InterruptedException {
     genMapper();
   }
