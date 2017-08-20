@@ -1,7 +1,11 @@
 package org.lanqiao.rbac.core;
 
 
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.lanqiao.rbac.core.base.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 
@@ -78,5 +82,13 @@ public abstract class AbstractService<T> implements Service<T> {
         return mapper.selectCount( null );
     }
 
-
+    @Override
+    public PageInfo findAll(Integer pageNumber, Integer pageSize) {
+      return PageHelper.startPage( pageNumber,pageSize ).doSelectPageInfo( new ISelect() {
+        @Override
+        public void doSelect() {
+          mapper.selectAll();
+        }
+      } );
+    }
 }

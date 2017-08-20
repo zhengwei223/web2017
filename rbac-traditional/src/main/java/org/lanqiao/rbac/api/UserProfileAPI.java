@@ -1,10 +1,9 @@
-package org.lanqiao.rbac.web;
+package org.lanqiao.rbac.api;
 
 import org.lanqiao.rbac.core.Result;
 import org.lanqiao.rbac.core.ResultGenerator;
 import org.lanqiao.rbac.entity.UserProfile;
 import org.lanqiao.rbac.service.UserProfileService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/rbac/user/profile")
-public class UserProfileController {
+public class UserProfileAPI {
     @Resource
     private UserProfileService userProfileService;
 
@@ -44,10 +43,8 @@ public class UserProfileController {
     }
 
     @GetMapping
-    public Result list(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
-        List<UserProfile> list = userProfileService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
+    public Result list(Integer pageNumber, Integer pageSize) {
+        PageInfo pageInfo = userProfileService.findAll(pageNumber,pageSize);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 }

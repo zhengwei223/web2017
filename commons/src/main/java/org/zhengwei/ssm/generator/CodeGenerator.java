@@ -48,7 +48,7 @@ public class CodeGenerator {
   private final String AUTHOR;//@author
   private final String CONTEXTID;
   private final String PROJECT_PATH;
-  private final String TEMPLATE_FILE_PATH;
+  //private final String TEMPLATE_FILE_PATH;
   private final String BASE_PACKAGE;
   private final String CONTROLLER_FTL;
   private final String JAVA_PATH;
@@ -68,6 +68,8 @@ public class CodeGenerator {
 
   //freemarker config
   private freemarker.template.Configuration freemarkerCfg;
+  private boolean need_rest;
+  private boolean dealed = false;
 
   public CodeGenerator() {
     Resource resource = new ClassPathResource( propertiesPath );
@@ -77,16 +79,19 @@ public class CodeGenerator {
       AUTHOR = props.getProperty( "gen.author" );
       CONTEXTID = props.getProperty( "gen.context.id" );
       PROJECT_PATH = props.getProperty( "project.path" );
-      TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
+      //TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
       BASE_PACKAGE = props.getProperty( "gen.basepackage" );
-      boolean NEED_REST = Boolean.parseBoolean( props.getProperty( "rest" ) );
-      CONTROLLER_FTL = "controller" + (NEED_REST ? "-restful" : "") + ".ftl"; // controller.ftl
+      need_rest = Boolean.parseBoolean( props.getProperty( "rest" ) );
+      CONTROLLER_FTL = "controller" + (need_rest ? "-restful" : "") + ".ftl"; // controller.ftl
       JAVA_PATH = props.getProperty( "java.path" );
       RESOURCES_PATH = props.getProperty( "resources.path" );
       BASE_PACKAGE_PATH = "/" + BASE_PACKAGE.replaceAll( "\\.", "/" ) + "/";//项目基础包路径
       PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
       PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
-      PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/web/";//生成的Controller实现存放路径;
+      if (need_rest)
+        PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/api/";//生成的API存放路径;
+      else
+        PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/web/";//生成的Controller存放路径;
 
       JDBC_DIVER_CLASS_NAME = props.getProperty( "jdbc.driver" );
       JDBC_URL = props.getProperty( "jdbc.url" );
@@ -112,12 +117,11 @@ public class CodeGenerator {
 
   }
 
-  public void generate() {
+  public void generateMapper() {
     dealTables();
     try {
       MyBatisGenerator myBatisGenerator = new MyBatisGenerator( config, CALLBACK, WARNINGS );
       myBatisGenerator.generate( null );
-      genServiceAndController();
     } catch (InvalidConfigurationException | SQLException | IOException | InterruptedException e) {
       Exceptions.unchecked( e );
     }
@@ -128,28 +132,36 @@ public class CodeGenerator {
    * 解析所有table配置，正确地和数据库中的表对应起来，形成新的TableConfiguration列表
    */
   private void dealTables() {
-    List<TableConfiguration> tcs = context.getTableConfigurations();
-    Set<TableConfiguration> newTcs = new HashSet<>();
-    Set<String> dbTableNameSet = getDbTableNames();
-    for (TableConfiguration tc : tcs) {
-      dealTable( newTcs, dbTableNameSet, tc );
+    if (!dealed) {
+      List<TableConfiguration> tcs = context.getTableConfigurations();
+      Set<TableConfiguration> newTcs = new HashSet<>();
+      Set<String> dbTableNameSet = getDbTableNames();
+      for (TableConfiguration tc : tcs) {
+        dealTable( newTcs, dbTableNameSet, tc );
+      }
+      tcs.clear();
+      tcs.addAll( newTcs );
+      dealed = true;
     }
-    tcs.clear();
-    tcs.addAll( newTcs );
   }
 
-  private void genServiceAndController() {
+  /**
+   * 模板文件的路径
+   * @param templateDir
+   */
+  public void genServiceAndController(String templateDir) {
+    dealTables();
     List<TableConfiguration> tableConfigs = context.getTableConfigurations();
     for (TableConfiguration conf : tableConfigs) {
       String domainName = conf.getDomainObjectName();
       try {
         //build config
-        buildFreemarkerConfiguration();
+        buildFreemarkerConfiguration( templateDir );
         //prepare data used in template
         Map<String, Object> data = new HashMap<>();
         data.put( "date", DATE );
         data.put( "author", AUTHOR );
-        data.put("baseRequestMapping", tableNameConvertMappingPath(conf.getTableName()));
+        data.put( "baseRequestMapping", tableNameConvertMappingPath( conf.getTableName() ) );
         data.put( "modelNameUpperCamel", domainName );
         String modelNameLowerCamel = domainName.substring( 0, 1 ).toLowerCase() + domainName.substring( 1 );
         data.put( "modelNameLowerCamel", modelNameLowerCamel );
@@ -171,21 +183,21 @@ public class CodeGenerator {
             new FileWriter( file1 ) );
         System.out.println( domainName + "ServiceImpl.java 生成成功" );
 
-        File file2 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + domainName + "Controller.java" );
+        File file2 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + domainName + (need_rest ? "API" : "Controller") + ".java" );
         if (!file2.getParentFile().exists()) {
           file2.getParentFile().mkdirs();
         }
         freemarkerCfg.getTemplate( CONTROLLER_FTL ).process( data, new FileWriter( file2 ) );
-        System.out.println( domainName + "Controller.java 生成成功" );
+        System.out.println( domainName + (need_rest ? "API" : "Controller") + ".java 生成成功" );
 
       } catch (Exception e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException( e );
       }
     }
   }
 
 
-  private void buildFreemarkerConfiguration() throws IOException {
+  private void buildFreemarkerConfiguration(String TEMPLATE_FILE_PATH) throws IOException {
     if (freemarkerCfg != null)
       return;
     freemarkerCfg = new freemarker.template.Configuration( freemarker.template.Configuration.VERSION_2_3_23 );
@@ -262,7 +274,7 @@ public class CodeGenerator {
     tableConfiguration.setGeneratedKey( generatedKey );
     // 表前缀
     if (StringUtils.isNotEmpty( tablePrefix )) {
-      String domainObjectName = tableName.replaceFirst( tablePrefix, "" );
+      String domainObjectName = tableName.replaceFirst( tablePrefix, BLANK_STRING );
       tableConfiguration.setDomainObjectName( tableNameConvertUpperCamel( domainObjectName ) );
     }
 
@@ -319,6 +331,8 @@ public class CodeGenerator {
   }
 
   public static void main(String[] args) throws Exception {
-    new CodeGenerator().generate();
+    CodeGenerator codeGenerator = new CodeGenerator();
+    codeGenerator.generateMapper();
+    codeGenerator.genServiceAndController( "E:\\workspace\\web2017\\commons\\src\\main\\resources\\ssm_template_demo" );
   }
 }

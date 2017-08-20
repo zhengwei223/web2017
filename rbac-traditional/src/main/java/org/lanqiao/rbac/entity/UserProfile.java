@@ -1,5 +1,6 @@
 package org.lanqiao.rbac.entity;
 
+
 import javax.persistence.*;
 
 @Table(name = "rbac_user_profile")

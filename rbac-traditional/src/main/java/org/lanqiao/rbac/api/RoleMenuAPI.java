@@ -1,10 +1,9 @@
-package org.lanqiao.rbac.web;
+package org.lanqiao.rbac.api;
 
 import org.lanqiao.rbac.core.Result;
 import org.lanqiao.rbac.core.ResultGenerator;
-import org.lanqiao.rbac.entity.Log;
-import org.lanqiao.rbac.service.LogService;
-import com.github.pagehelper.PageHelper;
+import org.lanqiao.rbac.entity.RoleMenu;
+import org.lanqiao.rbac.service.RoleMenuService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,39 +14,37 @@ import java.util.List;
 * Created by zhengwei on 2017/08/20.
 */
 @RestController
-@RequestMapping("/rbac/log")
-public class LogController {
+@RequestMapping("/rbac/role/menu")
+public class RoleMenuAPI {
     @Resource
-    private LogService logService;
+    private RoleMenuService roleMenuService;
 
     @PostMapping
-    public Result add(Log log) {
-        logService.save(log);
+    public Result add(RoleMenu roleMenu) {
+        roleMenuService.save(roleMenu);
         return ResultGenerator.genSuccessResult();
     }
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
-        logService.deleteById(id);
+        roleMenuService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
     @PutMapping
-    public Result update(Log log) {
-        logService.update(log);
+    public Result update(RoleMenu roleMenu) {
+        roleMenuService.update(roleMenu);
         return ResultGenerator.genSuccessResult();
     }
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
-        Log log = logService.findById(id);
-        return ResultGenerator.genSuccessResult(log);
+        RoleMenu roleMenu = roleMenuService.findById(id);
+        return ResultGenerator.genSuccessResult(roleMenu);
     }
 
     @GetMapping
-    public Result list(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
-        List<Log> list = logService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
+    public Result list(Integer pageNumber, Integer pageSize) {
+        PageInfo pageInfo = roleMenuService.findAll(pageNumber,pageSize);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 }

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
@@ -11,42 +11,48 @@
         http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 
-	<!-- 在指定包下扫描 此处扫描@Controller@ControllerAdvice -->
-	<context:component-scan		base-package="org.lanqiao.rbac">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
-	</context:component-scan>
+  <!-- 在指定包下扫描 此处扫描@Controller@ControllerAdvice -->
+  <!--注意这里扫描的报名，控制器或者api应该限定在一个包内-->
+  <context:component-scan base-package="org.lanqiao.rbac.api">
+    <context:include-filter type="annotation"
+                            expression="org.springframework.stereotype.Controller"/>
+    <context:include-filter type="annotation"
+                            expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+  </context:component-scan>
+
+  <!-- 注解驱动的控制器配置 -->
+  <mvc:annotation-driven>
+    <!-- 解决org.springframework.beans.BeanInstantiationException: Failed to
+      instantiate [org.springframework.data.domain.Pageable]: Specified class is
+      an interface -->
+    <!--		<mvc:argument-resolvers>
+          <bean
+            class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" >
+      &lt;!&ndash; <property name="sizeParameterName" value="pageSize"></property> &ndash;&gt;
+            </bean>
+        </mvc:argument-resolvers>-->
+
+    <mvc:message-converters register-defaults="true">
+      <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+      <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+        <constructor-arg value="UTF-8"/>
+      </bean>
+      <!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+      <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+    </mvc:message-converters>
+
+  </mvc:annotation-driven>
 
 
-	<!-- 注解驱动的控制器配置 -->
-	<mvc:annotation-driven>
-		<!-- 解决org.springframework.beans.BeanInstantiationException: Failed to 
-			instantiate [org.springframework.data.domain.Pageable]: Specified class is 
-			an interface -->
-<!--		<mvc:argument-resolvers>
-			<bean
-				class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" >
-	&lt;!&ndash; <property name="sizeParameterName" value="pageSize"></property> &ndash;&gt;
-				</bean>
-		</mvc:argument-resolvers>-->
+  <!--注解风格的beans，是如何和xml beans混搭的呢，看这里-->
+  <bean class="org.lanqiao.rbac.core.config.WebMvcConfig" />
+  <mvc:interceptors>
+    <ref bean="signCheckInterceptor"/> <!--此bean来自注解@Configuration+org.lanqiao.rbac.core.config.WebMvcConfig-->
+  </mvc:interceptors>
 
-		<mvc:message-converters register-defaults="true">
-			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg value="UTF-8" />
-			</bean>
-			<!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
-			<bean
-				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+  <!--统一的rest风格的异常处理，发生异常后，封装为json格式返回-->
+  <bean class="org.lanqiao.rbac.core.RestHandlerExceptionResolver"/>
 
-	<!-- JSR303 Validator定义 -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-	<!-- 静态资源，无需过控制器 -->
-	<mvc:resources mapping="/static/**" location="/static/" />
+  <!-- 静态资源，无需过控制器 -->
+  <mvc:resources mapping="/static/**" location="/static/"/>
 </beans>

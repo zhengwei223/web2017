@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core;
+package org.lanqiao.rbac.core.base;
 
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;

@@ -1,10 +1,9 @@
-package org.lanqiao.rbac.web;
+package org.lanqiao.rbac.api;
 
 import org.lanqiao.rbac.core.Result;
 import org.lanqiao.rbac.core.ResultGenerator;
 import org.lanqiao.rbac.entity.Menu;
 import org.lanqiao.rbac.service.MenuService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/rbac/menu")
-public class MenuController {
+public class MenuAPI {
     @Resource
     private MenuService menuService;
 
@@ -44,10 +43,8 @@ public class MenuController {
     }
 
     @GetMapping
-    public Result list(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
-        List<Menu> list = menuService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
+    public Result list(Integer pageNumber, Integer pageSize) {
+        PageInfo pageInfo = menuService.findAll(pageNumber,pageSize);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 }

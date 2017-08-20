@@ -34,15 +34,29 @@
     <property name="typeAliasesPackage" value="org.lanqiao.rbac.entity"/>
     <!-- 显式指定Mapper文件位置 -->
     <property name="mapperLocations" value="classpath:/mapper/*Mapper.xml"/>
+
+    <property name="plugins">
+      <array>
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <!--使用下面的方式配置参数，一行配置一个 ，详情见https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md-->
+            <value>
+              reasonable=true
+              supportMethodsArguments=true
+              returnPageInfo=true
+            </value>
+          </property>
+        </bean>
+      </array>
+    </property>
   </bean>
 
-  <!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
+  <!-- 扫描basePackage下所有mappers指定标识的接口-->
   <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="org.lanqiao.rbac.repository"/>
-    <!--<property name="annotationClass" value="org.springframework.stereotype.Repository"/>-->
     <property name="properties">
       <value>
-        mappers=org.lanqiao.rbac.core.Mapper
+        mappers=org.lanqiao.rbac.core.base.Mapper
         IDENTITY=MYSQL
       </value>
     </property>
@@ -60,8 +74,8 @@
   <!-- 定义aspectj -->
   <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-  <!-- validator -->
-  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+  <!-- JSR303 Validator定义 -->
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
   <!-- production环境 -->
   <beans profile="production">
