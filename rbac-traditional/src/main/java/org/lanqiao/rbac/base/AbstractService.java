@@ -6,7 +6,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.transaction.annotation.Transactional;
-import org.zhengwei.multiDataSources.DataSourceKeyHolder;
 import org.zhengwei.web.rest.ServiceException;
 import tk.mybatis.mapper.entity.Condition;
 
@@ -28,33 +27,36 @@ public abstract class AbstractService<T> implements Service<T> {
     modelClass = (Class<T>) pt.getActualTypeArguments()[0];
   }
 
+  @Transactional(readOnly = false)
   public void save(T model) {
     mapper.insertSelective(model);
   }
 
+  @Transactional(readOnly = false)
   public void save(List<T> models) {
     mapper.insertList(models);
   }
 
+  @Transactional(readOnly = false)
   public void deleteById(Integer id) {
     mapper.deleteByPrimaryKey(id);
   }
 
+  @Transactional(readOnly = false)
   public void deleteByIds(String ids) {
     mapper.deleteByIds(ids);
   }
 
+  @Transactional(readOnly = false)
   public void update(T model) {
     mapper.updateByPrimaryKeySelective(model);
   }
 
-  @Transactional(readOnly = true)
   public T findById(Integer id) {
     return mapper.selectByPrimaryKey(id);
   }
 
   @Override
-  @Transactional(readOnly = true)
   public T findBy(String property, Object value) throws TooManyResultsException {
     // 手动设置数据源
     // DataSourceKeyHolder.setDbType(DataSourceKeyHolder.DataSourceType.MASTER);
@@ -69,23 +71,19 @@ public abstract class AbstractService<T> implements Service<T> {
     }
   }
 
-  @Transactional(readOnly = true)
   public List<T> findByIds(String ids) {
     return mapper.selectByIds(ids);
   }
 
-  @Transactional(readOnly = true)
   public List<T> findByCondition(Condition condition) {
     return mapper.selectByCondition(condition);
   }
 
   @Override
-  // @Transactional(readOnly = true)
   public List<T> findAll() {
     return mapper.selectAll();
   }
 
-  @Transactional(readOnly = true)
   public int count() {
     return mapper.selectCount(null);
   }
