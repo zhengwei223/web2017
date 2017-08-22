@@ -45,13 +45,13 @@
 
 
   <!--注解风格的beans，是如何和xml beans混搭的呢，看这里-->
-  <bean class="org.lanqiao.rbac.core.config.WebMvcConfig" />
+  <bean class="org.lanqiao.rbac.config.WebMvcConfig" />
   <mvc:interceptors>
-    <ref bean="signCheckInterceptor"/> <!--此bean来自注解@Configuration+org.lanqiao.rbac.core.config.WebMvcConfig-->
+    <ref bean="signCheckInterceptor"/> <!--此bean来自注解@Configuration+WebMvcConfig-->
   </mvc:interceptors>
 
   <!--统一的rest风格的异常处理，发生异常后，封装为json格式返回-->
-  <bean class="org.lanqiao.rbac.core.RestHandlerExceptionResolver"/>
+  <bean class="org.zhengwei.web.rest.RestHandlerExceptionResolver"/>
 
   <!-- 静态资源，无需过控制器 -->
   <mvc:resources mapping="/static/**" location="/static/"/>

@@ -1,7 +1,7 @@
-package org.lanqiao.rbac.core.util;
+package org.zhengwei.commons;
 
 import com.alibaba.fastjson.JSON;
-import org.lanqiao.rbac.core.Result;
+import org.zhengwei.web.rest.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core;
+package org.lanqiao.rbac.base;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.exceptions.TooManyResultsException;

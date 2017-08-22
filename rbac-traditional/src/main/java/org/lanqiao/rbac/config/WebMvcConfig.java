@@ -1,12 +1,12 @@
-package org.lanqiao.rbac.core.config;
+package org.lanqiao.rbac.config;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.lanqiao.rbac.core.base.Https;
-import org.lanqiao.rbac.core.util.Responses;
-import org.lanqiao.rbac.core.Result;
-import org.lanqiao.rbac.core.ResultCode;
+import org.zhengwei.commons.Https;
+import org.zhengwei.commons.Responses;
+import org.zhengwei.web.rest.Result;
+import org.zhengwei.web.rest.ResultCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

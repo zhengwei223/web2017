@@ -44,7 +44,9 @@ public class UserProfileServiceImplTest extends Tester {
 
   @Test
   public void testFindByPage() {
-    PageInfo pageInfo = userProfileService.findAll( 3, 10 );
-    System.out.println( pageInfo );
+    PageInfo<UserProfile> pageInfo = userProfileService.findAll( 1, 10 );
+    for (UserProfile profile : pageInfo.getList()) {
+      System.out.println( profile );
+    }
   }
 }

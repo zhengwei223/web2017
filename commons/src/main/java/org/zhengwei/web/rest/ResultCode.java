@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core;
+package org.zhengwei.web.rest;
 
 /**
  * 响应码枚举，参考HTTP状态码的语义

@@ -20,6 +20,23 @@
       <artifactId>spring-core</artifactId>
       <version>${spring.baseline.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
     <!-- =========================== -->
     <!-- apache commons dependencies-->
     <!-- =========================== -->
@@ -27,6 +44,19 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
+    </dependency>
+    <!-- =========================== -->
+    <!-- google guava dependencies-->
+    <!-- =========================== -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.version}</version>
     </dependency>
     <!-- =========================== -->
     <!-- logger dependencies-->
@@ -47,7 +77,12 @@
       <version>${logback.version}</version>
     </dependency>
 
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <!--代码生成器-->
     <dependency>
       <groupId>org.freemarker</groupId>

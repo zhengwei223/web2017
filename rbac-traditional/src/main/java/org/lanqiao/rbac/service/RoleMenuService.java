@@ -1,6 +1,6 @@
 package org.lanqiao.rbac.service;
 import org.lanqiao.rbac.entity.RoleMenu;
-import org.lanqiao.rbac.core.Service;
+import org.lanqiao.rbac.base.Service;
 
 
 /**

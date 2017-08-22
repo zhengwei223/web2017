@@ -12,7 +12,7 @@
   定义了处理器拦截器，对请求参数进行签名验证，[开放api接口签名验证 - CodeL](http://www.cnblogs.com/codelir/p/5327462.html);同时示范了在xml
   中如何引入一个用`@Configuration`配置的容器，见`spring-mvc.xml`
   
-  定义了内部异常转Http rest响应的逻辑，见`org.lanqiao.rbac.core.RestHandlerExceptionResolver`。
+  定义了内部异常转Http rest响应的逻辑，见`org.zhengwei.web.rest.RestHandlerExceptionResolver`。
   更多信息请看[Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
   
   

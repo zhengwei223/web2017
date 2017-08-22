@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core.base;
+package org.zhengwei.commons;
 
 import javax.servlet.http.HttpServletRequest;
 
