@@ -1,18 +1,17 @@
-package org.lanqiao.rbac.service.impl;
+package org.lanqiao.rbac.service;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.lanqiao.rbac.core.Tester;
+import org.lanqiao.rbac.base.BaseTester;
 import org.lanqiao.rbac.entity.UserProfile;
-import org.lanqiao.rbac.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserProfileServiceImplTest extends Tester {
+public class UserProfileServiceImplTest extends BaseTester {
   @Autowired
   private UserProfileService userProfileService;
 

@@ -45,22 +45,22 @@ public class CodeGenerator {
   private final DefaultShellCallback CALLBACK = new DefaultShellCallback( true );
 
   // from configuration
-  private final String AUTHOR;//@author
-  private final String CONTEXTID;
-  private final String PROJECT_PATH;
+  private String AUTHOR;//@author
+  private String CONTEXTID;
+  private String PROJECT_PATH;
   //private final String TEMPLATE_FILE_PATH;
-  private final String BASE_PACKAGE;
-  private final String CONTROLLER_FTL;
-  private final String JAVA_PATH;
-  private final String RESOURCES_PATH;
-  private final String BASE_PACKAGE_PATH;
-  private final String PACKAGE_PATH_SERVICE;
-  private final String PACKAGE_PATH_SERVICE_IMPL;
-  private final String PACKAGE_PATH_CONTROLLER;
-  private final String JDBC_DIVER_CLASS_NAME;
-  private final String JDBC_URL;
-  private final String JDBC_USERNAME;
-  private final String JDBC_PASSWORD;
+  private String BASE_PACKAGE;
+  private String CONTROLLER_FTL;
+  private String JAVA_PATH;
+  private String RESOURCES_PATH;
+  private String BASE_PACKAGE_PATH;
+  private String PACKAGE_PATH_SERVICE;
+  // private final String PACKAGE_PATH_SERVICE_IMPL;
+  private String PACKAGE_PATH_CONTROLLER;
+  private String JDBC_DIVER_CLASS_NAME;
+  private String JDBC_URL;
+  private String JDBC_USERNAME;
+  private String JDBC_PASSWORD;
 
   //mbg config
   private Configuration config;
@@ -72,6 +72,16 @@ public class CodeGenerator {
   private boolean dealed = false;
 
   public CodeGenerator() {
+    init();
+  }
+
+  public CodeGenerator(String propertiesPath, String mgbXmlPath) {
+    this.propertiesPath = propertiesPath;
+    this.configPath = mgbXmlPath;
+    init();
+  }
+
+  private void init() {
     Resource resource = new ClassPathResource( propertiesPath );
     Properties props = new Properties();
     try {
@@ -87,7 +97,7 @@ public class CodeGenerator {
       RESOURCES_PATH = props.getProperty( "resources.path" );
       BASE_PACKAGE_PATH = "/" + BASE_PACKAGE.replaceAll( "\\.", "/" ) + "/";//项目基础包路径
       PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
-      PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
+      // PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
       if (need_rest)
         PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/api/";//生成的API存放路径;
       else
@@ -108,13 +118,6 @@ public class CodeGenerator {
     } catch (Exception e) {
       throw Exceptions.unchecked( e );
     }
-  }
-
-  public CodeGenerator(String propertiesPath, String mgbXmlPath) {
-    this();
-    this.propertiesPath = propertiesPath;
-    this.configPath = mgbXmlPath;
-
   }
 
   public void generateMapper() {
@@ -167,28 +170,30 @@ public class CodeGenerator {
         data.put( "modelNameLowerCamel", modelNameLowerCamel );
         data.put( "basePackage", BASE_PACKAGE );
 
-        String javaFileName = domainName + "Service.java ";
+        String javaFileName = domainName + "Service.java";
         File file = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + javaFileName );
         if (!file.getParentFile().exists()) {
           file.getParentFile().mkdirs();
         }
         freemarkerCfg.getTemplate( "service.ftl" ).process( data, new FileWriter( file ) );
-        System.out.println( javaFileName + "生成成功" );
+        if(LOGGER.isDebugEnabled())
+          LOGGER.debug( javaFileName + "生成成功" );
 
-        File file1 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE_IMPL + domainName + "ServiceImpl.java" );
-        if (!file1.getParentFile().exists()) {
-          file1.getParentFile().mkdirs();
-        }
-        freemarkerCfg.getTemplate( "service-impl.ftl" ).process( data,
-            new FileWriter( file1 ) );
-        System.out.println( domainName + "ServiceImpl.java 生成成功" );
+        // File file1 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE_IMPL + domainName + "ServiceImpl.java" );
+        // if (!file1.getParentFile().exists()) {
+        //   file1.getParentFile().mkdirs();
+        // }
+        // freemarkerCfg.getTemplate( "service-impl.ftl" ).process( data,
+        //     new FileWriter( file1 ) );
+        // System.out.println( domainName + "ServiceImpl.java 生成成功" );
 
         File file2 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + domainName + (need_rest ? "API" : "Controller") + ".java" );
         if (!file2.getParentFile().exists()) {
           file2.getParentFile().mkdirs();
         }
         freemarkerCfg.getTemplate( CONTROLLER_FTL ).process( data, new FileWriter( file2 ) );
-        System.out.println( domainName + (need_rest ? "API" : "Controller") + ".java 生成成功" );
+        if (LOGGER.isDebugEnabled())
+          LOGGER.debug( domainName + (need_rest ? "API" : "Controller") + ".java 生成成功" );
 
       } catch (Exception e) {
         throw new RuntimeException( e );
@@ -220,6 +225,7 @@ public class CodeGenerator {
         dbTableNameSet.add( tableName );
       }
     } catch (Exception e) {
+      LOGGER.error(JDBC_URL+"::"+JDBC_USERNAME+"::"+JDBC_PASSWORD,e);
       throw Exceptions.unchecked( e );
     }
     return dbTableNameSet;

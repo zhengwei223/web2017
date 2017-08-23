@@ -8,9 +8,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
-* Created by zhengwei on 2017/08/20.
+* Created by zhengwei on 2017/08/23.
 */
 @RestController
 @RequestMapping("/rbac/user/role")

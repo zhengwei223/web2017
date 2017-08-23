@@ -78,8 +78,9 @@
   <bean id="dynamicDataSourceAdvisor" class="org.lanqiao.rbac.aspect.DynamicDataSourceAdvisor"/>
   <aop:config proxy-target-class="true">
     <aop:aspect id="dynamicDataSourceAspect" ref="dynamicDataSourceAdvisor">
+      <!--拦截所有的service方法-->
       <aop:pointcut id="serviceMethod"
-                    expression="execution(public * org.lanqiao.rbac.base.AbstractService.*(..))"/>
+                    expression="execution(public * org.lanqiao.rbac.base.AbstractService.*(..))||execution(public * org.lanqiao.rbac.service..*Service*.*(..))"/>
       <aop:before method="setDataSource" pointcut-ref="serviceMethod"/>
     </aop:aspect>
   </aop:config>

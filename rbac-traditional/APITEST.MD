@@ -59,7 +59,7 @@ application-dev1.properties是一些参数，这些参数是路径、包名和jd
 
 总之我们是基于通用Mapper来完成持久层，所以大家使用本示例要先熟悉[MyBatis通用Mapper](https://mapperhelper.github.io/docs/).
 
-## 多数据源
+### 多数据源
 
 本示例完成了多数据源的自动切换，目标是Service的所有find/count方法用slave读，其他方法连接master进行写，适用于MySQL的主从模式实现读写分离
 
@@ -111,24 +111,7 @@ application-dev1.properties是一些参数，这些参数是路径、包名和jd
           <aop:before method="setDataSource" pointcut-ref="serviceMethod"/>
         </aop:aspect>
     </aop:config>        
- 
-## Service测试
-
-一般我们会针对Service进行测试，我们可以先写一个基础的Tester类，在里面设定spring的配置文件和profile，这样对于所有的service不用每次去配置这些东西
-
-    @ContextConfiguration("classpath:spring-context.xml")
-    @ActiveProfiles("dev2")
-    public class Tester extends AbstractJUnit4SpringContextTests {
-    }
-    
-测试类一定要指定ActiveProfiles，否则可能加载错误的jdbc连接信息。
-
-然后我们的Service测试类只要继承这个类，用Autowired注入真正的Service实现类，在test方法里面调用其方法并对结果进行断言即可
- 
-## API测试
-
-API（web接入层）测试，可以用restTemplate，但是要启动web server，如果我们不想启动web server，该怎么测试呢？
-
-
+  
+jsp/freemarker
 
 mysql
