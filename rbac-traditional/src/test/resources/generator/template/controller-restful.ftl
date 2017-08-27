@@ -1,7 +1,7 @@
 package ${basePackage}.web;
 
-import ${basePackage}.core.Result;
-import ${basePackage}.core.ResultGenerator;
+import org.zhengwei.web.rest.Result;
+import org.zhengwei.web.rest.ResultGenerator;
 import ${basePackage}.entity.${modelNameUpperCamel};
 import ${basePackage}.service.${modelNameUpperCamel}Service;
 import com.github.pagehelper.PageInfo;

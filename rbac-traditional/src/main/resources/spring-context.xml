@@ -56,7 +56,7 @@
     <property name="basePackage" value="org.lanqiao.rbac.repository"/>
     <property name="properties">
       <value>
-        mappers=org.lanqiao.rbac.core.base.Mapper
+        mappers=org.lanqiao.rbac.base.Mapper
         IDENTITY=MYSQL
       </value>
     </property>
@@ -71,11 +71,21 @@
   <!-- 使用annotation定义事务 -->
   <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
-  <!-- 定义aspectj -->
-  <aop:aspectj-autoproxy proxy-target-class="true"/>
+  <!-- 定义扫描@aspectj -->
+  <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
 
+  <!--对所有service方法进行拦截-->
+  <bean id="dynamicDataSourceAdvisor" class="org.lanqiao.rbac.aspect.DynamicDataSourceAdvisor"/>
+  <aop:config proxy-target-class="true">
+    <aop:aspect id="dynamicDataSourceAspect" ref="dynamicDataSourceAdvisor">
+      <!--拦截所有的service方法-->
+      <aop:pointcut id="serviceMethod"
+                    expression="execution(public * org.lanqiao.rbac.base.AbstractService.*(..))||execution(public * org.lanqiao.rbac.service..*Service*.*(..))"/>
+      <aop:before method="setDataSource" pointcut-ref="serviceMethod"/>
+    </aop:aspect>
+  </aop:config>
   <!-- JSR303 Validator定义 -->
-  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
   <!-- production环境 -->
   <beans profile="production">
@@ -128,12 +138,31 @@
                                   location="classpath*:/application.properties,
           			  classpath*:/application-dev2.properties"/>
 
-    <!-- Hikari JDBC连接池 -->
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+    <!--多源动态数据源-->
+    <bean id="dataSource" class="org.zhengwei.multiDataSources.DynamicDataSource">
+      <!-- 通过key-value关联数据源 -->
+      <property name="targetDataSources">
+        <map>
+          <entry value-ref="master" key="master"></entry>
+          <entry value-ref="slave" key="slave"></entry>
+        </map>
+      </property>
+      <property name="defaultTargetDataSource" ref="master"/>
+    </bean>
+    <!-- Hikari JDBC连接池 1-->
+    <bean id="master" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
       <property name="driverClassName" value="${jdbc.driver}"/>
       <property name="jdbcUrl" value="${jdbc.url}"/>
       <property name="username" value="${jdbc.username}"/>
       <property name="password" value="${jdbc.password}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+    <!-- Hikari JDBC连接池 2 -->
+    <bean id="slave" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url2}"/>
+      <property name="username" value="${jdbc.username2}"/>
+      <property name="password" value="${jdbc.password2}"/>
       <property name="autoCommit" value="false"/>
     </bean>
 
@@ -144,6 +173,7 @@
       <property name="username" value="${quartz.jdbc.username}" />
       <property name="password" value="${quartz.jdbc.password}" />
     </bean>-->
+
   </beans>
 
   <!-- functional test环境 -->

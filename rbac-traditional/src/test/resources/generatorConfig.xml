@@ -2,7 +2,7 @@
     "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
     "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
 <generatorConfiguration>
-  <properties resource="application-dev1.properties"/>
+  <properties resource="application-dev2.properties"/>
 
   <context id="rbac" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
 

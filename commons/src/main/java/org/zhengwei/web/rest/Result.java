@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core;
+package org.zhengwei.web.rest;
 
 import com.alibaba.fastjson.JSON;
 

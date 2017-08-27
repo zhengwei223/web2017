@@ -5,11 +5,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.lanqiao.rbac.core.Tester;
+import org.lanqiao.rbac.base.BaseTester;
 import org.lanqiao.rbac.entity.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserProfileMapperTest extends Tester {
+public class UserProfileMapperTest extends BaseTester {
   @Autowired
   private UserProfileMapper userProfileMapper;
 

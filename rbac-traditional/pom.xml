@@ -330,10 +330,12 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty.version}</version>
         <configuration>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+          <reload>manual</reload>
           <systemProperties>
             <systemProperty>
               <name>spring.profiles.active</name>
-              <value>dev1</value>
+              <value>dev2</value>
             </systemProperty>
           </systemProperties>
           <useTestClasspath>true</useTestClasspath>

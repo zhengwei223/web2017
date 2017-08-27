@@ -1,7 +1,7 @@
 package org.lanqiao.rbac.api;
 
-import org.lanqiao.rbac.core.Result;
-import org.lanqiao.rbac.core.ResultGenerator;
+import org.zhengwei.web.rest.Result;
+import org.zhengwei.web.rest.ResultGenerator;
 import org.lanqiao.rbac.entity.UserProfile;
 import org.lanqiao.rbac.service.UserProfileService;
 import com.github.pagehelper.PageInfo;
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by zhengwei on 2017/08/20.
+* Created by zhengwei on 2017/08/23.
 */
 @RestController
 @RequestMapping("/rbac/user/profile")

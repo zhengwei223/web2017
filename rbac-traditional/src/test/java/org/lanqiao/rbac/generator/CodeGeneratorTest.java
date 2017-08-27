@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.zhengwei.ssm.generator.CodeGenerator;
 
 public class CodeGeneratorTest {
-  CodeGenerator codeGenerator = new CodeGenerator( "/application-dev1.properties", "generatorConfig.xml" );
+  CodeGenerator codeGenerator = new CodeGenerator( "/application-dev2.properties", "generatorConfig.xml" );
 
   @Test
   public void testGenerateMapper() {
@@ -14,7 +14,7 @@ public class CodeGeneratorTest {
 
   @Test
   public void testGenerateServiceAndController() {
-    String TEMPLATE_FILE_PATH = "E:\\workspace\\web2017\\rbac-traditional\\src\\test\\resources\\generator\\template";
+    String TEMPLATE_FILE_PATH = "/Users/zhengwei/workspace/web2017/rbac-traditional/src/test/resources/generator/template";
     codeGenerator.genServiceAndController( TEMPLATE_FILE_PATH );
   }
 

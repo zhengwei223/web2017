@@ -1,10 +1,12 @@
 package org.lanqiao.rbac.entity;
 
 
+import tk.mybatis.mapper.entity.IDynamicTableName;
+
 import javax.persistence.*;
 
 @Table(name = "rbac_user_profile")
-public class UserProfile {
+public class UserProfile /*implements IDynamicTableName*/{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -72,4 +74,19 @@ public class UserProfile {
     public void setGender(Boolean gender) {
         this.gender = gender;
     }
+
+  @Override
+  public String toString() {
+    return "UserProfile{" +
+        "id=" + id +
+        ", nickName='" + nickName + '\'' +
+        ", realName='" + realName + '\'' +
+        ", gender=" + gender +
+        '}';
+  }
+
+    // @Override
+    // public String getDynamicTableName() {
+    //     return "rbac_user_profile"+id%100;
+    // }
 }

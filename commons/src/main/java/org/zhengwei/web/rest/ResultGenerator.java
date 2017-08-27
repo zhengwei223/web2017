@@ -1,4 +1,4 @@
-package org.lanqiao.rbac.core;
+package org.zhengwei.web.rest;
 
 /**
  * 响应结果生成工具
