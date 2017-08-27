@@ -89,12 +89,24 @@ public class CodeGenerator {
       AUTHOR = props.getProperty( "gen.author" );
       CONTEXTID = props.getProperty( "gen.context.id" );
       PROJECT_PATH = props.getProperty( "project.path" );
+      File projPathFile = new File( PROJECT_PATH );
+      if (projPathFile.exists()==false){
+        projPathFile.mkdirs();
+      }
       //TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
       BASE_PACKAGE = props.getProperty( "gen.basepackage" );
       need_rest = Boolean.parseBoolean( props.getProperty( "rest" ) );
       CONTROLLER_FTL = "controller" + (need_rest ? "-restful" : "") + ".ftl"; // controller.ftl
       JAVA_PATH = props.getProperty( "java.path" );
+      File javaPathFile = new File( PROJECT_PATH ,JAVA_PATH);
+      if (javaPathFile.exists()==false){
+        javaPathFile.mkdirs();
+      }
       RESOURCES_PATH = props.getProperty( "resources.path" );
+      File resourcePathFile = new File( PROJECT_PATH ,RESOURCES_PATH);
+      if (resourcePathFile.exists()==false){
+        resourcePathFile.mkdirs();
+      }
       BASE_PACKAGE_PATH = "/" + BASE_PACKAGE.replaceAll( "\\.", "/" ) + "/";//项目基础包路径
       PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
       // PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;

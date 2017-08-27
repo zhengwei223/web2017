@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE generatorConfiguration PUBLIC
     "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
 <generatorConfiguration>
   <properties resource="application-dev1.properties"/>
 
@@ -31,7 +32,7 @@
       <property name="trimStrings" value="true"/>
     </javaModelGenerator>
     <!--mapper xml file-->
-    <sqlMapGenerator targetPackage="mapper" targetProject="${project.path}${resoucees.path}">
+    <sqlMapGenerator targetPackage="mapper" targetProject="${project.path}${resources.path}">
       <property name="enableSubPackages" value="false"/>
     </sqlMapGenerator>
     <!--Mapper interface-->
