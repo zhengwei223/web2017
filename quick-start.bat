@@ -11,7 +11,7 @@ call %MVN% clean install
 if errorlevel 1 goto error
 
 echo [Step 2] start rbac project.
-cd rbac-traditional
+cd rbac-service
 call %MVN% jetty:run
 if errorlevel 1 goto error
 cd ..\..

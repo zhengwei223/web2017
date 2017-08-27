@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.myBatis.repository.UserProfileMapper">
+  <cache />
+  <resultMap id="BaseResultMap" type="org.lanqiao.myBatis.entity.UserProfile">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+    <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+    <result column="gender" jdbcType="BIT" property="gender"/>
+  </resultMap>
+  <resultMap id="RoleResultMap" type="org.lanqiao.myBatis.entity.Role">
+    <id column="role_id" property="id"/>
+    <result column="role_name" property="name"/>
+  </resultMap>
+  <resultMap id="UserWithRoleResultMap" type="org.lanqiao.myBatis.dto.UserWithRole"
+             extends="BaseResultMap">
+    <collection property="roles" resultMap="RoleResultMap"/>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    DELETE FROM rbac_user_profile
+    WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="org.lanqiao.myBatis.entity.UserProfile">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rbac_user_profile (nick_name, real_name, gender)
+    values (#{nickName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{gender,jdbcType=BIT})
+  </insert>
+  <!--SET nick_name = #{nickName,jdbcType=VARCHAR},
+  real_name = #{realName,jdbcType=VARCHAR},
+  gender = #{gender,jdbcType=BIT}-->
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.myBatis.entity.UserProfile">
+    UPDATE rbac_user_profile
+    <set>
+      <if test="nickName!=null">nick_name=#{nickName},</if>
+      <if test="realName!=null">real_name=#{realName},</if>
+      <if test="gender!=null">gender=#{gender},</if>
+    </set>
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT id, nick_name, real_name, gender
+    FROM rbac_user_profile
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExample" parameterType="UserProfile" resultMap="BaseResultMap">
+    SELECT id, nick_name, real_name, gender
+    FROM rbac_user_profile
+    <where>
+      <if test="id!=null">
+        id=#{id}
+      </if>
+      <if test="nickName!=null">
+        and nick_name like #{nickName}
+      </if>
+      <if test="realName!=null">
+        and real_name=#{realName}
+      </if>
+      <if test="gender!=null">
+        and gender=#{gender}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+      id,
+      nick_name,
+      real_name,
+      gender
+    FROM rbac_user_profile
+  </select>
+
+  <select id="selectAllWithRoleName" resultMap="UserWithRoleResultMap">
+    SELECT
+      a.*,
+      c.id AS role_id,
+      c.name AS role_name
+    FROM rbac_user_profile a LEFT JOIN rbac_user_role b ON a.id = b.user_id
+      LEFT JOIN rbac_role c ON b.role_id = c.id
+  </select>
+
+</mapper>

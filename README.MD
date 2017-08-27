@@ -1,8 +1,12 @@
-# web技术的研究
+# java web技术的研究
 
-# springmvc+mybatis+spring restful service
+## ssm单表增删改查
 
-传统的基于xml和注解配置的示例项目在[rbac-traditional](./rbac-traditional/README.MD)
+见ssm-xml-crud
+
+## ssm restful service
+
+传统的基于xml和注解配置的示例项目在[rbac-service](./rbac-service/README.MD)
 
 这个项目传统而经典，是基于角色的权限管理；
 
@@ -13,24 +17,24 @@
 集成了通用化Mapper，使用了`HikariDataSource`连接池；
 集成了FastJson；
 
-# spring boot
+## spring boot
 
 
-# redis
+## redis
 
-# dubbo
+## dubbo
 
-# zookeeper
+## zookeeper
 
-# MQ
+## MQ
 
-# mycat
+## mycat
 
-# sso单点登录
+## sso单点登录
 
-# spring cloud 微服务
+## spring cloud 微服务
 
-# 技术选型参考文档汇总
+## 技术选型参考文档汇总
 
 Spring Boot（[查看Spring Boot学习&使用指南](http://www.jianshu.com/p/1a9fd8936bd8)）
 
@@ -38,9 +42,8 @@ SpringMVC ([跟我学SpringMVC目录汇总贴、PDF下载、源码下载 - 开�
 
 MyBatis（[查看官方中文文档](http://www.mybatis.org/mybatis-3/zh/index.html)）
 
-MyBatisb通用Mapper插件（[查看官方中文文档](https://pagehelper.github.io/)）
+MyBatisb通用Mapper插件（[查看官方中文文档](https://mapperhelper.github.io/docs/)）
 
-MyBatis PageHelper分页插件（查看官方中文文档）
+MyBatis PageHelper分页插件（[查看官方中文文档](https://pagehelper.github.io/)）
 
-
-Fastjson（查看官方中文文档）
+Fastjson（[查看官方中文文档](https://github.com/Alibaba/fastjson/wiki/%E9%A6%96%E9%A1%B5)）

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE generatorConfiguration PUBLIC
+    "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
+<generatorConfiguration>
+  <properties resource="application-dev1.properties"/>
+
+  <context id="rbac" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
+
+    <property name="autoDelimitKeywords" value="false"/>
+    <property name="javaFileEncoding" value="UTF-8"/>
+    <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+    <property name="beginningDelimiter" value="${db.obj.Delimiter}"/>
+    <property name="endingDelimiter" value="${db.obj.Delimiter}"/>
+    <!-- mergeable 为true时，可合并，为false，重新生成的时采用覆盖-->
+    <property name="mergeable" value="false"></property>
+    <!--通用mapper的插件-->
+    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+      <property name="mappers" value="${mappers}"/>
+    </plugin>
+
+    <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
+                    userId="${jdbc.username}" password="${jdbc.password}"/>
+    <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+    <!--model-->
+    <javaModelGenerator targetPackage="${gen.basepackage}.entity" targetProject="${project.path}${java.path}">
+      <property name="constructorBased" value="false"/>
+      <property name="enableSubPackages" value="true"/>
+      <property name="immutable" value="false"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+    <!--mapper xml file-->
+    <sqlMapGenerator targetPackage="mapper" targetProject="${project.path}${resources.path}">
+      <property name="enableSubPackages" value="false"/>
+    </sqlMapGenerator>
+    <!--Mapper interface-->
+    <javaClientGenerator targetPackage="${gen.basepackage}.repository" type="XMLMAPPER"
+                         targetProject="${project.path}${java.path}">
+      <property name="enableSubPackages" value="false"/>
+    </javaClientGenerator>
+
+    <!--配合CodeGenerator的专用写法，带*的会认为tableName是前缀-->
+    <table tableName="rbac_*"  >
+      <!--主键生成方式-->
+      <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    </table>
+
+  </context>
+</generatorConfiguration>
