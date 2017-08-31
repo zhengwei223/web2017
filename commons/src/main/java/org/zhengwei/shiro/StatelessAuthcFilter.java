@@ -37,7 +37,8 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
     String clientSign = request.getParameter("sign");
     // 没有token，此人不认识，没有任何访问权限，除非访问login
     if (null == userid || clientSign == null) {
-      return false;
+      redirectToLogin(request,response);
+      return  false;
     }
     // 有userID和sign，说明登录过，我们还要验证token的合法性，非rest没有这么麻烦
     // 1. token是否有效?应查数据库得到token；

@@ -9,10 +9,13 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.lanqiao.rbac.service.AccountService;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.zhengwei.shiro.IAccountService;
 import org.zhengwei.shiro.ShiroRestRealm;
 import org.zhengwei.shiro.StatelessAuthcFilter;
@@ -20,17 +23,18 @@ import org.zhengwei.shiro.StatelessAuthcFilter;
 import javax.servlet.Filter;
 import java.util.Map;
 
+@ImportResource("classpath:spring-context.xml")
 @Configuration
 public class ShiroConfig {
 
   @Bean
   @Autowired
-  public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+  public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, StatelessAuthcFilter authcFilter) {
     ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
     bean.setSecurityManager(securityManager);
 
     Map<String, Filter> filters = bean.getFilters();
-    filters.put("stateLessAuthcFilter", new StatelessAuthcFilter());// 无状态http权限验证过滤器
+    filters.put("stateLessAuthcFilter", authcFilter);// 无状态http权限验证过滤器
     filters.put("anon", new AnonymousFilter());// 添加过滤器
 
     // bean.setFilters(filters);
@@ -49,6 +53,13 @@ public class ShiroConfig {
   }
 
   @Bean
+  public StatelessAuthcFilter authcFilter(AccountService accountService) {
+    StatelessAuthcFilter authcFilter = new StatelessAuthcFilter();
+    authcFilter.setAccountService(accountService);
+    return authcFilter;
+  }
+
+  @Bean
   @Autowired
   public DefaultWebSecurityManager securityManager(Realm realm) {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -60,7 +71,7 @@ public class ShiroConfig {
 
   @Bean
   @Autowired
-  public Realm realm(IAccountService accountService) {
+  public Realm realm(@Qualifier("accountService") IAccountService accountService) {
     return new ShiroRestRealm(accountService);
   }
 
@@ -84,6 +95,6 @@ public class ShiroConfig {
     return aasa;
   }
 
-  
+
 }
 
