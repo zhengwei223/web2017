@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.Reader;
 
-public class IbatisHelper {
+public class MyBatisHelper {
   private static SqlSessionFactory sqlSessionFactory;
   private static ThreadLocal<SqlSession> sessionHolder = new ThreadLocal<>();
   static {

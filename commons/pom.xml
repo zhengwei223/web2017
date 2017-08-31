@@ -45,6 +45,11 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
     </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
+    </dependency>
     <!-- =========================== -->
     <!-- google guava dependencies-->
     <!-- =========================== -->
@@ -100,5 +105,15 @@
     <artifactId>mysql-connector-java</artifactId>
     <version>${mysql-connector-java.version}</version>
   </dependency>
-</dependencies>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>${shiro.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>${shiro.version}</version>
+    </dependency>
+  </dependencies>
 </project>

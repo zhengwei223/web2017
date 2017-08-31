@@ -15,4 +15,14 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
+
+  <select id="selectPermissionsById" parameterType="int" resultType="string">
+    select menu.url
+    FROM rbac_account acc  JOIN rbac_user_profile pro ON acc.user_profile_id=pro.id
+     JOIN rbac_user_role userrole ON pro.id=userrole.user_id
+     JOIN rbac_role role ON userrole.role_id=role.id
+     JOIN rbac_role_menu rolemenu ON  role.id=rolemenu.role_id
+     JOIN rbac_menu menu ON rolemenu.menu_id=menu.id
+    WHERE acc.id=#{param1};
+  </select>
 </mapper>

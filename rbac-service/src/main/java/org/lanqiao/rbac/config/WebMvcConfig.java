@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Configuration
+// @Configuration
 @PropertySource( "classpath:/application.properties" )
 public class WebMvcConfig {
   private final Logger logger = LoggerFactory.getLogger( WebMvcConfig.class );

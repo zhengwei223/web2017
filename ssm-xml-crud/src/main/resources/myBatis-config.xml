@@ -2,10 +2,11 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+  <!--jdbc属性文件，里面填写driver、url、username、password等信息-->
   <properties resource="jdbc.properties"/>
 
   <typeAliases>
-    <!--<typeAlias type="org.lanqiao.myBatiss.entity.UserProfile" alias="UserProfile"/>-->
+    <!--实体类所在的包的全名-->
     <package name="org.lanqiao.myBatis.entity"/>
   </typeAliases>
 
@@ -13,6 +14,7 @@
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
+        <!--${jdbc.driver} 来自jdbc属性文件-->
         <property name="driver" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
@@ -21,6 +23,7 @@
     </environment>
   </environments>
 
+  <!--sql映射文件，符合你项目的真实路径-->
   <mappers>
     <mapper resource="mapper/RoleMapper.xml"/>
     <mapper resource="mapper/UserProfileMapper.xml"/>

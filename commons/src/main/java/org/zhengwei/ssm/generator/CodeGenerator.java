@@ -300,7 +300,6 @@ public class CodeGenerator {
       String domainObjectName = tableName.replaceFirst( tablePrefix, BLANK_STRING );
       tableConfiguration.setDomainObjectName( tableNameConvertUpperCamel( domainObjectName ) );
     }
-
     return tableConfiguration;
   }
 

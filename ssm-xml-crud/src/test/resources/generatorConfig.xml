@@ -4,7 +4,7 @@
 <generatorConfiguration>
   <properties resource="application-dev.properties"/>
 
-  <context id="ibatis" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
+  <context id="myBatis" defaultModelType="hierarchical" targetRuntime="MyBatis3">
 
     <property name="autoDelimitKeywords" value="false"/>
     <property name="javaFileEncoding" value="UTF-8"/>
