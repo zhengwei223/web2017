@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by zhengwei on 2017/08/23.
  */
-@Service
+@Service("accountService")
 @Transactional(readOnly = true)
 public class AccountService extends AbstractService<Account> implements IAccountService {
   // 因为泛型注入，所以这里不必声明mapper的依赖
@@ -22,7 +22,7 @@ public class AccountService extends AbstractService<Account> implements IAccount
 
   @Override
   public String findTokenByUserId(String userid) {
-    return mapper.selectByPrimaryKey(userid).getToken();
+    return mapper.selectByPrimaryKey(Integer.parseInt(userid)).getToken();
   }
 
   @Override
