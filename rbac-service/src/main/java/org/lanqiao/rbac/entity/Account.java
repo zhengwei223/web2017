@@ -38,6 +38,8 @@ public class Account {
 
     @Column(name = "gmt_modified")
     private Date gmtModified;
+    @Column(name="token")
+    private String token;
 
     /**
      * @return id
@@ -175,5 +177,13 @@ public class Account {
      */
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+  public String getToken() {
+    return this.token;
+  }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -48,6 +48,7 @@
 
   <!--注解风格的beans，是如何和xml beans混搭的呢，看这里-->
   <bean class="org.lanqiao.rbac.config.WebMvcConfig" />
+  <bean class="org.lanqiao.rbac.config.ShiroConfig"/>
   <mvc:interceptors>
     <ref bean="signCheckInterceptor"/> <!--此bean来自注解@Configuration+WebMvcConfig-->
   </mvc:interceptors>
