@@ -89,12 +89,24 @@ public class CodeGenerator {
       AUTHOR = props.getProperty( "gen.author" );
       CONTEXTID = props.getProperty( "gen.context.id" );
       PROJECT_PATH = props.getProperty( "project.path" );
+      File projPathFile = new File( PROJECT_PATH );
+      if (projPathFile.exists() == false) {
+        projPathFile.mkdirs();
+      }
       //TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
       BASE_PACKAGE = props.getProperty( "gen.basepackage" );
       need_rest = Boolean.parseBoolean( props.getProperty( "rest" ) );
       CONTROLLER_FTL = "controller" + (need_rest ? "-restful" : "") + ".ftl"; // controller.ftl
       JAVA_PATH = props.getProperty( "java.path" );
+      File javaPathFile = new File( PROJECT_PATH, JAVA_PATH );
+      if (javaPathFile.exists() == false) {
+        javaPathFile.mkdirs();
+      }
       RESOURCES_PATH = props.getProperty( "resources.path" );
+      File resourcePathFile = new File( PROJECT_PATH, RESOURCES_PATH );
+      if (resourcePathFile.exists() == false) {
+        resourcePathFile.mkdirs();
+      }
       BASE_PACKAGE_PATH = "/" + BASE_PACKAGE.replaceAll( "\\.", "/" ) + "/";//项目基础包路径
       PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "/service/";//生成的Service存放路径;
       // PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "/service/impl/";//生成的Service实现存放路径 ;
@@ -125,6 +137,9 @@ public class CodeGenerator {
     try {
       MyBatisGenerator myBatisGenerator = new MyBatisGenerator( config, CALLBACK, WARNINGS );
       myBatisGenerator.generate( null );
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug( "代码成功生成，路径：" + PROJECT_PATH );
+      }
     } catch (InvalidConfigurationException | SQLException | IOException | InterruptedException e) {
       Exceptions.unchecked( e );
     }
@@ -176,9 +191,10 @@ public class CodeGenerator {
           file.getParentFile().mkdirs();
         }
         freemarkerCfg.getTemplate( "service.ftl" ).process( data, new FileWriter( file ) );
-        if(LOGGER.isDebugEnabled())
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug( "路径：" + PROJECT_PATH );
           LOGGER.debug( javaFileName + "生成成功" );
-
+        }
         // File file1 = new File( PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE_IMPL + domainName + "ServiceImpl.java" );
         // if (!file1.getParentFile().exists()) {
         //   file1.getParentFile().mkdirs();
@@ -192,9 +208,10 @@ public class CodeGenerator {
           file2.getParentFile().mkdirs();
         }
         freemarkerCfg.getTemplate( CONTROLLER_FTL ).process( data, new FileWriter( file2 ) );
-        if (LOGGER.isDebugEnabled())
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug( "路径：" + PROJECT_PATH );
           LOGGER.debug( domainName + (need_rest ? "API" : "Controller") + ".java 生成成功" );
-
+        }
       } catch (Exception e) {
         throw new RuntimeException( e );
       }
@@ -225,7 +242,7 @@ public class CodeGenerator {
         dbTableNameSet.add( tableName );
       }
     } catch (Exception e) {
-      LOGGER.error(JDBC_URL+"::"+JDBC_USERNAME+"::"+JDBC_PASSWORD,e);
+      LOGGER.error( JDBC_URL + "::" + JDBC_USERNAME + "::" + JDBC_PASSWORD, e );
       throw Exceptions.unchecked( e );
     }
     return dbTableNameSet;
