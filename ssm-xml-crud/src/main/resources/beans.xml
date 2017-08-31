@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!--加载location指定的属性文件，这样在xml的其他地方可以用${属性名}的方式来获得属性文件中的值-->
+  <context:property-placeholder location="jdbc.properties"/>
+
+  <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    <property name="driverClassName" value="${jdbc.driver}"/>
+    <property name="jdbcUrl" value="${jdbc.url}"/>  <!--一般的连接池属性名是url-->
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+
+  <!--mybatis 的核心配置转移到这里来-->
+  <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="typeAliasesPackage" value="org.lanqiao.myBatis.entity"/>
+    <!--通配符的方式告知mapper映射文件的位置-->
+    <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+  </bean>
+
+  <!--用扫描包的方式快捷地将所有Mapper接口注册为spring的bean-->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!--mapper接口所在包名-->
+    <property name="basePackage" value="org.lanqiao.myBatis.repository"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+  </bean>
+
+  <bean id="userProfileService" class="org.lanqiao.myBatis.service.UserProfileServiceBean">
+    <property name="userProfileMapper" ref="userProfileMapper" />
+  </bean>
+</beans>

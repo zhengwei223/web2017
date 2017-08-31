@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.lanqiao.myBatis.repository.UserProfileMapper">
-  <cache />
+
+  <!--<cache />-->
+
   <resultMap id="BaseResultMap" type="org.lanqiao.myBatis.entity.UserProfile">
     <id column="id" jdbcType="INTEGER" property="id"/>
     <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
