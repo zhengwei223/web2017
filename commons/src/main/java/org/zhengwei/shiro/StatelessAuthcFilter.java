@@ -85,5 +85,10 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
     }
     return clientSign.equals(serverSign);
   }
+
+  @Override
+  protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+    super.redirectToLogin(request,response);
+  }
 }
 

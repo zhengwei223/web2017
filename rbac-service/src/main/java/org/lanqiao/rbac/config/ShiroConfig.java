@@ -57,8 +57,8 @@ public class ShiroConfig {
     /*不同的url用不同的过滤器拦截*/
     bean.getFilterChainDefinitionMap().put("/rbac/account/login", "anon"); // 不拦截的写在前面
     bean.getFilterChainDefinitionMap().put("/rbac/account/unauthorized*", "anon"); // 不拦截的写在前面
-    //bean.getFilterChainDefinitionMap().put("/**", "noSessionCreation"); // 添加路径拦截
-    bean.getFilterChainDefinitionMap().put("/**", "stateLessAuthcFilter"); // 添加路径拦截
+    bean.getFilterChainDefinitionMap().put("/**", "noSessionCreation,stateLessAuthcFilter"); // 添加路径拦截
+    // bean.getFilterChainDefinitionMap().put("/**", ""); // 添加路径拦截
 
 
     return bean;
@@ -78,26 +78,27 @@ public class ShiroConfig {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     securityManager.setRealm(realm);
 
-    final DefaultSessionManager sessionManager = new DefaultWebSessionManager();
-    // sessionManager.setSessionValidationSchedulerEnabled(false);
+    final DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+    sessionManager.setSessionIdCookieEnabled(false);
+    sessionManager.setSessionValidationSchedulerEnabled(false);
     securityManager.setSessionManager(sessionManager);
     // 禁止session被创建
-    // securityManager.setSubjectFactory(new DefaultWebSubjectFactory() {
-    //   @Override
-    //   public Subject createSubject(SubjectContext context) {
-    //     context.setSessionCreationEnabled(false);
-    //     return super.createSubject(context);
-    //   }
-    // });
-    //禁用使用Sessions 作为存储策略的实现
-    // final DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-    // subjectDAO.setSessionStorageEvaluator(new DefaultSessionStorageEvaluator(){
-    //   @Override
-    //   public boolean isSessionStorageEnabled() {
-    //     return false;
-    //   }
-    // });
-    // securityManager.setSubjectDAO(subjectDAO);
+    securityManager.setSubjectFactory(new DefaultWebSubjectFactory() {
+      @Override
+      public Subject createSubject(SubjectContext context) {
+        context.setSessionCreationEnabled(false);
+        return super.createSubject(context);
+      }
+    });
+    // 禁用使用Sessions 作为存储策略的实现
+    final DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+    subjectDAO.setSessionStorageEvaluator(new DefaultSessionStorageEvaluator(){
+      @Override
+      public boolean isSessionStorageEnabled() {
+        return false;
+      }
+    });
+    securityManager.setSubjectDAO(subjectDAO);
     SecurityUtils.setSecurityManager(securityManager);
 
     return securityManager;
