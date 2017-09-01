@@ -5,11 +5,14 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
+import org.lanqiao.rbac.config.SysConst;
 import org.lanqiao.rbac.entity.Account;
 import org.lanqiao.rbac.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.zhengwei.commons.MD5Util;
 import org.zhengwei.web.rest.Result;
 import org.zhengwei.web.rest.ResultGenerator;
 
@@ -78,7 +81,10 @@ public class AccountAPI {
   }
 
   private String check(Account account) {
-    AuthenticationToken token = new UsernamePasswordToken(account.getAccount(), account.getPassword());
+    final String password = account.getPassword(); // 明文密码
+    /*数据库中存储的是md5+盐加密后的密码，因此这里要把加密后的密码传入*/
+    final String md5Password = MD5Util.md5(password,SysConst.SALT);
+    AuthenticationToken token = new UsernamePasswordToken(account.getAccount(), md5Password);
     Subject currentSubject = SecurityUtils.getSubject();
     currentSubject.login(token );
     String serverToken = UUID.randomUUID().toString().replaceAll("-", "");
