@@ -1,12 +1,16 @@
 package org.zhengwei.shiro;
 
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zhengwei.commons.MD5Util;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +19,17 @@ import java.util.List;
  * @author zhengwei 2017-08-30
  */
 public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   private IAccountService accountService;
 
   public void setAccountService(IAccountService accountService) {
     this.accountService = accountService;
+  }
+
+  private String profile;
+
+  public void setProfile(String profile) {
+    this.profile = profile;
   }
 
   /**
@@ -34,12 +45,22 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
   @Override
   public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
     String userid = request.getParameter("userid");
+    Boolean hasId = userid != null;
+
     String clientSign = request.getParameter("sign");
-    // 没有token，此人不认识，没有任何访问权限，除非访问login
-    if (null == userid || clientSign == null) {
-      redirectToLogin(request,response);
-      return  false;
-    }
+    Boolean hadSign = clientSign != null;
+
+    Boolean isSignOK = checkSign(request, userid, clientSign);
+    if (hasId&&hadSign&&isSignOK)  // 此处其实已经验证了用户的身份，下面一句不过是在形式上登录一下
+      SecurityUtils.getSubject().login(new UserIDToken(userid)); // login之后request中才有principle，才能进行下一步鉴权
+    else
+      return false;
+    // 判断url是否在用户的权限之中
+    final String servletPath = ((HttpServletRequest) request).getServletPath();
+    return super.isAccessAllowed(request, response, new String[]{servletPath});
+  }
+
+  private Boolean checkSign(ServletRequest request, String userid, String clientSign) {
     // 有userID和sign，说明登录过，我们还要验证token的合法性，非rest没有这么麻烦
     // 1. token是否有效?应查数据库得到token；
     // 服务端用token加密参数为serverSign，比对客户端sign
@@ -56,12 +77,13 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
     }
     if (!StringUtils.isEmpty(linkString)) {
       linkString = linkString.substring(0, linkString.length() - 1);
-      String token = accountService.findTokenByUserId(userid);
-      String serverSign = DigestUtils.md5Hex(linkString + token);
-      return clientSign.equals(serverSign);
     }
-    // 判断url
-    return super.isAccessAllowed(request, response, mappedValue);
+    String token = accountService.findTokenByUserId(userid);
+    String serverSign = MD5Util.md5(linkString + token);//DigestUtils.md5Hex(linkString + token);
+    if (logger.isDebugEnabled()) {
+      logger.debug("服务端计算出来的签名是：" + serverSign);
+    }
+    return clientSign.equals(serverSign);
   }
 }
 

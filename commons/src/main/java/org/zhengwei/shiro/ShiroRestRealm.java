@@ -15,6 +15,11 @@ public class ShiroRestRealm extends AuthorizingRealm {
     this.accountService = accountService;
   }
 
+  @Override
+  public boolean supports(AuthenticationToken token) {
+    return token instanceof  UsernamePasswordToken || token instanceof UserIDToken;
+  }
+
   /**
    * 鉴权
    * @param principals
@@ -43,6 +48,9 @@ public class ShiroRestRealm extends AuthorizingRealm {
       UsernamePasswordToken upToken = (UsernamePasswordToken) token;
       String account = upToken.getUsername();
       authInfo = new SimpleAuthenticationInfo(account, accountService.findPasswd(account), getName());
+    }else if (token instanceof UserIDToken){
+      UserIDToken userIDToken= (UserIDToken) token;
+      authInfo=new SimpleAuthenticationInfo(userIDToken.getUserId(),userIDToken.getUserId(),getName());
     }
     return authInfo;
   }

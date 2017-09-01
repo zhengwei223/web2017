@@ -19,15 +19,14 @@ import java.util.Set;
 public class AccountService extends AbstractService<Account> implements IAccountService {
   // 因为泛型注入，所以这里不必声明mapper的依赖
 
-
   @Override
   public String findTokenByUserId(String userid) {
     return mapper.selectByPrimaryKey(Integer.parseInt(userid)).getToken();
   }
 
   @Override
-  public Set<String> findPermissionsById(Object userId) {
-    return ((AccountMapper)mapper).selectPermissionsById(userId);
+  public Set<String> findPermissionsById(String userId) {
+    return ((AccountMapper)mapper).selectPermissionsById(Integer.parseInt(userId));
   }
 
   @Override
@@ -37,6 +36,7 @@ public class AccountService extends AbstractService<Account> implements IAccount
     return mapper.selectByCondition(condition).get(0).getPassword();
   }
 
+  @Transactional(readOnly = false)
   public Integer saveToken(Account account, String serverToken) {
     Condition condition = new Condition(Account.class);
     condition.createCriteria().andEqualTo("account", account.getAccount());

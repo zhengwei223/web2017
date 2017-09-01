@@ -14,4 +14,8 @@ public class MD5Util {
     String md5 = md5("abc123","rbac") ;
     System.out.println(md5);
   }
+
+  public static String md5(String s) {
+    return new Md5Hash(s).toString();
+  }
 }

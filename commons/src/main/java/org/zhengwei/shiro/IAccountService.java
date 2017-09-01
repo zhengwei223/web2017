@@ -13,7 +13,7 @@ public interface IAccountService {
    */
   String findTokenByUserId(String userid);
 
-  Set<String> findPermissionsById(Object userId);
+  Set<String> findPermissionsById(String userId);
 
   String findPasswd(String account);
 }

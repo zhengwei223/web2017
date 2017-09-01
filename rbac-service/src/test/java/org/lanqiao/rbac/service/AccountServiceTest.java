@@ -12,7 +12,7 @@ public class AccountServiceTest extends BaseTester{
   IAccountService accountService;
   @Test
   public void findPermissionsById() throws Exception {
-    accountService.findPermissionsById(1);
+    accountService.findPermissionsById("1");
   }
 
 }
