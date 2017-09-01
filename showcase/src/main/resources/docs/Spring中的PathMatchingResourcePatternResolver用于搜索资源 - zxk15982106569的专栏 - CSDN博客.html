@@ -1,0 +1,1231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+            <link rel="canonical" href="http://blog.csdn.net/zxk15982106569/article/details/17844085"/> 
+
+   
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>Spring中的PathMatchingResourcePatternResolver用于搜索资源 - zxk15982106569的专栏
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="需要做configuration的模块，研究了list的用法，在帖子Spring的Resource配置(http://blog.csdn.net/inthirties/archive/2009/08/27/4490407.aspx)已经提到过，&#160;觉得spring这个功能还不错，所以那到代码看了看其中的实现，找到了PathMatchingResourcePatternRe" />
+
+    <meta name="keywords" content="spring,PathMatchingResource" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/default/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/zxk15982106569/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 --><div id="cpro_u2895327"></div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () { var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 }; window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 }); }</script><!-- 投放代码 --><script type="text/javascript">                    /*服务器频道首页置顶Banner960*90，创建于2014-7-3*/    (window.cproArray = window.cproArray || []).push({ id: "u2895327" });  </script>  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/zxk15982106569">zxk15982106569的专栏</a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/zxk15982106569?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/zxk15982106569?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/zxk15982106569/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "zxk15982106569";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/zxk15982106569";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "zhengwei223";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/77770966">
+<font color=red><strong>异步赠书：Kotlin领衔10本好书</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/turingbooks/article/details/77479427">
+<font color=blue><strong>程序员8月书讯</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="https://gitee.com/enterprises?from=csdn-sqbkxq">
+<font color=red><strong>项目管理+代码托管+文档协作，开发更流畅</strong></font></a>
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Spring%e4%b8%ad%e7%9a%84PathMatchingResourcePatternResolver%e7%94%a8%e4%ba%8e%e6%90%9c%e7%b4%a2%e8%b5%84%e6%ba%90&u=http://blog.csdn.net/zxk15982106569/article/details/17844085"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+    <h1>
+        <span class="link_title"><a href="/zxk15982106569/article/details/17844085">
+        Spring中的PathMatchingResourcePatternResolver用于搜索资源        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/spring' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">spring</a><a href='http://www.csdn.net/tag/PathMatchingResource' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">PathMatchingResource</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2014-01-04 16:23</span>
+            <span class="link_view" title="阅读次数">2482人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(1)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Spring%e4%b8%ad%e7%9a%84PathMatchingResourcePatternResolver%e7%94%a8%e4%ba%8e%e6%90%9c%e7%b4%a2%e8%b5%84%e6%ba%90','17844085');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(17844085,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('1328973','zxk15982106569','top','17844085');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Spring<em>（1）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/zxk15982106569/article/category/1328973"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1328973">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+需要做configuration的模块，研究了list的用法，在帖子&quot;Spring的Resource配置&quot;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+(<a target="_blank" target="_blank" href="http://blog.csdn.net/inthirties/archive/2009/08/27/4490407.aspx" style="color:rgb(51,102,153); text-decoration:none">http://blog.csdn.net/inthirties/archive/2009/08/27/4490407.aspx</a>)已经提到过，</p>
+<p style="font-family:Arial; font-size:16px; line-height:26px"><span style="color:#ff0000"><strong>&nbsp;注意：</strong></span></p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+<span style="font-family:'Hiragino Sans GB W3','Hiragino Sans GB',Arial,Helvetica,simsun,u5b8bu4f53; font-size:16px; line-height:28px; background-color:rgb(18,116,173)">今天遇到一个问题, PathMatchingResourcePatternResolver.getResources()时总时找不到jar包中的资源, 但在IDE工程中却没有问题,
+ 足足困扰了5个小时, 经过一番仔细研究发现问题出在打jar上, 原因是利用eclipse的export打jar包没有建立实体目录, 导出时记得钩选&quot;Add directory entries&quot;选项就解决问题, 如图:</span></p>
+<div style="line-height:28px; font-family:'Hiragino Sans GB W3','Hiragino Sans GB',Arial,Helvetica,simsun,u5b8bu4f53; font-size:16px; background-color:rgb(18,116,173)">
+<img title="Spring PathMatchingResourcePatternResolver查找jar包资源找不到的原因 - 村里MU地 - 村里MU地" alt="Spring PathMatchingResourcePatternResolver查找jar包资源找不到的原因 - 村里MU地 - 村里MU地" src="http://img9.ph.126.net/K6Vv1uJY3r6sILOA5dkLlw==/2548474439156187279.jpg" style="border:0px; max-width:100%; margin:0px 10px 0px 0px"></div>
+<br>
+<p></p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+觉得spring这个功能还不错，所以那到代码看了看其中的实现，找到了PathMatchingResourcePatternResolver</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+这个类，这个类的接口如下</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+public Resource getResource(String location)</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+public ResourceLoader getResourceLoader()</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+public Resource[] getResources(String locationPattern)</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+public PathMatcher getPathMatcher()</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+这里的getResources和getResource就是spring处理list的resouce查找的实现类。</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+这里可以支持文件和classpath的查找方式。</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+看他的文档，支持</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+<strong>No Wildcards:</strong></p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+如果不是以classpath*:开头的话，他就不会使用PathMatcher pattern,</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+file:C:/context.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+classpath:/context.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+/WEB-INF/context.xml -- 这个会使用到特定的ServletContextResource for a WebApplicationContext</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+<strong>Ant-style pattern:</strong></p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+支持Ant style pattern</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+/WEB-INF/*-context.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+com/mycompany/**/applicationContext.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+file:C:/some/path/*-context.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+classpath:com/mycompany/**/applicationContext.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+<strong>classpath*: Prefix</strong></p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+这个是最强的classpath*:</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+classpath*:META-INF/*-beans.xml</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+classpath*:com/**/Driver.class</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+通过这些方式，我们做lookup resouce就很方便了</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+sample代码</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+&nbsp;</p>
+<p style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+</p>
+<blockquote style="color:rgb(51,51,51); font-family:Arial; font-size:16px; line-height:26px">
+<p>PathMatchingResourcePatternResolver resolover = new PathMatchingResourcePatternResolver();</p>
+<p></p>
+<p>try</p>
+<p>{</p>
+<p>&nbsp; &nbsp;Resource[] resources = null;</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;resources = resolover.getResources(&quot;file:E:/information/personal/workspace/poc/synchrophy/framework/src/test/synchrophy/com/sunvalley/framework/test/configuration/init*.properties&quot;);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;System.out.println(resources.length);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;resources = resolover.getResources(&quot;classpath*:/com/**/Driver.class&quot;);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;System.out.println(resources.length);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;resources = resolover.getResources(&quot;classpath*:/META-INF/*.schemas&quot;);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;System.out.println(resources[0].getURL());</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;resources = resolover.getResources(&quot;classpath*:com/synchrophy/**/*ui.properties&quot;);</p>
+<p>&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp;System.out.println(resources.length);</p>
+<p>&nbsp; &nbsp;</p>
+<p>}</p>
+<p>catch (Exception e) {</p>
+<p>&nbsp; &nbsp;// TODO: handle exception</p>
+<p>&nbsp; &nbsp;e.printStackTrace();</p>
+<p>}</p>
+</blockquote>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.12-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="17844085" >
+            <dl id="btnDigg" class="digg digg_enable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>0</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_enable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/zxk15982106569/article/details/17842179';">上一篇</span><a href="http://blog.csdn.net/zxk15982106569/article/details/17842179" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">struts2.1.8 StrutsPrepareAndExecuteFilter 关于静态资源处理问题。访问classPath下静态资源</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/zxk15982106569/article/details/18896007';">下一篇</span><a href="http://blog.csdn.net/zxk15982106569/article/details/18896007" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Web项目启动过程;&lt;context-param&gt;与&lt;init-param&gt;的区别与作用</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36"  style="max-height:250px">                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zxk15982106569/article/details/17844085" title="Spring中的PathMatchingResourcePatternResolver用于搜索资源" strategy="BlogCommendFromCsdn_0" target="_blank">Spring中的PathMatchingResourcePatternResolver用于搜索资源</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/detail/501?utm_source=blog7" title="【直播】大中型UGC信息网站SEO分享--乔向阳" strategy="undefined" target="_blank">【直播】大中型UGC信息网站SEO分享--乔向阳</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/jsntghf/5256358" title="Struts2 in action中文版-Struts 2实战" strategy="BlogCommendFromCsdn_1" target="_blank">Struts2 in action中文版-Struts 2实战</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/60?utm_source=blog7" title="【直播】打通Linux脉络 进程、线程和调度--宋宝华" strategy="undefined" target="_blank">【直播】打通Linux脉络 进程、线程和调度--宋宝华</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/JBuilder3/article/details/5431865" title="Spring中的资源访问" strategy="BlogCommendFromCsdn_2" target="_blank">Spring中的资源访问</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/detail/503?utm_source=blog7" title="【直播】Java最佳学习路线指导--肖海鹏" strategy="undefined" target="_blank">【直播】Java最佳学习路线指导--肖海鹏</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/u013589443/9617497" title="Java资源包01" strategy="BlogCommendFromCsdn_3" target="_blank">Java资源包01</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/combo/detail/539?utm_source=blog7" title="【套餐】C++音视频实战技术套餐--夏曹俊" strategy="undefined" target="_blank">【套餐】C++音视频实战技术套餐--夏曹俊</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/guolong1983811/article/details/6942180" title="Spring 资源访问剖析和策略模式应用" strategy="BlogCommendFromCsdn_4" target="_blank">Spring 资源访问剖析和策略模式应用</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/combo/detail/544?utm_source=blog7" title="【套餐】0基础拿下HTML5和CSS3--李仁密" strategy="undefined" target="_blank">【套餐】0基础拿下HTML5和CSS3--李仁密</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/choosing/2616729" title="JavaEye论坛热点推荐_-_2009年10月_-_总第17期" strategy="BlogCommendFromCsdn_5" target="_blank">JavaEye论坛热点推荐_-_2009年10月_-_总第17期</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/combo/detail/532?utm_source=blog7" title="【套餐】机器学习之数学基础系列--AI100" strategy="undefined" target="_blank">【套餐】机器学习之数学基础系列--AI100</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/u013847120/article/details/50421008" title="java 开源资源" strategy="BlogCommendFromCsdn_6" target="_blank">java 开源资源</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/buddha17/333708" title="火炬博客系统7" strategy="BlogCommendFromCsdn_7" target="_blank">火炬博客系统7</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/tiancen2001/1172995" title="lucene的20万网页负载完整案例,源于门户网站实际项目" strategy="BlogCommendFromCsdn_8" target="_blank">lucene的20万网页负载完整案例,源于门户网站实际项目</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/lunhuishizhe/article/details/42538347" title="国外程序员整理的Java资源大全" strategy="BlogCommendFromCsdn_9" target="_blank">国外程序员整理的Java资源大全</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+    <div>
+        
+
+        <script type="text/javascript">
+            /*博客内容页下方Banner1-728*90，创建于2016-12-13*/
+            var cpro_id = "u2843949";
+        </script>
+        <script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+
+     </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/zxk15982106569/svc/GetSuggestContent/17844085",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '17844085';
+    var commentscount = 1;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Spring中的PathMatchingResourcePatternResolver用于搜索资源';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/zxk15982106569" target="_blank">
+    <img src="http://avatar.csdn.net/A/E/F/1_zxk15982106569.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/zxk15982106569" class="user_name" target="_blank">zxk15982106569</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=zxk15982106569','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>28030次</span></li>
+    <li>积分：<span>607</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog3.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：607 </div>
+        </span>  </li>
+    <li>排名：<span>千里之外</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>33篇</span></li>
+    <li>转载：<span>12篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>2条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328964" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JavaScript</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328966" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Ajax</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328968" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JQuery</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328972" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Struts</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328973" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Spring</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1328974" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Hibernate</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1329000" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">J2se</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1329001" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">计算机常识</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1430386" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JPA</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1487747" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">DsoFramer</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1489741" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JaCob</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1489949" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">OpenOffice</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1490241" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">FlexPaper</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1880163" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">servlet</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1881117" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Filter</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1894831" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Android</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/1975601" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">FusionChart</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/zxk15982106569/article/category/6077049" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Git</a><span>(2)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/zxk15982106569/article/month/2016/01">2016年01月</a><span>(2)</span></li><li><a href="/zxk15982106569/article/month/2014/03">2014年03月</a><span>(1)</span></li><li><a href="/zxk15982106569/article/month/2014/02">2014年02月</a><span>(6)</span></li><li><a href="/zxk15982106569/article/month/2014/01">2014年01月</a><span>(2)</span></li><li><a href="/zxk15982106569/article/month/2013/12">2013年12月</a><span>(1)</span></li><li><a href="/zxk15982106569/article/month/2013/11">2013年11月</a><span>(1)</span></li><li><a href="/zxk15982106569/article/month/2013/07">2013年07月</a><span>(17)</span></li><li><a href="/zxk15982106569/article/month/2013/06">2013年06月</a><span>(5)</span></li><li><a href="/zxk15982106569/article/month/2013/05">2013年05月</a><span>(8)</span></li><li><a href="/zxk15982106569/article/month/2013/02">2013年02月</a><span>(1)</span></li><li><a href="/zxk15982106569/article/month/2013/01">2013年01月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/zxk15982106569/article/details/17844085" title="Spring中的PathMatchingResourcePatternResolver用于搜索资源">Spring中的PathMatchingResourcePatternResolver用于搜索资源</a><span>(2460)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/9280571" title="uploadify-2.1.4.js参数设置">uploadify-2.1.4.js参数设置</a><span>(1349)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/9166337" title="Struts2 文件上传fileUpload拦截器不起作用">Struts2 文件上传fileUpload拦截器不起作用</a><span>(1144)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/14090743" title="Javascript中this、prototype、constructor的理解">Javascript中this、prototype、constructor的理解</a><span>(1140)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/17842179" title="struts2.1.8 StrutsPrepareAndExecuteFilter 关于静态资源处理问题。访问classPath下静态资源">struts2.1.8 StrutsPrepareAndExecuteFilter 关于静态资源处理问题。访问classPath下静态资源</a><span>(1060)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/9263417" title="第一步：office转pdf">第一步：office转pdf</a><span>(1033)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/9278923" title="Struts2结合Uploadify-2.1.4.js">Struts2结合Uploadify-2.1.4.js</a><span>(966)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976084" title="JPQL语句">JPQL语句</a><span>(871)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/9253029" title="Dso Framer1">Dso Framer1</a><span>(797)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/17469575" title="使用JMF实现音乐播放（java多媒体编程）">使用JMF实现音乐播放（java多媒体编程）</a><span>(761)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/zxk15982106569/article/details/9262671" title="FlexPaper+SWFTools 实现仿百度文库及一些小问题">FlexPaper+SWFTools 实现仿百度文库及一些小问题</a><span>(1)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/17844085" title="Spring中的PathMatchingResourcePatternResolver用于搜索资源">Spring中的PathMatchingResourcePatternResolver用于搜索资源</a><span>(1)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976090" title="JPA注解--">JPA注解--</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976084" title="JPQL语句">JPQL语句</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976078" title="JPA各种类型映射处理">JPA各种类型映射处理</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976039" title="单向关系中的JoinColumn">单向关系中的JoinColumn</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976031" title="整合struts+spring+jpa中出现的解决方法">整合struts+spring+jpa中出现的解决方法</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8976023" title="Spring注解">Spring注解</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/50555737" title="Git rebase">Git rebase</a><span>(0)</span>
+</li>
+<li>
+<a href="/zxk15982106569/article/details/8974856" title="JPQL">JPQL</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/77651442" target="_blank">* CSDN日报20170828——《4个方法快速打造你的阅读清单》</a></li>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/77647813" 
+target="_blank">* CSDN博客模板调查问卷</a></li>
+<li><a href="http://blog.csdn.net/yhaolpz/article/details/77366154"target="_blank">* 动手打造史上最简单的 Recycleview 侧滑菜单</a></li>
+<li><a href="http://blog.csdn.net/sweettool/article/details/77018506" 
+target="_blank">* TCP网络通讯如何解决分包粘包问题</a></li>
+<li><a href="http://blog.csdn.net/dc_726/article/details/77728729" 
+target="_blank">* 程序员的八重境界</a></li>
+<li><a href="http://blog.csdn.net/pangpang123654/article/details/77720036" 
+target="_blank">* 四大线程池详解
+</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/zxk15982106569/article/details/17844085#comments">Spring中的PathMatchingResourcePatternResolver用于搜索资源</a>
+    <p style="margin:0px;"><a href="/herber2014" class="user_name">herber2014</a>:
+good,有帮到我。。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/zxk15982106569/article/details/9262671#comments">FlexPaper+SWFTools 实现仿百度文库及一些小问题</a>
+    <p style="margin:0px;"><a href="/yzjdt" class="user_name">yzjdt</a>:
+但是这个只能访问pdf文件啊   实用性太小
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+                   <!-- 广告位开始 -->                    <!-- 广告位结束 -->
+                   <div class="tracking-ad" data-view="true"  data-mtp="63" data-order="40" data-con="ad_content_1260" style="width: 200px; height: 500px;">
+                         <div id="nav_show_top_stop" style="width: 200px;height: 500px;z-index:1000"><div id="cpro_u2734128"></div>
+                             <div id="cpro_u3031287"></div></div>
+                   </div>
+                <script type="text/javascript">
+                    setTimeout(function () {
+                        var naviga_offsetTop = 0;
+                        function naviga_stay_top() { var scrollTop = jQuery(document).scrollTop(); if (scrollTop > naviga_offsetTop) { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": "0px" }); } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); } }
+                        function onload_function() { naviga_offsetTop = jQuery("#nav_show_top_stop").position().top; jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top); jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top); } jQuery(document).ready(onload_function);
+
+                    }, 200);
+                </script>                    
+<script type="text/javascript">(window.cproArray = window.cproArray || []).push({ id: "u2734128" });  </script> 
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script> 
+                   <script type="text/javascript">
+                       /*PC端-博客内容页左侧Button2-200*200-2017/7/10*/
+                       (window.cproArray = window.cproArray || []).push({ id: "u3031287" });
+</script>
+<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+   
+     <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=1403188"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+</body>
+</html>   

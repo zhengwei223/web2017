@@ -1,0 +1,981 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3 - 开涛的博客—公众号：kaitao-1234567，一如既往的干货分享 - ITeye博客</title>
+    <meta name="description" content="    4.4.1  使用路径通配符加载Resource         前面介绍的资源路径都是非常简单的一个路径匹配一个资源，Spring还提供了一种更强大的Ant模式通配符匹� ..." />
+    <meta name="keywords" content="spring 【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="search" type="application/opensearchdescription+xml" href="/open_search.xml" title="ITeye" />
+    <link href="/rss" rel="alternate" title="开涛的博客—公众号：kaitao-1234567，一如既往的干货分享" type="application/rss+xml" />
+    <link href="http://www.iteye.com/stylesheets/blog.css?1499670542" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.iteye.com/stylesheets/themes/blog/blue.css?1448702469" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.iteye.com/javascripts/application.js?1448702469" type="text/javascript"></script>    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?e19a8b00cf63f716d774540875007664";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+      <link href="http://www.iteye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1448702469" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.iteye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1448702469" type="text/javascript"></script>
+<script src="http://www.iteye.com/javascripts/hotkey.js?1448702469" type="text/javascript"></script>
+  <script src="http://www.iteye.com/javascripts/code_favorites.js?1448702469" type="text/javascript"></script>
+<script src="http://www.iteye.com/javascripts/weiboshare.js?1448702469" type="text/javascript"></script>
+
+    
+  </head>
+  <body>
+    <div id="header">
+	      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">知识库</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+	      <div id="user_nav">
+  <span style="color:red;">因系统升级，暂停注册。稍后将全面支持使用CSDN帐号进行注册及登录</span>
+  
+      <a href="/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="/login">登录</a>
+  </div>
+
+	    
+    </div>
+
+    <div id="page">
+        <div id="branding" class="clearfix" style="overflow: hidden;background: none;padding:0 0 2px;">
+          <script type="text/javascript">
+            /*Iteye博客内页顶部通栏-960*90，创建于 2016-08-01*/
+            var cpro_id = "u2720131";
+          </script>
+          <script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+        </div>
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="/">开涛的博客—公众号：kaitao-1234567，一如既往的干货分享</a></h1>
+        </div>
+        <div id='fd'></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class='blog_navbar_for'><a href="http://jinnianshilongnian.iteye.com"><strong>博客</strong></a></li>
+            <li ><a href="/weibo">微博</a></li>
+            <li ><a href="/album">相册</a></li>
+            <li ><a href="/link">收藏</a></li>
+            <li ><a href="/blog/guest_book">留言</a></li>
+            <li ><a href="/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" value="" />
+              <input class="submit_search" type="submit" value="" />
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style='display:none'>
+  <a href="http://jinnianshilongnian.iteye.com" class="p-author" target="_blank">jinnianshilongnian</a>
+</div>
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="/blog/1416322">【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class='blog_categories'><strong>博客分类：</strong> <li><a href="/category/206533">跟我学spring</a></li> </ul>
+        <div class='news_tag'><a href="http://www.iteye.com/blogs/tag/spring">spring</a>&nbsp;</div>
+    	  
+    	
+    	
+  		
+      </div>
+
+  <div id="blog_content" class="blog_content">
+    <div class="iteye-blog-content-contain" style="font-size: 14px;"><div style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; background-color: #ffffff; margin: 8px;">
+<div style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; background-color: #ffffff; margin: 8px;">
+<h3 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.5em; margin-left: 0px; font-size: 1.2em; line-height: 1.5em; color: black; padding: 0px;">4.4.1  使用路径通配符加载Resource</h3>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       前面介绍的资源路径都是非常简单的一个路径匹配一个资源，Spring还提供了一种更强大的Ant模式通配符匹配，从能一个路径匹配一批资源。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       Ant路径通配符支持“？”、“*”、“**”，注意通配符匹配不包括目录分隔符“/”：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">         <strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">“?</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”：匹配一个字符</strong>，如“config?.xml”将匹配“config1.xml”；</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">         <strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">“*</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”：匹配零个或多个字符串</strong>，如“cn/*/config.xml”将匹配“cn/javass/config.xml”，但不匹配匹配“cn/config.xml”；而“cn/config-*.xml”将匹配“cn/config-dao.xml”；</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">         <strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">“**</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”：匹配路径中的零个或多个目录</strong>，如“cn/**/config.xml”将匹配“cn /config.xml”，也匹配“cn/javass/spring/config.xml”；而“cn/javass/config-**.xml”将匹配“cn/javass/config-dao.xml”，即把“**”当做两个“*”处理。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">Spring提供AntPathMatcher来进行Ant风格的路径匹配。具体测试请参考cn.javass.spring.chapter4. AntPathMatcherTest。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">Spring在加载类路径资源时除了提供前缀“classpath:”的来支持加载一个Resource，还提供一个前缀“classpath*:”来支持加载所有匹配的类路径Resource。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">Spring提供ResourcePatternResolver接口来加载多个Resource，该接口继承了ResourceLoader并添加了“Resource[] getResources(String locationPattern)”用来加载多个Resource：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">interface</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ResourcePatternResolver </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">extends</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ResourceLoader {  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       String CLASSPATH_ALL_URL_PREFIX = <span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">;  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       Resource[] getResources(String locationPattern) <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">throws</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> IOException;  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">Spring提供了一个ResourcePatternResolver实现PathMatchingResourcePatternResolver，它是基于模式匹配的，默认使用AntPathMatcher进行路径匹配，它除了支持ResourceLoader支持的前缀外，还额外支持“classpath*:”用于加载所有匹配的类路径Resource，ResourceLoader不支持前缀“classpath*:”：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">首先做下准备工作，在项目的“resources”创建“META-INF”目录，然后在其下创建一个“INDEX.LIST”文件。同时在“org.springframework.beans-3.0.5.RELEASE.jar”和“org.springframework.context-3.0.5.RELEASE.jar”两个jar包里也存在相同目录和文件。然后创建一个“LICENSE”文件，该文件存在于“com.springsource.cn.sf.cglib-2.2.0.jar”里。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">一、“classpath</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”：</strong> 用于加载类路径（包括jar包）中的一个且仅一个资源；对于多个匹配的也只返回一个，所以如果需要多个匹配的请考虑“classpath*:”前缀；</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="annotation" style="font-size: 12px; color: #646464; background-color: inherit; padding: 0px; margin: 0px;">@Test</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">void</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> testClasspathPrefix() </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">throws</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> IOException {  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    ResourcePatternResolver resolver = <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> PathMatchingResourcePatternResolver();  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//只加载一个绝对匹配Resource，且通过ResourceLoader.getResource进行加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Resource[] resources=resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath:META-INF/INDEX.LIST"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertEquals(<span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">1</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">, resources.length);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//只加载一个匹配的Resource，且通过ResourceLoader.getResource进行加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    resources = resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath:META-INF/*.LIST"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length == <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">1</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);             </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">二、“classpath*</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”： </strong>用于加载类路径（包括jar包）中的所有匹配的资源。带通配符的classpath使用“ClassLoader”的“<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;" title="java.util 中的接口">Enumeration</a>&lt;<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;" title="java.net 中的类">URL</a>&gt; <a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;">getResources</a>(<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;" title="java.lang 中的类">String</a> name)”方法来查找通配符之前的资源，然后通过模式匹配来获取匹配的资源。如“classpath:META-INF/*.LIST”将首先加载通配符之前的目录“META-INF”，然后再遍历路径进行子路径匹配从而获取匹配的资源。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="annotation" style="font-size: 12px; color: #646464; background-color: inherit; padding: 0px; margin: 0px;">@Test</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">void</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> testClasspathAsteriskPrefix () </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">throws</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> IOException {  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">     ResourcePatternResolver resolver = <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> PathMatchingResourcePatternResolver();        </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">     <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将加载多个绝对匹配的所有Resource</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将首先通过ClassLoader.getResources("META-INF")加载非模式路径部分</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//然后进行遍历模式匹配</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Resource[] resources=resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:META-INF/INDEX.LIST"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length &gt; <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">1</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);      </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将加载多个模式匹配的Resource</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    resources = resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:META-INF/*.LIST"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length &gt; <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">1</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);    </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">注意“resources.length &gt;1”说明返回多个Resource。不管模式匹配还是非模式匹配只要匹配的都将返回。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       在“com.springsource.cn.sf.cglib-2.2.0.jar”里包含“asm-license.txt”文件，对于使用“classpath*: asm-*.txt”进行通配符方式加载资源将什么也加载不了“asm-license.txt”文件，注意一定是模式路径匹配才会遇到这种问题。这是由于“ClassLoader”的“<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;">getResources</a>(<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;" title="java.lang 中的类">String</a> name)”方法的限制，对于name为“”的情况将只返回文件系统的类路径，不会包换jar包根路径。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="annotation" style="font-size: 12px; color: #646464; background-color: inherit; padding: 0px; margin: 0px;">@Test</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">void</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> testClasspathAsteriskPrefixLimit() </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">throws</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> IOException {  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    ResourcePatternResolver resolver = <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> PathMatchingResourcePatternResolver();      </span><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将首先通过ClassLoader.getResources("")加载目录，</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将只返回文件系统的类路径不返回jar的跟路径</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//然后进行遍历模式匹配</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Resource[] resources = resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:asm-*.txt"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length == <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">0</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将通过ClassLoader.getResources("asm-license.txt")加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//asm-license.txt存在于com.springsource.net.sf.cglib-2.2.0.jar</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    resources = resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:asm-license.txt"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length &gt; <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">0</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);       </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//将只加载文件系统类路径匹配的Resource</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    resources = resolver.getResources(<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:LICENS*"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    Assert.assertTrue(resources.length == <span class="number" style="font-size: 12px; color: #c00000; background-color: inherit; padding: 0px; margin: 0px;">1</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">对于“resolver.getResources("classpath*:asm-*.txt");”，由于在项目“resources”目录下没有所以应该返回0个资源；“resolver.getResources("classpath*:asm-license.txt");”将返回jar包里的Resource；“resolver.getResources("classpath*:LICENS*");”，因为将只返回文件系统类路径资源，所以返回1个资源。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">因此加载通配符路径时（即路径中包含通配符），必须包含一个根目录才能保证加载的资源是所有的，而不是部分。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">三、“file</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">”：</strong>加载一个或多个文件系统中的Resource。如“file:D:/*.txt”将返回D盘下的所有txt文件；      </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">四、无前缀</strong>：通过ResourceLoader实现加载一个资源。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">AppliacationContext提供的getResources方法将获取资源委托给ResourcePatternResolver实现，默认使用PathMatchingResourcePatternResolver。所有在此就无需介绍其使用方法了。</p>
+<h3 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.5em; margin-left: 0px; font-size: 1.2em; line-height: 1.5em; color: black; padding: 0px;"> </h3>
+<h3 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.5em; margin-left: 0px; font-size: 1.2em; line-height: 1.5em; color: black; padding: 0px;">4.4.2  注入Resource数组</h3>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       Spring还支持注入Resource数组，直接看配置如下：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;bean id=</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resourceBean1"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">class</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">=</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"cn.javass.spring.chapter4.bean.ResourceBean4"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&gt;  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;property name=<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resources"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&gt;  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">        &lt;array&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">            &lt;value&gt;cn/javass/spring/chapter4/test1.properties&lt;/value&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">            &lt;value&gt;log4j.xml&lt;/value&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">        &lt;/array&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    &lt;/property&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;/bean&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;bean id=<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resourceBean2"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">class</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">=</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"cn.javass.spring.chapter4.bean.ResourceBean4"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&gt;  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;property name=<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resources"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> value=</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"classpath*:META-INF/INDEX.LIST"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">/&gt;  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;/bean&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;bean id=<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resourceBean3"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">class</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">=</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"cn.javass.spring.chapter4.bean.ResourceBean4"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&gt;  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;property name=<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"resources"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&gt;  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">        &lt;array&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">            &lt;value&gt;cn/javass/spring/chapter4/test1.properties&lt;/value&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">            &lt;value&gt;classpath*:META-INF/INDEX.LIST&lt;/value&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">        &lt;/array&gt;  </span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    &lt;/property&gt;  </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">&lt;/bean&gt;  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       “resourceBean1”就不用多介绍了，传统实现方式；对于“resourceBean2”则使用前缀“classpath*”，看到这大家应该懂的，加载匹配多个资源；“resourceBean3”是混合使用的；测试代码在“cn.javass.spring.chapter4.ResourceInjectTest.testResourceArrayInject”。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       Spring通过ResourceArrayPropertyEditor来进行类型转换的，而它又默认使用“PathMatchingResourcePatternResolver”来进行把路径解析为Resource对象。所有大家只要会使用“PathMatchingResourcePatternResolver”，其它一些实现都是委托给它的，比如AppliacationContext的“getResources”方法等。</p>
+<h3 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.5em; margin-left: 0px; font-size: 1.2em; line-height: 1.5em; color: black; padding: 0px;"> </h3>
+<h3 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.5em; margin-left: 0px; font-size: 1.2em; line-height: 1.5em; color: black; padding: 0px;">4.4.3  AppliacationContext实现对各种Resource的支持</h3>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       <strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">一、ClassPathXmlApplicationContext</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">：</strong>默认将通过classpath进行加载返回ClassPathResource，提供两类构造器方法：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">class</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext {  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//1）通过ResourcePatternResolver实现根据configLocation获取资源</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String configLocation);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String... configLocations)；  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String[] configLocations, ……);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">        </span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">    <span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//2）通过直接根据path直接返回ClasspathResource</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String path, Class clazz);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String[] paths, Class clazz);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> ClassPathXmlApplicationContext(String[] paths, Class clazz, ……);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       第一类构造器是根据提供的配置文件路径使用“ResourcePatternResolver ”的“getResources()”接口通过匹配获取资源；即如“classpath:config.xml”</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       第二类构造器则是根据提供的路径和clazz来构造ClassResource资源。即采用“public ClassPathResource(String path, Class&lt;?&gt; clazz)”构造器获取资源。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">       </strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">二、FileSystemXmlApplicationContext</strong><strong style="font-size: 14px; line-height: 1.5em; padding: 0px; margin: 0px;">：</strong>将加载相对于当前工作目录的“configLocation”位置的资源，注意在linux系统上不管“configLocation”是否带“/”，都作为相对路径；而在window系统上如“D:/resourceInject.xml”是绝对路径。因此在除非很必要的情况下，不建议使用该ApplicationContext。</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> </span><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">class</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext{  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(String configLocation);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">       <span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">public</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(String... configLocations,……);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">}  </span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//linux系统，以下全是相对于当前vm路径进行加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"chapter4/config.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"/chapter4/confg.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+</ol>
+</div>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//windows系统，第一个将相对于当前vm路径进行加载；</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//第二个则是绝对路径方式加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"chapter4/config.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="keyword" style="font-size: 12px; color: #006699; background-color: inherit; font-weight: bold; padding: 0px; margin: 0px;">new</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"> FileSystemXmlApplicationContext(</span><span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"d:/chapter4/confg.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       此处还需要注意：在linux系统上，构造器使用的是相对路径，而ctx.getResource()方法如果以“/”开头则表示获取绝对路径资源，而不带前导“/”将返回相对路径资源。如下：</p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<div style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; padding: 0px; border: 1px solid #aabbcc;">
+<span class="bold" style="font-size: medium; font-weight: bold; font-family: 'arial black', 'avant garde'; padding: 0px; margin: 0px;">java代码：</span>
+<div class="dp-highlighter" style="padding-top: 1px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 18px !important; margin-right: 0px !important; margin-bottom: 18px !important; margin-left: 0px !important; font-size: 12px; font-family: Consolas, 'Courier New', Courier, mono, serif; background-color: #e7e5dc; width: 671px; border-width: 0px;">
+<div class="bar" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 45px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; font-size: 12px; border-width: 0px;">
+<div class="tools">
+<a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">查看</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">复制到剪贴板</a><a style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; font-size: 9px; color: #a0a0a0; text-decoration: none; background-image: none; background-color: inherit; padding: 0px;" href="http://sishuok.com/forum/blogPost/list/2458.html">打印</a>
+</div>
+</div>
+<ol class="dp-j" style="margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 1px !important; margin-left: 45px !important; font-size: 12px; background-color: #ffffff; color: #5c5c5c; padding: 0px;">
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//linux系统，第一个将相对于当前vm路径进行加载；</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//第二个则是绝对路径方式加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">ctx.getResource (<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"chapter4/config.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">ctx.getResource (<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"/root/confg.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//windows系统，第一个将相对于当前vm路径进行加载；</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;"><span class="comment" style="font-size: 12px; color: #008200; background-color: inherit; padding: 0px; margin: 0px;">//第二个则是绝对路径方式加载</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">  </span></span></li>
+<li class="alt" style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #ffffff; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">ctx.getResource (<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"chapter4/config.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+<li style="padding-top: 0px !important; padding-right: 3px !important; padding-bottom: 0px !important; padding-left: 10px !important; font-size: 12px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: solid; border-color: initial; background-color: #f8f8f8; color: #5c5c5c; line-height: 14px; border-left-width: 3px; border-left-color: #6ce26c; margin: 0px !important;"><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">ctx.getResource (<span class="string" style="font-size: 12px; color: blue; background-color: inherit; padding: 0px; margin: 0px;">"d:/chapter4/confg.xml"</span><span style="font-size: 12px; color: black; background-color: inherit; padding: 0px; margin: 0px;">);  </span></span></li>
+</ol>
+</div>
+</div>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">       因此如果需要加载绝对路径资源最好选择前缀“file”方式，将全部根据绝对路径加载。如在linux系统“ctx.getResource ("file:/root/confg.xml");”    </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;"> </p>
+<p style="font-size: 14px; font-family: verdana, arial, helvetica, sans-serif; line-height: 1.5em; padding: 0px;">原创内容，转自请注明出处【<a style="font-size: 14px; color: #005ea7; text-decoration: none; line-height: 1.5em; padding: 0px; margin: 0px;" href="http://sishuok.com/forum/blogPost/list/0/2458.html#7106">http://sishuok.com/forum/blogPost/list/0/2458.html</a>】</p>
+<p> </p>
+</div>
+</div></div>
+  </div>
+
+  
+
+  
+      <script type="text/javascript"><!--
+      google_ad_client = "ca-pub-8990951720398508";
+      /* iteye博客内页Banner-728*90 */
+      google_ad_slot = "8267689356/1918544322";
+      google_ad_width = 728;
+      google_ad_height = 90;
+      //-->
+      </script>
+      <script type="text/javascript"
+              src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>
+  
+
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class='digged'><strong>15</strong> <br/>顶</div><div class='digged'><strong>1</strong> <br/>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type='sina' href="javascript:;" title="分享到新浪微博"><img src="/images/sina.jpg"></a>
+      <a data-type='qq' href="javascript:;" title="分享到腾讯微博"><img src="/images/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="/blog/1416581" class="next" title="【第五章】Spring表达式语言 之 5.1 概述 5.2 SpEL基础 ——跟我学spring3">【第五章】Spring表达式语言 之 5.1 概述 ...</a>
+      |
+      <a href="/blog/1416321" class="pre" title="【第四章】 资源 之 4.3 访问Resource ——跟我学spring3 ">【第四章】 资源 之 4.3 访问Resource  ...</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2012-02-22 08:36</li>
+      <li>浏览 28436</li>
+      <li><a href="#comments">评论(9)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/architecture">企业架构</a></li>      
+      <li class='last'><a href="http://www.iteye.com/wiki/blog/1416322" target="_blank" class="more">相关推荐</a></li>
+    </ul>    
+  </div>
+  
+		    
+		
+<div class="boutique-curr-box blog_comment">
+	  <div class="boutique-curr clearfix">
+	    <h5 class="h3titles">参考知识库</h5>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/javaee"><img src="http://img.knowledge.csdn.net/upload/base/1456818035722_722.jpg" width="58" height="58" alt=""></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/javaee" classs="title">Java EE知识库</a>
+              <span>
+                 <em>21938</em>&nbsp;&nbsp;关注 <i>|</i> <em>1416</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	  </div>
+</div>
+ 		
+      
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2372124">
+  <div class="comment_title">
+    9 楼
+    <a href='http://991577566.iteye.com' target='_blank' title='一团毛线'>一团毛线</a>
+    2015-05-15&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><br /><pre class="java" name="code"> Resource[] resources=resolver.getResources("classpath:META-INF/INDEX.LIST");</pre><br /><br /><br />这一句代码只能匹配到jar包里的INDEX.LIST，无法匹配ressources文件夹里的资源，为什么?<br />我用的是spring4</div>
+</div>
+
+<div id="bc2351520">
+  <div class="comment_title">
+    8 楼
+    <a href='http://leilitop.iteye.com' target='_blank' title='leilitop'>leilitop</a>
+    2014-06-24&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">yunye 写道</div><div class="quote_div">&nbsp; 博主， 我还是不怎么理解InputStreamResource只能读取一次的问题，<br />&nbsp; <br />&nbsp; 例如，使用InputStreamResource构造XmlBeanFactory会抛异常。<br />&nbsp; <br />&nbsp; <pre class="java" name="code">
+     InputStream is = new FileInputStream(new File("conf/beans.xml"));
+     Resource resource = new InputStreamResource(is);
+     BeanFactory beanFactory = new XmlBeanFactory(resource);
+   </pre><br /><br />&nbsp;&nbsp; spring文档也说，这是个 已经 打开资源的描述符-因此 isOpen() 函数返回 true。 如果你需要在其它位置保持这个资源的描述符或者多次读取一个流，请不要使用它。<br /><br />&nbsp; 我的问题是：怎么怎么理解InputStreamResource只能读取一次呢？ 是不是因为构造InputStreamResource的时候，资源（假设是Xml配置文件）已经被打开了，返回一个InputStream字节流，因为这个资源没有被关闭，spring需要再次读取资源（Xml配置文件）验证xml schema 语法， 以致构造XmlBeanFactory抛异常？ 如果是这样，spring怎么不直接读取这个返回的InputStream字节流呢？<br />&nbsp;&nbsp; <br />&nbsp; 使用InputStreamResource构造XmlBeanFactory抛异常， 是spring1.x和spring2.x版本差异导致的问题吗？</div><br />网上看到的<br />“原因是从spring2.0开始，为了支持xml schema，spring会在后台打开配置文件，检查配置文件是否遵循了DTD 和 schema，所以 isOpen() 方法返回true。以致抛出异常。从spring2.0开始，已经不建议使用InputStreamResource。”</div>
+</div>
+
+<div id="bc2289502">
+  <div class="comment_title">
+    7 楼
+    <a href='http://wsj356428476.iteye.com' target='_blank' title='wsj356428476'>wsj356428476</a>
+    2012-11-14&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="/images/smiles/icon_idea.gif" /> </div>
+</div>
+
+<div id="bc2285234">
+  <div class="comment_title">
+    6 楼
+    <a href='http://8982282.iteye.com' target='_blank' title='縌流而上的魚'>縌流而上的魚</a>
+    2012-10-16&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">再问一个2B的问题，如有懂的请教下，谢谢！！！！<br /><br />“在项目的“resources”创建“META-INF”目录”中“resources”是指“src”目录下吗？</div>
+</div>
+
+<div id="bc2285006">
+  <div class="comment_title">
+    5 楼
+    <a href='http://zhenyong.iteye.com' target='_blank' title='feipigzi'>feipigzi</a>
+    2012-10-14&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">zuisanlang 写道</div><div class="quote_div">博主，能再详细解释一下下面这段话的意思吗？<br /><br />在“com.springsource.cn.sf.cglib-2.2.0.jar”里包含“asm-license.txt”文件，对于使用“classpath*: asm-*.txt”进行通配符方式加载资源将什么也加载不了“asm-license.txt”文件，注意一定是模式路径匹配才会遇到这种问题。这是由于“ClassLoader”的“getResources(String name)”方法的限制，对于name为“”的情况将只返回文件系统的类路径，不会包换jar包根路径。<br /><br />我们是想加载“asm-license.txt”文件，如果使用“classpath*: asm-*.txt”作为通配符的话，跟你后面说的name为“”的情况有什么关系？</div><br /><br />结合作者这段注释理解<br />//将加载多个绝对匹配的所有Resource&nbsp; <br />&nbsp;&nbsp;&nbsp; //将首先通过ClassLoader.getResources("META-INF")加载非模式路径部分&nbsp; <br />&nbsp;&nbsp;&nbsp; //然后进行遍历模式匹配&nbsp; <br />&nbsp;&nbsp;&nbsp; Resource[] resources=resolver.getResources("classpath*:META-INF/INDEX.LIST");&nbsp; </div>
+</div>
+
+<div id="bc2284882">
+  <div class="comment_title">
+    4 楼
+    <a href='http://8982282.iteye.com' target='_blank' title='縌流而上的魚'>縌流而上的魚</a>
+    2012-10-12&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">你好。又碰到问题了。<br /><pre class="java" name="code">
+resources = resolver.getResources("classpath*:META-INF/*.LIST");  
+    Assert.assertTrue(resources.length &gt; 1);
+</pre><br /><br />这里我总是找不到INDEX.LIST文件，是怎么回事啊？<br /><br />我之前建立的工程是“Dynamic Web Project”而不是单纯的java工程，这个web工程自带了META-INF的目录，路径是“WebContent/META-INF”。而不是在工程目录下直接建了“META-INF”的目录，这个有影响吗？<br />前面一句代码：<br /><pre class="java" name="code">
+Resource[] resource = resolver				.getResources("classpath:META-INF/INDEX.LIST");
+</pre><br />读取是正常的！但是好像读取的不是我建立的这个文件。。能帮忙解释下吗。</div>
+</div>
+
+<div id="bc2265868">
+  <div class="comment_title">
+    3 楼
+    <a href='http://zuisanlang.iteye.com' target='_blank' title='zuisanlang'>zuisanlang</a>
+    2012-06-21&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">博主，能再详细解释一下下面这段话的意思吗？<br /><br />在“com.springsource.cn.sf.cglib-2.2.0.jar”里包含“asm-license.txt”文件，对于使用“classpath*: asm-*.txt”进行通配符方式加载资源将什么也加载不了“asm-license.txt”文件，注意一定是模式路径匹配才会遇到这种问题。这是由于“ClassLoader”的“getResources(String name)”方法的限制，对于name为“”的情况将只返回文件系统的类路径，不会包换jar包根路径。<br /><br />我们是想加载“asm-license.txt”文件，如果使用“classpath*: asm-*.txt”作为通配符的话，跟你后面说的name为“”的情况有什么关系？</div>
+</div>
+
+<div id="bc2248365">
+  <div class="comment_title">
+    2 楼
+    <a href='http://jinnianshilongnian.iteye.com' target='_blank' title='jinnianshilongnian'>jinnianshilongnian</a>
+    2012-03-20&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">yunye 写道</div><div class="quote_div">&nbsp; 博主， 我还是不怎么理解InputStreamResource只能读取一次的问题，<br />&nbsp; <br />&nbsp; 例如，使用InputStreamResource构造XmlBeanFactory会抛异常。<br />&nbsp; <br />&nbsp; <pre class="java" name="code">
+     InputStream is = new FileInputStream(new File("conf/beans.xml"));
+     Resource resource = new InputStreamResource(is);
+     BeanFactory beanFactory = new XmlBeanFactory(resource);
+   </pre><br /><br />&nbsp;&nbsp; spring文档也说，这是个 已经 打开资源的描述符-因此 isOpen() 函数返回 true。 如果你需要在其它位置保持这个资源的描述符或者多次读取一个流，请不要使用它。<br /><br />&nbsp; 我的问题是：怎么怎么理解InputStreamResource只能读取一次呢？ 是不是因为构造InputStreamResource的时候，资源（假设是Xml配置文件）已经被打开了，返回一个InputStream字节流，因为这个资源没有被关闭，spring需要再次读取资源（Xml配置文件）验证xml schema 语法， 以致构造XmlBeanFactory抛异常？ 如果是这样，spring怎么不直接读取这个返回的InputStream字节流呢？<br />&nbsp;&nbsp; <br />&nbsp; 使用InputStreamResource构造XmlBeanFactory抛异常， 是spring1.x和spring2.x版本差异导致的问题吗？</div><br /><br />我这里说的只能读取一次意思是 <br />InputStream 这个流读完后 不能返回到流开头（重新读，即不reset，所以只能读取一次【如果还需使用需要再创建一个】），表达的不好，请见谅</div>
+</div>
+
+<div id="bc2248350">
+  <div class="comment_title">
+    1 楼
+    <a href='http://yunye.iteye.com' target='_blank' title='yunye'>yunye</a>
+    2012-03-19&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">&nbsp; 博主， 我还是不怎么理解InputStreamResource只能读取一次的问题，<br />&nbsp; <br />&nbsp; 例如，使用InputStreamResource构造XmlBeanFactory会抛异常。<br />&nbsp; <br />&nbsp; <pre class="java" name="code">
+     InputStream is = new FileInputStream(new File("conf/beans.xml"));
+     Resource resource = new InputStreamResource(is);
+     BeanFactory beanFactory = new XmlBeanFactory(resource);
+   </pre><br /><br />&nbsp;&nbsp; spring文档也说，这是个 已经 打开资源的描述符-因此 isOpen() 函数返回 true。 如果你需要在其它位置保持这个资源的描述符或者多次读取一个流，请不要使用它。<br /><br />&nbsp; 我的问题是：怎么怎么理解InputStreamResource只能读取一次呢？ 是不是因为构造InputStreamResource的时候，资源（假设是Xml配置文件）已经被打开了，返回一个InputStream字节流，因为这个资源没有被关闭，spring需要再次读取资源（Xml配置文件）验证xml schema 语法， 以致构造XmlBeanFactory抛异常？ 如果是这样，spring怎么不直接读取这个返回的InputStream字节流呢？<br />&nbsp;&nbsp; <br />&nbsp; 使用InputStreamResource构造XmlBeanFactory抛异常， 是spring1.x和spring2.x版本差异导致的问题吗？</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="/login" style="background-color:white;"> <img src="/images/login_icon.png" style="vertical-align:middle; margin-right: 10px;" /></a><a href="/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 1416322;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', '【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', '【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href='http://jinnianshilongnian.iteye.com'><img alt="jinnianshilongnian的博客" class="logo" src="http://www.iteye.com/upload/logo/user/1122108/c7dd3e08-f305-3aa7-a0ee-888e606701d4.jpg?1444401766" title="jinnianshilongnian的博客: 开涛的博客—公众号：kaitao-1234567，一如既往的干货分享" width="" /></a></div>
+  <div id="blog_owner_name">jinnianshilongnian</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 14478114 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.iteye.com/images/icon_minigender_1.gif?1448702469" title="男" /></li>
+              
+              <li><img src='/images/status/offline.gif'/></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href='http://loverswordsman.iteye.com' target='_blank'><img alt="loverswordsman的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1448702469" title="loverswordsman的博客: " width="48px" /></a></div>
+                <div class="left"><a href='http://loverswordsman.iteye.com' target='_blank' title='loverswordsman'>loverswordsman</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href='http://loadsave.iteye.com' target='_blank'><img alt="loadsave的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1448702469" title="loadsave的博客: " width="48px" /></a></div>
+                <div class="left"><a href='http://loadsave.iteye.com' target='_blank' title='loadsave'>loadsave</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href='http://wsongjun.iteye.com' target='_blank'><img alt="wsongjun的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1448702469" title="wsongjun的博客: " width="48px" /></a></div>
+                <div class="left"><a href='http://wsongjun.iteye.com' target='_blank' title='wsongjun'>wsongjun</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href='http://ganhaiqiang.iteye.com' target='_blank'><img alt="追逐什么的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1448702469" title="追逐什么的博客: " width="48px" /></a></div>
+                <div class="left"><a href='http://ganhaiqiang.iteye.com' target='_blank' title='追逐什么'>追逐什么</a></div>
+              </div>
+            
+          </div>
+
+          
+            <div>
+              <h5>博客专栏</h5>
+              
+
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/spring3" target="_blank"><img alt="5c8dac6a-21dc-3466-8abb-057664ab39c7" src="http://www.iteye.com/upload/logo/blog_wiki/642677/5c8dac6a-21dc-3466-8abb-057664ab39c7.png?1331000354" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/spring3" target="_blank" title="跟我学spring3">跟我学spring3</a><br />
+      <span class="visited">浏览量：1690071</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/spring-tittle-tattle" target="_blank"><img alt="D659df3e-4ad7-3b12-8b9a-1e94abd75ac3" src="http://www.iteye.com/upload/logo/blog_wiki/858709/d659df3e-4ad7-3b12-8b9a-1e94abd75ac3.png?1371447808" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/spring-tittle-tattle" target="_blank" title="Spring杂谈">Spring杂谈</a><br />
+      <span class="visited">浏览量：2073524</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/kaitao-springmvc" target="_blank"><img alt="43989fe4-8b6b-3109-aaec-379d27dd4090" src="http://www.iteye.com/upload/logo/blog_wiki/858708/43989fe4-8b6b-3109-aaec-379d27dd4090.png?1371447798" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/kaitao-springmvc" target="_blank" title="跟开涛学SpringMVC">跟开涛学SpringMVC...</a><br />
+      <span class="visited">浏览量：4180020</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/Servlet-3-1" target="_blank"><img alt="1df97887-a9e1-3328-b6da-091f51f886a1" src="http://www.iteye.com/upload/logo/blog_wiki/862394/1df97887-a9e1-3328-b6da-091f51f886a1.png?1372307553" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/Servlet-3-1" target="_blank" title="Servlet3.1规范翻译">Servlet3.1规范翻...</a><br />
+      <span class="visited">浏览量：173750</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/springmvc-tattle" target="_blank"><img alt="4f347843-a078-36c1-977f-797c7fc123fc" src="http://www.iteye.com/upload/logo/blog_wiki/858710/4f347843-a078-36c1-977f-797c7fc123fc.png?1371447823" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/springmvc-tattle" target="_blank" title="springmvc杂谈">springmvc杂谈</a><br />
+      <span class="visited">浏览量：1172547</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/hibernate" target="_blank"><img alt="22722232-95c1-34f2-b8e1-d059493d3d98" src="http://www.iteye.com/upload/logo/blog_wiki/858711/22722232-95c1-34f2-b8e1-d059493d3d98.png?1371447830" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/hibernate" target="_blank" title="hibernate杂谈">hibernate杂谈</a><br />
+      <span class="visited">浏览量：184949</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/shiro" target="_blank"><img alt="45b32b6f-7468-3077-be40-00a5853c9a48" src="http://www.iteye.com/upload/logo/blog_wiki/940965/45b32b6f-7468-3077-be40-00a5853c9a48.png?1392994068" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/shiro" target="_blank" title="跟我学Shiro">跟我学Shiro</a><br />
+      <span class="visited">浏览量：3473833</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/nginx-lua" target="_blank"><img alt="Group-logo" src="http://www.iteye.com/images/group-logo.gif?1448702469" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/nginx-lua" target="_blank" title="跟我学Nginx+Lua开发">跟我学Nginx+Lua开...</a><br />
+      <span class="visited">浏览量：430803</span>
+    </dd>
+  </dl>
+  
+  <dl class="series" style="padding-bottom:5px;">
+    <dt>
+      <a href="http://www.iteye.com/blogs/subjects/as-core" target="_blank"><img alt="5041f67a-12b2-30ba-814d-b55f466529d5" src="http://www.iteye.com/upload/logo/blog_wiki/1243489/5041f67a-12b2-30ba-814d-b55f466529d5.png?1492131227" /></a>
+    </dt>
+    <dd>
+    <a href="http://www.iteye.com/blogs/subjects/as-core" target="_blank" title="亿级流量网站架构核心技术">亿级流量网站架构核心技术</a><br />
+      <span class="visited">浏览量：448622</span>
+    </dd>
+  </dl>
+  
+
+
+            </div>
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (332)</a></li>
+                
+                  <li><a href="/category/333854">跟我学Nginx+Lua开发 (13)</a></li>
+                
+                  <li><a href="/category/206533">跟我学spring (54)</a></li>
+                
+                  <li><a href="/category/231099">跟开涛学SpringMVC (34)</a></li>
+                
+                  <li><a href="/category/301336">spring4 (16)</a></li>
+                
+                  <li><a href="/category/218109">spring杂谈 (50)</a></li>
+                
+                  <li><a href="/category/277825">springmvc杂谈 (22)</a></li>
+                
+                  <li><a href="/category/305053">跟我学Shiro (26)</a></li>
+                
+                  <li><a href="/category/277699">shiro杂谈 (3)</a></li>
+                
+                  <li><a href="/category/219273">hibernate杂谈 (10)</a></li>
+                
+                  <li><a href="/category/283252">java开发常见问题分析 (36)</a></li>
+                
+                  <li><a href="/category/283243">加速Java应用开发 (5)</a></li>
+                
+                  <li><a href="/category/255452">Servlet 3.1规范[翻译] (21)</a></li>
+                
+                  <li><a href="/category/286229">servlet3.x (2)</a></li>
+                
+                  <li><a href="/category/283927">websocket协议[翻译] (14)</a></li>
+                
+                  <li><a href="/category/277530">websocket规范[翻译] (1)</a></li>
+                
+                  <li><a href="/category/244085">java web (6)</a></li>
+                
+                  <li><a href="/category/220701">db (1)</a></li>
+                
+                  <li><a href="/category/268665">js &amp; jquery &amp; bootstrap (4)</a></li>
+                
+                  <li><a href="/category/252959">非技术 (4)</a></li>
+                
+                  <li><a href="/category/215151">reminder[转载] (23)</a></li>
+                
+                  <li><a href="/category/317975">跟叶子学把妹 (8)</a></li>
+                
+                  <li><a href="/category/337500">nginx (2)</a></li>
+                
+                  <li><a href="/category/344044">架构 (21)</a></li>
+                
+                  <li><a href="/category/350365">flume架构与源码分析 (4)</a></li>
+                
+              </ul>
+            </div>
+            <div id='month_blogs'>
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="/blog/news">我的资讯</a> (10)</li>
+                <li>
+                  <a href="/blog/post">我的论坛</a> (1113)
+                </li>
+                <li><a href="/blog/answered_problems">我的问答</a> (2428)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="/blog/monthblog/2017-06">2017-06</a> (1)</li>
+                
+                  <li><a href="/blog/monthblog/2016-12">2016-12</a> (1)</li>
+                
+                  <li><a href="/blog/monthblog/2016-11">2016-11</a> (1)</li>
+                
+                <li><a href="/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+              <div id="comments_top">
+                <h5>评论排行榜</h5>
+                <ul>
+                  
+                    <li><a href="/blog/2347183" title="《亿级流量网站架构核心技术》一书值得看吗？">《亿级流量网站架构核心技术》一书值得看吗 ...</a></li>
+                  
+                    <li><a href="/blog/2339876" title="《亿级流量网站架构核心技术》目录一览">《亿级流量网站架构核心技术》目录一览</a></li>
+                  
+                    <li><a href="/blog/2324025" title="聊聊高并发之隔离术">聊聊高并发之隔离术</a></li>
+                  
+                </ul>
+              </div>
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href='http://rod-john.iteye.com' target='_blank' title='rod_john'>rod_john</a>： 
+                   <br />
+                  <a href="/blog/1415463#bc2399933">【第三章】 DI 之 3.4 Bean的作用域 ——跟我学spring3 </a>
+                </li>
+                
+                <li>
+                  <a href='http://541923685.iteye.com' target='_blank' title='宇落YL'>宇落YL</a>： 
+                  翻了一下评论，发现早在14年就有哥们儿提示这个疑问，结果到现在 ...<br />
+                  <a href="/blog/2020017#bc2399899">第三章  授权——《跟我学Shiro》</a>
+                </li>
+                
+                <li>
+                  <a href='http://541923685.iteye.com' target='_blank' title='宇落YL'>宇落YL</a>： 
+                  这看懂这句。规则：“资源标识符：操作：对象实例ID”，subj ...<br />
+                  <a href="/blog/2020017#bc2399898">第三章  授权——《跟我学Shiro》</a>
+                </li>
+                
+                <li>
+                  <a href='http://xiajfchina.iteye.com' target='_blank' title='xiajfchina'>xiajfchina</a>： 
+                  xul0038 写道amberlike 写道您好，我有个问题想 ...<br />
+                  <a href="/blog/2028675#bc2399880">第十章  会话管理——《跟我学Shiro》</a>
+                </li>
+                
+                <li>
+                  <a href='http://xiajfchina.iteye.com' target='_blank' title='xiajfchina'>xiajfchina</a>： 
+                  萌小短 写道waj_615 写道请问shiro加入authc权 ...<br />
+                  <a href="/blog/2028675#bc2399879">第十章  会话管理——《跟我学Shiro》</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+        <div style="margin-top: 10px;float: left;clear: left;">
+          <script type="text/javascript">
+            /*iteye博客内页左侧Button-200*200，创建于2016-08-01*/
+            var cpro_id = "u2720202";
+          </script>
+          <script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+				</div>
+      </div>    
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2017 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+        <div style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000;">
+          <script type="text/javascript"><!--
+          google_ad_client = "ca-pub-8990951720398508";
+          /* iteye博客内页弹窗-300*250 */
+          google_ad_slot = "8267689356/5752063962";
+          google_ad_width = 300;
+          google_ad_height = 250;
+          //-->
+          </script>
+          <script type="text/javascript"
+                  src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+          </script>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script>
+
+<script src="http://csdnimg.cn/pubfooter/js/tracking.js?version=20130923164150" type="text/javascript"></script>
+
+    
+    
+    <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/async_new.js"></script>
+<script src="http://c.csdnimg.cn/public/common/libs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">var $csdn_iteye_jq = jQuery.noConflict();// 解决jq与prototype.js命名空间冲突的问题</script>
+<script src="http://ads.csdn.net/js/tracking.js" type="text/javascript"></script>
+    
+	    
+	    <script src="http://www.iteye.com/javascripts/web-storage-cache.min.js?1461122561" type="text/javascript"></script>
+	    <script src="http://www.iteye.com/javascripts/replace.min.js?1464163001" type="text/javascript"></script>
+    
+    
+  </body>
+</html>
