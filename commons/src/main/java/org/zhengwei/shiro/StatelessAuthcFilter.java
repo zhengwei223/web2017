@@ -44,6 +44,10 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
    */
   @Override
   public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
+    // 开发环境下不拦截请求
+    if(profile==null||profile.startsWith("dev")){
+      return true;
+    }
     String userid = request.getParameter("userid");
     Boolean hasId = userid != null;
 
