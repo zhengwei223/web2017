@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+		   http://www.springframework.org/schema/aop
+		   http://www.springframework.org/schema/aop/spring-aop.xsd
+		   http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd
+		   http://www.springframework.org/schema/jdbc
+		   http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		   http://www.springframework.org/schema/tx
+		   http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-lazy-init="true">
+
+  <description>Spring公共配置</description>
+
+  <!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+  <!--不扫描Controller-->
+  <context:component-scan base-package="org.lanqiao.rbac">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+  </context:component-scan>
+
+  <!-- MyBatis配置 -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+    <property name="typeAliasesPackage" value="org.lanqiao.rbac.entity"/>
+    <!-- 显式指定Mapper文件位置 -->
+    <property name="mapperLocations" value="classpath:/org/lanqiao/rbac/mapper/*Mapper.xml"/>
+
+    <property name="plugins">
+      <array>
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <!--使用下面的方式配置参数，一行配置一个 ，详情见https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md-->
+            <value>
+              reasonable=true
+              supportMethodsArguments=true
+              returnPageInfo=true
+            </value>
+          </property>
+        </bean>
+      </array>
+    </property>
+  </bean>
+
+  <!-- 扫描basePackage下所有mappers指定标识的接口-->
+  <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="org.lanqiao.rbac.repository"/>
+    <property name="properties">
+      <value>
+        mappers=org.lanqiao.rbac.base.Mapper
+        IDENTITY=MYSQL
+      </value>
+    </property>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+  </bean>
+
+
+  <!-- Jdbc单数据源事务 -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <!-- 使用annotation定义事务 -->
+  <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" order="2"/>
+
+  <!-- 定义扫描@aspectj -->
+  <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+  <!--对所有service方法进行拦截-->
+  <!--<bean id="dynamicDataSourceAdvisor" class="org.lanqiao.rbac.aspect.DynamicDataSourceAdvisor"/>
+  <aop:config proxy-target-class="true" >
+    <aop:aspect id="dynamicDataSourceAspect" ref="dynamicDataSourceAdvisor" order="1">
+      &lt;!&ndash;拦截所有的service方法&ndash;&gt;
+      <aop:pointcut id="serviceMethod"
+                    expression="execution(public * org.lanqiao.rbac.service.*Service.*(..))
+                             or execution(public * org.lanqiao.rbac.base.AbstractService.*(..))
+                             or execution(public * org.web2017shiro.IAccountService.*(..))"/>
+      <aop:before method="setDataSource" pointcut-ref="serviceMethod"/>
+    </aop:aspect>
+  </aop:config>
+  -->
+
+  <!-- JSR303 Validator定义 -->
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+  <!-- production环境 -->
+  <beans profile="production">
+    <context:property-placeholder ignore-resource-not-found="true"
+                                  location="classpath*:/application.properties"/>
+    <!--shiro配置-->
+    <bean class="org.lanqiao.rbac.config.ShiroConfig"/>
+
+    <!--多源动态数据源-->
+    <bean id="dataSource" class="org.web2017.multiDataSources.DynamicDataSource">
+      <!-- 通过key-value关联数据源 -->
+      <property name="targetDataSources">
+        <map>
+          <entry value-ref="master" key="master"></entry>
+          <entry value-ref="slave" key="slave"></entry>
+        </map>
+      </property>
+
+      <property name="defaultTargetDataSource" ref="master"/>
+    </bean>
+    <!-- Hikari JDBC连接池 1-->
+    <bean id="master" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url}"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+    <!-- Hikari JDBC连接池 2 -->
+    <bean id="slave" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url2}"/>
+      <property name="username" value="${jdbc.username2}"/>
+      <property name="password" value="${jdbc.password2}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+
+  </beans>
+
+  <!-- local 开发及单测环境 -->
+  <beans profile="development">
+    <context:property-placeholder ignore-resource-not-found="true"
+                                  location="classpath*:/application.properties,
+          			  classpath*:/application-development.properties"/>
+
+    <!-- Hikari JDBC连接池 -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url}"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+
+    <!-- 初始化数据表结构，开发环境只需初始化一次即可
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+      <jdbc:script location="classpath:sql/${db.type}/schema.sql" />
+      <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
+    </jdbc:initialize-database>
+    -->
+
+  </beans>
+
+  <!-- 功能测试环境 -->
+  <beans profile="functional">
+    <context:property-placeholder ignore-resource-not-found="true"
+                                  location="classpath*:/application.properties,
+          			  classpath*:/application-functional.properties"/>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="jdbcUrl" value="${jdbc.url}"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+      <property name="autoCommit" value="false"/>
+    </bean>
+
+    <jdbc:initialize-database data-source="dataSource" >
+      <jdbc:script location="classpath:sql/${db.type}/schema.sql" />
+      <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
+    </jdbc:initialize-database>
+
+  </beans>
+
+
+</beans>

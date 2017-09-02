@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="rollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/logs/fullstack.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/tmp/logs/fullstack.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- project default level -->
+	<logger name="org.lanqiao" level="debug" />
+	<logger name="org.web2017" level="debug" />
+	
+	
+	<!--log4jdbc -->
+	<!-- <logger name="jdbc.sqlonly" level="INFO"/> -->
+	<!-- log4jdbc专用logger：输出执行的sql及其消耗的时间 -->
+	<logger name="jdbc.sqltiming" level="INFO" />
+	
+
+	<root level="warn">
+		<appender-ref ref="console"/>
+		<!-- 生产环境取消下行注释
+		<appender-ref ref="rollingFile" level="error"/>
+		-->
+	</root>
+</included>

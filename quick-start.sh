@@ -12,10 +12,10 @@ mvn clean install -DskipTests
 
 echo "[Step 2] Start rbac projects."
 echo "[INFO] Please wait a moment then access below demo sites:"
-echo "[INFO] http://localhost:8080/rbac-service"
+echo "[INFO] http://localhost:8080/rbac-rest-service"
 
-cd rbac-service
-mvn clean jetty:run -Dspring.profiles.active=dev2 -DskipTests
+cd rbac-rest-service
+mvn clean jetty:run -Dspring.profiles.active=test -DskipTests
 cd ..
 
 

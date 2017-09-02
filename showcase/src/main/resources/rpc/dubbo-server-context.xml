@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://code.alibabatech.com/schema/dubbo    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+  <bean id="helloService" class="org.lanqiao.showcase.rpc.dubbo.HelloServiceImpl"/>
+
+  <dubbo:application name="hello-dubbo"/>
+  <dubbo:registry address="multicast://224.5.6.7:1234"/>
+  <dubbo:service interface="org.lanqiao.showcase.rpc.dubbo.HelloService" ref="helloService" executes="10"/>
+
+</beans>

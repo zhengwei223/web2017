@@ -7,12 +7,12 @@ set MAVEN_OPTS=%MAVEN_OPTS% -XX:MaxPermSize=128m
 
 echo [Step 1] Install all  modules  to local maven repository.
 
-call %MVN% clean install
+call %MVN% clean install -DskipTests
 if errorlevel 1 goto error
 
 echo [Step 2] start rbac project.
-cd rbac-service
-call %MVN% jetty:run
+cd rbac-rest-service
+call %MVN% jetty:run -DskipTests -Dspring.profiles.active=functional
 if errorlevel 1 goto error
 cd ..\..
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="rollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/logs/rbac-rest-service.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/tmp/logs/rbac-rest-service.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- project default level -->
+	<logger name="org.lanqiao" level="debug" />
+
+	<root level="warn">
+		<appender-ref ref="console"/>
+		<!-- 生产环境取消下行注释 -->
+		<appender-ref ref="rollingFile" level="error"/>
+	</root>
+</included>

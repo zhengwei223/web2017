@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE generatorConfiguration PUBLIC
     "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-<!-- 配置生成器 -->
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
 <generatorConfiguration>
   <properties resource="application-dev1.properties"/>
 
@@ -13,7 +12,8 @@
     <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
     <property name="beginningDelimiter" value="${db.obj.Delimiter}"/>
     <property name="endingDelimiter" value="${db.obj.Delimiter}"/>
-
+    <!-- mergeable 为true时，可合并，为false，重新生成的时采用覆盖-->
+    <property name="mergeable" value="false"></property>
     <!--通用mapper的插件-->
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
       <property name="mappers" value="${mappers}"/>

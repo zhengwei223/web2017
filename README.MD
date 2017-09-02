@@ -1,12 +1,12 @@
 # java web技术的研究
 
-## ssm单表增删改查
+## ssm单表增删改查+普通模板技术
 
-见ssm-xml-crud
+见 [ssm-xml-crud](./ssm-xml-crud/README.MD)
 
 ## ssm restful service
 
-传统的基于xml和注解配置的示例项目在[rbac-service](./rbac-service/README.MD)
+传统的基于xml和注解配置的示例项目在[rbac-rest-service](./rbac-rest-service/README.MD)
 
 这个项目传统而经典，是基于角色的权限管理；
 
@@ -17,22 +17,36 @@
 集成了通用化Mapper，使用了`HikariDataSource`连接池；
 集成了FastJson；
 
-## spring boot
+## ssm restful client
+
+restTemplate调用rest服务，构建web界面
+
+## spring boot&cloud 
+
+见 [spring-boot-cloud-seed](./spring-boot-cloud-seed/README.MD)
 
 
-## redis
+## commons 工具包
 
-## dubbo
 
-## zookeeper
+## showcase 各种使用案例汇集在这里
 
-## MQ
+如：
+- 缓存
+  - EhCache
+  - GuavaCache
+- nosql
+  - redis
+  - MongoDB
+- rpc
+  - dubbo
+  - cxf
+- search
+  - lucene
+  - solr
+  
+等等
 
-## mycat
-
-## sso单点登录
-
-## spring cloud 微服务
 
 ## 技术选型参考文档汇总
 
