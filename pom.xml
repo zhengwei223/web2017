@@ -31,10 +31,11 @@
   </licenses>
   <modules>
     <module>rbac-service</module>
-    <module>sso-service</module>
     <module>http-rest-demo</module>
     <module>commons</module>
     <module>showcase</module>
+    <module>rbac-api</module>
+    <module>rbac-web</module>
     <!--<module>ssm-xml-crud</module>-->
   </modules>
 

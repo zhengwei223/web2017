@@ -7,9 +7,9 @@
     <groupId>org.lanqiao</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>sso-service</artifactId>
-  <packaging>jar</packaging>
+
+  <artifactId>rbac-web</artifactId>
+
 
 </project>
