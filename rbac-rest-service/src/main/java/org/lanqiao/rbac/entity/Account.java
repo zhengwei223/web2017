@@ -186,4 +186,20 @@ public class Account {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+            "id=" + id +
+            ", userProfileId=" + userProfileId +
+            ", account='" + account + '\'' +
+            ", password='" + password + '\'' +
+            ", type=" + type +
+            ", loginTime=" + loginTime +
+            ", lastLoginTime=" + lastLoginTime +
+            ", gmtCreate=" + gmtCreate +
+            ", gmtModified=" + gmtModified +
+            ", token='" + token + '\'' +
+            '}';
+    }
 }

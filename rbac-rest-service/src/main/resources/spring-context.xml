@@ -135,18 +135,16 @@
     <context:property-placeholder ignore-resource-not-found="true"
                                   location="classpath*:/application.properties,
           			  classpath*:/application-development.properties"/>
-
-    <!-- Hikari JDBC连接池 -->
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-      <property name="driverClassName" value="${jdbc.driver}"/>
-      <property name="jdbcUrl" value="${jdbc.url}"/>
-      <property name="username" value="${jdbc.username}"/>
-      <property name="password" value="${jdbc.password}"/>
-      <property name="autoCommit" value="false"/>
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
     </bean>
-
+    <!--ignore-failures="ALL"-->
     <!-- 初始化数据表结构，开发环境只需初始化一次即可
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+    <jdbc:initialize-database data-source="dataSource" >
       <jdbc:script location="classpath:sql/${db.type}/schema.sql" />
       <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
     </jdbc:initialize-database>
@@ -159,13 +157,12 @@
     <context:property-placeholder ignore-resource-not-found="true"
                                   location="classpath*:/application.properties,
           			  classpath*:/application-functional.properties"/>
-
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-      <property name="driverClassName" value="${jdbc.driver}"/>
-      <property name="jdbcUrl" value="${jdbc.url}"/>
-      <property name="username" value="${jdbc.username}"/>
-      <property name="password" value="${jdbc.password}"/>
-      <property name="autoCommit" value="false"/>
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
     </bean>
 
     <jdbc:initialize-database data-source="dataSource" >
