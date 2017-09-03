@@ -2,16 +2,15 @@ package org.lanqiao.myBatis.service;
 
 import org.junit.Test;
 import org.lanqiao.myBatis.entity.UserProfile;
+import org.lanqiao.spring.service.UserProfileServiceBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class UserProfileServiceBeanTest {
 
-  ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+  ApplicationContext context = new ClassPathXmlApplicationContext( "spring-beans.xml" );
 
   @Test
   public void findAll() throws Exception {

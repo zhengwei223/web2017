@@ -235,16 +235,17 @@
 
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-jsp-2.1</artifactId>
-      <version>${jetty.jsp.version}</version>
+      <artifactId>jetty-jsp</artifactId>
+      <version>${jetty.version}</version>
       <scope>provided</scope>
     </dependency>
+<!--
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
       <version>${servlet-api.version}</version>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
 
 
 

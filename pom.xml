@@ -34,6 +34,7 @@
     <module>spring-boot-cloud-seed</module>
     <module>commons</module>
     <module>showcase</module>
+    <module>ssm-xml-crud</module>
     <!--<module>ssm-xml-crud</module>-->
   </modules>
 
@@ -94,9 +95,8 @@
     <h2.version>1.4.180</h2.version>
     <!--web container && template like jsp or freemarker-->
     <jetty.version>8.1.16.v20140903</jetty.version>
-    <jetty.jsp.version>7.5.4.v20111024</jetty.jsp.version>
-    <servlet-api.version>2.5</servlet-api.version>
-    <jsp-api.version>2.1</jsp-api.version>
+    <servlet-api.version>3.1.0</servlet-api.version>
+    <jsp-api.version>2.3.1</jsp-api.version>
     <jstl.version>1.2</jstl.version>
     <freemarker.version>2.3.23</freemarker.version>
     <!--security-->

@@ -68,29 +68,33 @@
 
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-jsp-2.1</artifactId>
-      <version>${jetty.jsp.version}</version>
+      <artifactId>jetty-jsp</artifactId>
+      <version>${jetty.version}</version>
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
+  <!--  <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
       <version>${servlet-api.version}</version>
       <scope>provided</scope>
     </dependency>
 
+
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
+      <artifactId>javax.servlet.jsp-api</artifactId>
       <version>${jsp-api.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    -->
     <dependency>
-      <groupId>javax.servlet</groupId>
+      <groupId>javax.servlet.jsp.jstl</groupId>
       <artifactId>jstl</artifactId>
       <version>${jstl.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker-gae</artifactId>

@@ -4,7 +4,7 @@ package org.lanqiao.ssmcrud.generator;
 import org.junit.Test;
 import org.web2017.ssm.generator.CodeGenerator;
 
-public class CodeGeneratorTest {
+public class CodeGeneratorClient {
   CodeGenerator codeGenerator = new CodeGenerator( "/application-dev.properties", "generatorConfig.xml" );
 
   @Test
