@@ -15,7 +15,7 @@ echo "[INFO] Please wait a moment then access below demo sites:"
 echo "[INFO] http://localhost:8080/rbac-rest-service"
 
 cd rbac-rest-service
-mvn clean jetty:run -Dspring.profiles.active=test -DskipTests
+mvn clean jetty:run -Dspring.profiles.active=functional -DskipTests
 cd ..
 
 

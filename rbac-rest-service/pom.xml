@@ -23,6 +23,7 @@
       <artifactId>commons</artifactId>
       <type>test-jar</type>
       <version>1.0-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -338,9 +339,9 @@
   <plugins>
       <!--jetty插件-->
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty.version}</version>
+        <version>${jetty-plugin.version}</version>
         <configuration>
           <scanIntervalSeconds>2</scanIntervalSeconds>
           <reload>manual</reload>

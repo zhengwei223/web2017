@@ -64,6 +64,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <jetty-plugin.version>9.3.0.M2</jetty-plugin.version>
     <!--test-->
     <junit.version>4.12</junit.version>
     <powermock.version>1.6.0</powermock.version>
