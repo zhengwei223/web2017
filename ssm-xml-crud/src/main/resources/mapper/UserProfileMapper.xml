@@ -78,12 +78,19 @@
   </select>
 
   <select id="selectAllWithRoleName" resultMap="UserWithRoleResultMap">
-    SELECT
+    <include refid="selectUserWithRole"/>
+  </select>
+  <select id="selectUserWithRoleByUserId" parameterType="int" resultMap="UserWithRoleResultMap">
+    <include refid="selectUserWithRole"/>
+    WHERE a.id=#{id}
+  </select>
+  <sql id="selectUserWithRole">
+      SELECT
       a.*,
       c.id AS role_id,
       c.name AS role_name
-    FROM rbac_user_profile a LEFT JOIN rbac_user_role b ON a.id = b.user_id
+    FROM rbac_user_profile a
+      LEFT JOIN rbac_user_role b ON a.id = b.user_id
       LEFT JOIN rbac_role c ON b.role_id = c.id
-  </select>
-
+</sql>
 </mapper>

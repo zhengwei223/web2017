@@ -16,11 +16,17 @@ public class UserWithRole extends UserProfile {
     this.roles = roles;
   }
 
-  @Override
-  public String toString() {
-    return super.toString()+
-        "{" +
-        "role=" + roles.toString()+
-        '}';
+  public String getRoleNames() {
+    StringBuilder sb = new StringBuilder();
+    for (Role role : getRoles()) {
+      sb.append(role.getName() + ",");
+    }
+    if (sb.length() > 0)
+      sb.deleteCharAt(sb.length() - 1);
+    return sb.toString();
+  }
+
+  public String getGenderString() {
+    return getGender() ? "男" : "女";
   }
 }

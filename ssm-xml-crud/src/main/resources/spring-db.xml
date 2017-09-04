@@ -18,16 +18,7 @@
 		   http://www.springframework.org/schema/tx/spring-tx.xsd"
        default-lazy-init="true">
 
-  <!--加载location指定的属性文件，这样在xml的其他地方可以用${属性名}的方式来获得属性文件中的值-->
-  <context:property-placeholder location="classpath*:jdbc.properties"/>
 
-  <!-- Spring Simple连接池 -->
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-    <property name="driverClass" value="${jdbc.driver}" />
-    <property name="url" value="${jdbc.url}" />
-    <property name="username" value="${jdbc.username}" />
-    <property name="password" value="${jdbc.password}" />
-  </bean>
   <!--mybatis 的核心配置转移到这里来-->
   <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
     <property name="dataSource" ref="dataSource"/>
@@ -61,8 +52,31 @@
     <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
   </bean>
 
-<!--  <bean id="userProfileService" class="org.lanqiao.spring.service.UserProfileServiceBean">
-    <property name="userProfileMapper" ref="userProfileMapper" />
-  </bean>-->
+  <beans profile="development">
+    <context:property-placeholder location="classpath:application-dev.properties"/>
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
+    </bean>
+    <jdbc:initialize-database enabled="${jdbc.db.initial}">
+      <jdbc:script location="classpath:sql/h2/schema.sql"/>
+      <jdbc:script location="classpath:data/h2/rbac_data.sql"/>
+    </jdbc:initialize-database>
+  </beans>
+  <beans profile="production">
+    <!--加载location指定的属性文件，这样在xml的其他地方可以用${属性名}的方式来获得属性文件中的值-->
+    <context:property-placeholder location="classpath*:application.properties"/>
+
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
+    </bean>
+  </beans>
 
 </beans>

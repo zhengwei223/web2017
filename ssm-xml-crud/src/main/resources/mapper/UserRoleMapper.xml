@@ -20,6 +20,10 @@
     delete from rbac_user_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByUserId" parameterType="int">
+    delete from rbac_user_role
+    where user_id=#{id}
+  </delete>
   <insert id="insert" parameterType="org.lanqiao.myBatis.entity.UserRole">
     <!--
       WARNING - @mbg.generated

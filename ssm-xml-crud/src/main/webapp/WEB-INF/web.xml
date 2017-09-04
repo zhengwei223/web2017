@@ -44,6 +44,15 @@
     <filter-name>encoding</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- SiteMesh Web-Page Layout filter-->
+  <filter>
+    <filter-name>sitemeshFilter</filter-name>
+    <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>sitemeshFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>
