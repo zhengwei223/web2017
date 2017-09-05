@@ -47,7 +47,8 @@ public class ShiroRestRealm extends AuthorizingRealm {
     if (token instanceof UsernamePasswordToken) {
       UsernamePasswordToken upToken = (UsernamePasswordToken) token;
       String account = upToken.getUsername();
-      authInfo = new SimpleAuthenticationInfo(account, accountService.findPasswd(account), getName());
+      final String passwd = accountService.findPasswd(account);
+      authInfo = new SimpleAuthenticationInfo(account, passwd, getName());
     }else if (token instanceof UserIDToken){
       UserIDToken userIDToken= (UserIDToken) token;
       authInfo=new SimpleAuthenticationInfo(userIDToken.getUserId(),userIDToken.getUserId(),getName());

@@ -15,7 +15,7 @@ public class MD5Util {
   }
 
   public static void main(String[] args) {
-    String md5 = md5("pageNumber=1&pageSize=108e90d411a162423289d764d14f0351fa") ;
+    String md5 = md5("admin","rbac") ;
     System.out.println(md5);
   }
 }
