@@ -10,15 +10,15 @@ echo [Step 1] Install all  modules  to local maven repository.
 call %MVN% clean install -DskipTests
 if errorlevel 1 goto error
 
-echo [Step 2] start rbac project.
+echo [Step 2] start rbac-service.
+echo [INFO] Please wait a moment. When you see "[INFO] Started Jetty Server" in  popup console, you can access below demo sites:
+echo [INFO] http://localhost:8080/rbac-rest-service
+
 cd rbac-rest-service
 call %MVN% jetty:run -DskipTests -Dspring.profiles.active=functional
 if errorlevel 1 goto error
-cd ..\..
+cd ../..
 
-
-echo [INFO] Please wait a moment. When you see "[INFO] Started Jetty Server" in  popup console, you can access below demo sites:
-echo [INFO] http://localhost:8080
 
 goto end
 :error

@@ -10,7 +10,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>http-rest-demo</artifactId>
+  <artifactId>spring-boot-cloud-seed</artifactId>
 
   <dependencies>
     <!--starter系列-->

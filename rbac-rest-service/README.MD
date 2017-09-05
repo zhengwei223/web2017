@@ -1,9 +1,13 @@
-# 传统ssm配置+rest风格，项目种子
+# ssm配置+rest风格+json数据交换，项目种子
+
+相对传统模板技术，它可以适应多客户端如手机端
 
 ## 目录结构
 
 api包：rest风格的Controller
 
+  所有Controller直接标注为RestController=Controller+ResponseBody
+  
 aspect：aop切面逻辑
 
 base包：一些通用的基础类，他们是Mapper的基类，Service接口和Service抽象基类
@@ -33,6 +37,12 @@ resources：配置文件；
 6. 将生成的代码拷贝至项目对应目录中
 7. 编写单元测试类，测试你的Service或Mapper，也可以启动web server访问一个API试试能否得到数据列表（json）
 
+项目的外部依赖，我们依赖了commons模块，见pom.xml，要正式部署当前项目需要到commons目录下去执行
+    
+    mvn install  # 打包commons为jar包并安装到mvn仓库
+    
+也可以写一个脚本来完成mvn的打包、发布和启动jetty等任务，见rbac-service-quick-start.sh
+
 至此项目骨架完成
 
 ### 正式开发后不要反复生成代码
@@ -59,7 +69,7 @@ resources：配置文件；
 
 Java+config形式的代码生成器：`org.web2017.ssm.generator.CodeGenerator`；
 
-调用方法见`org.lanqiao.rbac.generator.CodeGeneratorClient`，有两种选择：生成Mapper的xml文件和Java接口，或者生成Service和Controller
+调用方法见test目录下：`org.lanqiao.rbac.generator.CodeGeneratorClient`，有两种选择：生成Mapper的xml文件和Java接口，或者生成Service和Controller
 
 genServiceAndController，参数要给模板所在路径的绝对位置，在rbac-rest-service和commons模块下都有示例文件，你可以拷贝到任何位置，在生成代码的时候把绝对路径给进去即可
 

@@ -1,5 +1,6 @@
 package org.lanqiao.myBatis.service;
 
+import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.lanqiao.myBatis.MyBatisHelper;
@@ -9,6 +10,9 @@ import org.lanqiao.myBatis.repository.UserProfileMapper;
 
 import java.util.List;
 
+/**
+ * 未集成spring之前，需要在代码中用SqlSession来获得Mapper实例
+ */
 public class UserProfileService {
   private static final String NAMESPACE ="org.lanqiao.myBatis.repository.UserProfileMapper" ;
 
@@ -17,10 +21,12 @@ public class UserProfileService {
     UserProfileMapper userProfileMapper = session.getMapper( UserProfileMapper.class );
     return userProfileMapper.selectAll();
   }
-  public List<UserProfile> findAllPaging(int offset, int limit) {
+  public List<UserProfile> findAllPaging(int page, int size) {
     SqlSession session = MyBatisHelper.getSession();
     UserProfileMapper userProfileMapper = session.getMapper( UserProfileMapper.class );
-    return userProfileMapper.selectAll(new RowBounds(offset,limit ));
+    return PageHelper.startPage( page,size ).doSelectPage( ()->{
+      userProfileMapper.selectAll();
+    } );
   }
   public List<UserWithRole> findAllWithRoleName() {
     SqlSession session = MyBatisHelper.getSession();

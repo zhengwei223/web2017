@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+		   http://www.springframework.org/schema/aop
+		   http://www.springframework.org/schema/aop/spring-aop.xsd
+		   http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd
+		   http://www.springframework.org/schema/jdbc
+		   http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		   http://www.springframework.org/schema/tx
+		   http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-lazy-init="true">
+
+
+  <!--mybatis 的核心配置转移到这里来-->
+  <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="typeAliasesPackage" value="org.lanqiao.myBatis.entity"/>
+    <!--通配符的方式告知mapper映射文件的位置-->
+    <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    <property name="plugins">
+      <array>
+        <!--用于分页的拦截器-->
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <!--使用下面的方式配置参数，一行配置一个 ，详情见https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md-->
+            <value>
+              reasonable=true
+              supportMethodsArguments=true
+              returnPageInfo=true
+            </value>
+          </property>
+        </bean>
+      </array>
+
+    </property>
+  </bean>
+
+  <!--用扫描包的方式快捷地将所有Mapper接口注册为spring的bean-->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!--mapper接口所在包名-->
+    <property name="basePackage" value="org.lanqiao.myBatis.repository"/>
+    <!--接口标识-->
+    <property name="markerInterface" value="org.lanqiao.myBatis.repository.BaseMapper"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+  </bean>
+
+  <beans profile="development">
+    <context:property-placeholder location="classpath:application-dev.properties"/>
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
+    </bean>
+    <jdbc:initialize-database enabled="${jdbc.db.initial}">
+      <jdbc:script location="classpath:sql/h2/schema.sql"/>
+      <jdbc:script location="classpath:data/h2/rbac_data.sql"/>
+    </jdbc:initialize-database>
+  </beans>
+  <beans profile="production">
+    <!--加载location指定的属性文件，这样在xml的其他地方可以用${属性名}的方式来获得属性文件中的值-->
+    <context:property-placeholder location="classpath*:application.properties"/>
+
+    <!-- Spring Simple连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+      <property name="driverClass" value="${jdbc.driver}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.username}" />
+      <property name="password" value="${jdbc.password}" />
+    </bean>
+  </beans>
+
+</beans>
