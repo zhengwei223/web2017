@@ -7,19 +7,16 @@ import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
-@Configuration
-@EnableSwagger
+//@ImportResource("classpath:spring-context.xml")
+//@Configuration
+//@EnableSwagger
 public class SwaggerConfig {
-
   private SpringSwaggerConfig springSwaggerConfig;
 
-  /**
-   * Required to autowire SpringSwaggerConfig
-   */
   @Autowired
-  public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig)
-  {
+  public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
     this.springSwaggerConfig = springSwaggerConfig;
   }
 
@@ -29,20 +26,18 @@ public class SwaggerConfig {
    * multiple swagger resource listings.
    */
   @Bean
-  public SwaggerSpringMvcPlugin customImplementation()
-  {
-    return new SwaggerSpringMvcPlugin(this.springSwaggerConfig)
+  public SwaggerSpringMvcPlugin customImplementation() {
+    return new SwaggerSpringMvcPlugin(springSwaggerConfig)
         .apiInfo(apiInfo())
         .includePatterns(".*?");
   }
 
-  private ApiInfo apiInfo()
-  {
+  private ApiInfo apiInfo() {
     ApiInfo apiInfo = new ApiInfo(
-        "My Apps API Title",
-        "My Apps API Description",
+        "用户与权限管理中心",
+        "REST API",
         "My Apps API terms of service",
-        "My Apps API Contact Email",
+        "zhengwei@lanqiao.org",
         "My Apps API Licence Type",
         "My Apps API License URL");
     return apiInfo;

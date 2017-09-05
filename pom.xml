@@ -35,7 +35,6 @@
     <module>commons</module>
     <module>showcase</module>
     <module>ssm-xml-crud</module>
-    <module>codegendemo</module>
     <!--<module>ssm-xml-crud</module>-->
   </modules>
 

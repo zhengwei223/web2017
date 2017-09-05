@@ -1,6 +1,7 @@
 package org.lanqiao.rbac.api;
 
 import com.github.pagehelper.PageInfo;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -60,6 +61,7 @@ public class AccountAPI {
   }
 
   @RequestMapping("/login")
+  @ApiOperation(value = "登录验证", /*httpMethod = "GET",*/ response = Result.class, notes = "登录验证")
   public Result login(Account account) {
     if (null == account.getAccount()) {
       return ResultGenerator.genFailResult("请登录");

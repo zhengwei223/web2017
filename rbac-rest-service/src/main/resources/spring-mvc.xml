@@ -39,25 +39,30 @@
       </bean>
       <!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
       <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-          <property name="defaultCharset" value="utf-8"/>
+        <property name="defaultCharset" value="utf-8"/>
       </bean>
     </mvc:message-converters>
 
   </mvc:annotation-driven>
 
+<!--  <bean id="springSwaggerConfig" class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
+  <bean class="com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin">
+    <constructor-arg name="springSwaggerConfig" ref="springSwaggerConfig"/>
+  </bean>-->
 
   <!--注解风格的beans，是如何和xml beans混搭的呢，看这里-->
   <!--<bean class="org.lanqiao.rbac.config.WebMvcConfig" />-->
 
   <!--<mvc:interceptors>-->
-    <!--<ref bean="signCheckInterceptor"/> &lt;!&ndash;此bean来自注解@Configuration+WebMvcConfig&ndash;&gt;-->
+  <!--<ref bean="signCheckInterceptor"/> &lt;!&ndash;此bean来自注解@Configuration+WebMvcConfig&ndash;&gt;-->
   <!--</mvc:interceptors>-->
-
 
 
   <!--统一的rest风格的异常处理，发生异常后，封装为json格式返回-->
   <bean class="org.web2017.web.rest.RestHandlerExceptionResolver"/>
 
+
   <!-- 静态资源，无需过控制器 -->
   <mvc:resources mapping="/static/**" location="/static/"/>
+  <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/"/>
 </beans>

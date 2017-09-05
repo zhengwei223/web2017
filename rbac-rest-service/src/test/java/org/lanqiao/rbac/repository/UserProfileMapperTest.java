@@ -15,17 +15,17 @@ public class UserProfileMapperTest extends BaseUnitTester {
 
   @Test
   public void testSelectAll() {
-    Assertions.assertThat( userProfileMapper.selectAll().size() > 0 ).isTrue();
+    Assertions.assertThat(userProfileMapper.selectAll().size() > 0).isTrue();
   }
 
   @Test
   public void testSelectByPage() {
-    PageInfo<UserProfile> info = PageHelper.startPage( 1, 10 ).doSelectPageInfo( new ISelect() {
+    PageInfo<UserProfile> info = PageHelper.startPage(1, 10).doSelectPageInfo(new ISelect() {
       @Override
       public void doSelect() {
         userProfileMapper.selectAll();
       }
-    } );
+    });
 
     System.out.println(info);
   }
