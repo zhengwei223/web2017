@@ -53,6 +53,8 @@
     <!--<ref bean="signCheckInterceptor"/> &lt;!&ndash;此bean来自注解@Configuration+WebMvcConfig&ndash;&gt;-->
   <!--</mvc:interceptors>-->
 
+
+
   <!--统一的rest风格的异常处理，发生异常后，封装为json格式返回-->
   <bean class="org.web2017.web.rest.RestHandlerExceptionResolver"/>
 
