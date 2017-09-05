@@ -66,12 +66,12 @@ public class LogbackListAppenderTest {
 
     // name
     appender.clearLogs();
-    appender.addToLogger("org.springside.modules.test.log");
+    appender.addToLogger("org.web2017.test");
     logger.warn(testString);
     assertThat(appender.getFirstLog()).isNotNull();
 
     appender.clearLogs();
-    appender.removeFromLogger("org.springside.modules.test.log");
+    appender.removeFromLogger("org.web2017.test");
     logger.warn(testString);
     assertThat(appender.getFirstLog()).isNull();
   }
