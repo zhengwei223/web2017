@@ -1,10 +1,12 @@
 package org.lanqiao.rbac.base;
 
+import org.lanqiao.rbac.entity.Menu;
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.special.InsertListMapper;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,4 +20,5 @@ public interface Mapper<T>
     InsertListMapper<T> {
 
 
+  List<Menu> selectByPid(Integer pid);
 }

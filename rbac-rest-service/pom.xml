@@ -364,6 +364,7 @@
           <reload>manual</reload>
           <systemProperties>
             <systemProperty>
+              <!--此处指定spring的profile-->
               <name>spring.profiles.active</name>
               <value>functional</value>
             </systemProperty>

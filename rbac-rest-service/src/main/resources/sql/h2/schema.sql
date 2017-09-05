@@ -36,8 +36,8 @@ CREATE TABLE `rbac_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `rbac_menu`;
 CREATE TABLE `rbac_menu` (
-  `id`           INT(8)        NOT NULL AUTO_INCREMENT,
-  `title`        VARCHAR(200)  NOT NULL,
+  `id`           INT(8)        NOT NULL AUTO_INCREMENT ,
+  `title`        VARCHAR(200)  NOT NULL ,
   `pid`          INT(8)        NOT NULL,
   `url`          VARCHAR(1000) NOT NULL,
   `state`        TINYINT(1)    NOT NULL,

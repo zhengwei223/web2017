@@ -15,4 +15,9 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
   </resultMap>
+
+  <select id="selectByPid" resultMap="BaseResultMap" parameterType="int">
+    select * from rbac_menu
+    where pid=#{pid}
+  </select>
 </mapper>

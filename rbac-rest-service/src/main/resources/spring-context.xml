@@ -51,7 +51,8 @@
     </property>
   </bean>
 
-  <!-- 扫描basePackage下所有mappers指定标识的接口-->
+  <!-- 扫描basePackage下所有mappers指定标识的接口
+  这里要使用通用Mapper的扫描器-->
   <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="org.lanqiao.rbac.repository"/>
     <property name="properties">
@@ -143,12 +144,11 @@
       <property name="password" value="${jdbc.password}" />
     </bean>
     <!--ignore-failures="ALL"-->
-    <!-- 初始化数据表结构，开发环境只需初始化一次即可
+    <!-- 初始化数据表结构，开发环境只需初始化一次即可-->
     <jdbc:initialize-database data-source="dataSource" >
       <jdbc:script location="classpath:sql/${db.type}/schema.sql" />
       <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
     </jdbc:initialize-database>
-    -->
 
   </beans>
 
