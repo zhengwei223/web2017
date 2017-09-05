@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE generatorConfiguration PUBLIC
     "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
     "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"> <!-- 配置生成器 -->
+<!--典型的MyBatis代码生成器配置-->
 <generatorConfiguration>
+  <!--依赖的属性文件-->
   <properties resource="application-development.properties"/>
 
   <context id="rbac" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
@@ -37,7 +39,7 @@
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>
 
-    <!--配合CodeGenerator的专用写法，带*的会认为tableName是前缀-->
+    <!--mbg支持%作为通配符，但是生成的Domain类名不会考虑表的前缀等问题-->
     <table tableName="%"  >
       <!--主键生成方式-->
       <generatedKey column="id" sqlStatement="Mysql" identity="true"/>

@@ -213,7 +213,7 @@ public class CodeGenerator {
           LOGGER.debug( domainName + (need_rest ? "API" : "Controller") + ".java 生成成功" );
         }
       } catch (Exception e) {
-        throw new RuntimeException( e );
+        Exceptions.unchecked( e );
       }
     }
   }

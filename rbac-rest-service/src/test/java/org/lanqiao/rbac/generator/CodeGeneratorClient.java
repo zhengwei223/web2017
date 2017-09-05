@@ -22,7 +22,7 @@ public class CodeGeneratorClient {
   public static void main(String[] args) {
     final CodeGeneratorClient client = new CodeGeneratorClient();
     client.generateMapper();
-    client.generateServiceAndController();
+    //client.generateServiceAndController();
   }
 
 }
