@@ -87,22 +87,22 @@ public class CodeGenerator {
     try {
       props.load( resource.getInputStream() );
       AUTHOR = props.getProperty( "gen.author" );
-      CONTEXTID = props.getProperty( "gen.context.id" );
-      PROJECT_PATH = props.getProperty( "project.path" );
+      CONTEXTID = props.getProperty( "gen.context.id" ).trim();
+      PROJECT_PATH = props.getProperty( "project.path" ).trim();
       File projPathFile = new File( PROJECT_PATH );
       if (projPathFile.exists() == false) {
         projPathFile.mkdirs();
       }
       //TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
-      BASE_PACKAGE = props.getProperty( "gen.basepackage" );
-      need_rest = Boolean.parseBoolean( props.getProperty( "rest" ) );
+      BASE_PACKAGE = props.getProperty( "gen.basepackage" ).trim();
+      need_rest = Boolean.parseBoolean( props.getProperty( "rest" ).trim() );
       CONTROLLER_FTL = "controller" + (need_rest ? "-restful" : "") + ".ftl"; // controller.ftl
-      JAVA_PATH = props.getProperty( "java.path" );
+      JAVA_PATH = props.getProperty( "java.path" ).trim();
       File javaPathFile = new File( PROJECT_PATH, JAVA_PATH );
       if (javaPathFile.exists() == false) {
         javaPathFile.mkdirs();
       }
-      RESOURCES_PATH = props.getProperty( "resources.path" );
+      RESOURCES_PATH = props.getProperty( "resources.path" ).trim();
       File resourcePathFile = new File( PROJECT_PATH, RESOURCES_PATH );
       if (resourcePathFile.exists() == false) {
         resourcePathFile.mkdirs();
@@ -115,10 +115,10 @@ public class CodeGenerator {
       else
         PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "/web/";//生成的Controller存放路径;
 
-      JDBC_DIVER_CLASS_NAME = props.getProperty( "jdbc.driver" );
-      JDBC_URL = props.getProperty( "jdbc.url" );
-      JDBC_USERNAME = props.getProperty( "jdbc.username" );
-      JDBC_PASSWORD = props.getProperty( "jdbc.password" );
+      JDBC_DIVER_CLASS_NAME = props.getProperty( "jdbc.driver" ).trim();
+      JDBC_URL = props.getProperty( "jdbc.url" ).trim();
+      JDBC_USERNAME = props.getProperty( "jdbc.username" ).trim();
+      JDBC_PASSWORD = props.getProperty( "jdbc.password" ).trim();
 
 
       ConfigurationParser cp = new ConfigurationParser( WARNINGS );
