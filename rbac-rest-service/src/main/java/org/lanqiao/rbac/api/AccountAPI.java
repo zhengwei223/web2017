@@ -1,7 +1,6 @@
 package org.lanqiao.rbac.api;
 
 import com.github.pagehelper.PageInfo;
-import com.wordnik.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -61,7 +60,7 @@ public class AccountAPI {
   }
 
   @RequestMapping("/login")
-  @ApiOperation(value = "登录验证", /*httpMethod = "GET",*/ response = Result.class, notes = "登录验证")
+  // @ApiOperation(value = "登录验证", /*httpMethod = "GET",*/ response = Result.class, notes = "登录验证")
   public Result login(Account account) {
     if (null == account.getAccount()) {
       return ResultGenerator.genFailResult("请登录");
@@ -69,8 +68,8 @@ public class AccountAPI {
       try {
         Map<String, Object> resultMap = new HashMap<>();
         String serverToken = check(account);
-        Integer userid=accountService.saveToken(account,serverToken);
-        resultMap.put("userid",userid);
+        Integer userid = accountService.saveToken(account, serverToken);
+        resultMap.put("userid", userid);
         resultMap.put("token", serverToken);
         return ResultGenerator.genSuccessResult(resultMap);
       } catch (AuthenticationException e) { // 失败
@@ -82,10 +81,10 @@ public class AccountAPI {
   private String check(Account account) {
     final String password = account.getPassword(); // 明文密码
     /*数据库中存储的是md5+盐加密后的密码，因此这里要把加密后的密码传入*/
-    final String md5Password = MD5Util.md5(password,SysConst.SALT);
+    final String md5Password = MD5Util.md5(password, SysConst.SALT);
     AuthenticationToken token = new UsernamePasswordToken(account.getAccount(), md5Password);
     Subject currentSubject = SecurityUtils.getSubject();
-    currentSubject.login(token );
+    currentSubject.login(token);
     String serverToken = UUID.randomUUID().toString().replaceAll("-", "");
     return serverToken;
   }
@@ -93,6 +92,6 @@ public class AccountAPI {
   @RequestMapping("/unauthorized")
   @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
   public Result unauthorized() {
-    return  ResultGenerator.genFailResult("权限不足");
+    return ResultGenerator.genFailResult("权限不足");
   }
 }

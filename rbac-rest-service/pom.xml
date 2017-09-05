@@ -339,27 +339,16 @@
 
 
     <!-- swagger-springmvc dependencies begin-->
-    <dependency>
-      <groupId>com.mangofactory</groupId>
-      <artifactId>swagger-springmvc</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-    <!--jackson依赖-->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.4.2</version>
+    <!--<dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${swagger2.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.mangofactory</groupId>
-      <artifactId>swagger-models</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-annotations</artifactId>
-      <version>1.3.11</version>
-    </dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${swagger2.version}</version>
+    </dependency>-->
     <!-- swagger-springmvc dependencies end-->
   </dependencies>
 

@@ -15,11 +15,6 @@
     <!-- mergeable 为true时，可合并，为false，重新生成的时采用覆盖-->
     <property name="mergeable" value="false"></property>
 
-    <!--通用mapper的插件-->
-    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-      <property name="mappers" value="${mappers}"/>
-    </plugin>
-
     <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
                     userId="${jdbc.username}" password="${jdbc.password}"/>
     <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
@@ -43,7 +38,7 @@
     </javaClientGenerator>
 
     <!--配合CodeGenerator的专用写法，带*的会认为tableName是前缀-->
-    <table tableName="rbac_*"  >
+    <table tableName="%"  >
       <!--主键生成方式-->
       <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
     </table>
