@@ -46,4 +46,8 @@ public class MenuAPI {
         PageInfo pageInfo = menuService.findAll(pageNumber,pageSize);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    @GetMapping("/p/{pid}") // /rbac/menu/1
+    public Result list(@PathVariable("pid") Integer pid){
+        return ResultGenerator.genSuccessResult(menuService.findByPid(pid));
+    }
 }
