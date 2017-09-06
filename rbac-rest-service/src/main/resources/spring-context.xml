@@ -145,10 +145,10 @@
     </bean>
     <!--ignore-failures="ALL"-->
     <!-- 初始化数据表结构，开发环境只需初始化一次即可，多次初始化也无所谓，只是每次单元测试的增删改在下次启动单元测试时被重置-->
-    <jdbc:initialize-database data-source="dataSource" >
+    <!--<jdbc:initialize-database data-source="dataSource" >
       <jdbc:script location="classpath:sql/${db.type}/schema.sql" />
       <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
-    </jdbc:initialize-database>
+    </jdbc:initialize-database>-->
 
   </beans>
 
