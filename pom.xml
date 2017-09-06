@@ -31,7 +31,7 @@
   </licenses>
   <modules>
     <module>rbac-rest-service</module>
-    <module>spring-boot-cloud-seed</module>
+    <!--<module>spring-boot-cloud-seed</module>-->
     <module>commons</module>
     <module>showcase</module>
     <module>ssm-xml-crud</module>

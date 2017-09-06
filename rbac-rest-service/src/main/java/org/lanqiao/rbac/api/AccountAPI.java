@@ -57,13 +57,14 @@ public class AccountAPI {
   }
 
   @GetMapping
+  @ApiOperation("分页展示账户信息")
   public Result list(Integer pageNumber, Integer pageSize) {
     PageInfo pageInfo = accountService.findAll(pageNumber, pageSize);
     return ResultGenerator.genSuccessResult(pageInfo);
   }
 
   @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
-  @ApiOperation(value = "登录验证", /*httpMethod = "GET",*/ response = Result.class, notes = "登录验证")
+  @ApiOperation(value = "登录验证", /*httpMethod = "GET",*/ /*response = Result.class,*/ notes = "登录验证")
   public Result login(Account account) {
     if (null == account.getAccount()) {
       return ResultGenerator.genFailResult("请登录");

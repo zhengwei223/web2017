@@ -32,10 +32,11 @@ import javax.servlet.Filter;
 import java.util.Map;
 
 @ImportResource("classpath:spring-context.xml")
-@Configuration
+@Configuration  // 可以认为这是spring配置的Java版
 public class ShiroConfig {
 
 
+  /*<bean id="shiroFilter" class="ShiroFilterFactoryBean" />*/
   @Bean
   @Autowired
   public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, StatelessAuthcFilter authcFilter) {
