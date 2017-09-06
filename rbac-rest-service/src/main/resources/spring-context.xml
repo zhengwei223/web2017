@@ -150,6 +150,7 @@
       <jdbc:script location="classpath:data/${db.type}/*.sql" encoding="UTF-8"/>
     </jdbc:initialize-database>
 
+<!--一些没有意义的注释-->
   </beans>
 
   <!-- 功能测试环境 -->
