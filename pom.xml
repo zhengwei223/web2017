@@ -120,6 +120,9 @@
     <lucene.version>6.0.1</lucene.version>
     <!--rpc-->
     <dubbo.version>2.5.3</dubbo.version>
+    <!--no sql-->
+    <jedis.version>2.6.1</jedis.version>
+    <nosqlunit.version>0.8.0</nosqlunit.version>
   </properties>
 
   <!--这些依赖自动被子模块继承-->
@@ -150,8 +153,8 @@
     <plugins>
       <!--boot打包插件-->
       <!--<plugin>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+      <!--<groupId>org.springframework.boot</groupId>-->
+      <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
       <!--</plugin>-->
 
       <plugin>
