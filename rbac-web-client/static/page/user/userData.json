@@ -1,0 +1,20 @@
+{
+  "code": 0,
+  "count": 2,
+  "data": [
+    {
+      "gender": "男",
+      "id": 1,
+      "nickName": "999",
+      "realName": "郑未"
+    },
+    {
+      "gender": "男",
+      "id": 2,
+      "nickName": "芦花荡",
+      "realName": "当路滑"
+    }
+  ],
+  "message": "SUCCESS",
+  "msg": "SUCCESS"
+}

@@ -1,5 +1,5 @@
 # java web技术的研究
-test2
+
 ## ssm单表增删改查+普通模板技术
 
 见 [ssm-xml-crud](./ssm-xml-crud/README.MD)

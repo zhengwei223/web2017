@@ -67,4 +67,9 @@
   <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
   <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
   <!--请访问http://{ip}:{port}/rbac-rest-service/swagger-ui.html-->
+
+  <mvc:cors>
+    <mvc:mapping path="/**" allowed-origins="*"/>
+
+  </mvc:cors>
 </beans>

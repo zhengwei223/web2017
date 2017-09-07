@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
  */
 public class Result {
     private int code;
-    private String message;
+    protected String message;
     private Object data;
 
     public Result setCode(ResultCode resultCode) {
