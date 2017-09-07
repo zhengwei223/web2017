@@ -1,6 +1,8 @@
 package org.lanqiao.rbac.entity;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+import org.web2017.fastjson.serializer.GenderSerializer;
 import tk.mybatis.mapper.entity.IDynamicTableName;
 
 import javax.persistence.*;
@@ -16,7 +18,7 @@ public class UserProfile /*implements IDynamicTableName*/{
 
     @Column(name = "real_name")
     private String realName;
-
+    @JSONField(serializeUsing = GenderSerializer.class)
     private Boolean gender;
 
     /**
