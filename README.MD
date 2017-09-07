@@ -11,15 +11,18 @@
 这个项目传统而经典，是基于角色的权限管理；
 
 该项目示范了SpringXML和注解混合配置的通行实践方式；
+
 示范了SSM整合开发的较佳实践方式（如profile，基础Mapper和Service简化开发）；
 
 在项目中集成了基于MBG的自定义代码生成策略；
+
 集成了通用化Mapper，使用了`HikariDataSource`连接池；
+
 集成了FastJson；
 
-## ssm restful client
+## ssm web client
 
-restTemplate调用rest服务，构建web界面
+前后端分离，主要使用layUI作为前端UI框架
 
 ## spring boot&cloud 
 

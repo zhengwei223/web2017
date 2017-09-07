@@ -36,12 +36,13 @@ resources：配置文件；
 5. 配置代码生成器，并调用代码生成器客户端代码来生成api/entity/service/repository/mapper五个文件夹
 6. 将生成的代码拷贝至项目对应目录中
 7. 编写单元测试类，测试你的Service或Mapper，也可以启动web server访问一个API试试能否得到数据列表（json）
+8. 还可以启动jetty之后访问 http://{ip}:{port}/{projName}/swagger-ui.html，来查看所有的requestMapping映射的接口情况
 
 项目的外部依赖，我们依赖了commons模块，见pom.xml，要正式部署当前项目需要到commons目录下去执行
     
     mvn install  # 打包commons为jar包并安装到mvn仓库
     
-也可以写一个脚本来完成mvn的打包、发布和启动jetty等任务，见rbac-service-quick-start.sh
+也可以写一个脚本来完成mvn的打包、发布和启动jetty等任务，见根目录rbac-service-quick-start.sh
 
 至此项目骨架完成
 
@@ -98,13 +99,28 @@ application-dev1.properties是一些参数，这些参数是路径、包名和jd
   注：api签名验证的org.lanqiao.rbac.config.WebMvcConfig已被废弃，不过可以作为showcase告诉大家怎么写拦截器，以及怎么基于Java来配置spring容器。
   关于权限以及签名验证已经被挪到shiro相关代码中。
 
+  可以关注org.lanqiao.rbac.config.SwaggerConfig，这是一个@Configuration配置的spring beans
+  
   
 ### 2. 关于rest的处理
 
 所有的Controller都是`@RestController`
 
+这样每个处理器方法都是@ResponseBody的，web访问将返回json数据
 
-#### 首先是handler的返回值
+这带来的问题是，客户端可能是一个单独的html项目，需要开启跨域访问，见`spring-mvc.xml`中
+
+    <mvc:cors>
+      <mvc:mapping path="/**" allowed-origins="*"/>
+    </mvc:cors>
+    
+另一个问题是：**rest访问，服务端不考虑session，那么怎么跟踪会话呢？**
+
+一个基本的考虑是，服务端校验后发送一个token字符串给客户端，客户端每次访问带上userid和token，这样服务器端可以用缓存或者redis来管理session
+
+接下来的问题是，[rest风格如何基于Shiro完成鉴权](./rest风格如何基于Shiro完成鉴权.md)
+
+#### handler的返回值
 
   封装了统一的handler返回值：`org.web2017.web.rest.Result`结果生成器`org.web2017.web.rest.ResultGenerator`，在Controller中只需如此调用：
   
@@ -113,6 +129,65 @@ application-dev1.properties是一些参数，这些参数是路径、包名和jd
         PageInfo pageInfo = userProfileService.findAll(pageNumber,pageSize);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    
+   注意这样json的格式是：
+   
+    {
+     "code": 200,
+     "data": {
+       "endRow": 2,
+       "firstPage": 1,
+       "hasNextPage": false,
+       "hasPreviousPage": false,
+       "isFirstPage": true,
+       "isLastPage": true,
+       "lastPage": 1,
+       "list": [
+         {
+           "account": "admin@163.com",
+           "gmtCreate": 1504096291000,
+           "gmtModified": 1504096294000,
+           "id": 1,
+           "lastLoginTime": 1469704048000,
+           "loginTime": 1469704045000,
+           "password": "014c4c2e97c244de8a66e149945a5a7c",
+           "token": "70c774a24261456a87b4d0283fe968ff",
+           "type": 1,
+           "userProfileId": 1
+         },
+         {
+           ...
+         }
+       ],
+       "navigateFirstPage": 1,
+       "navigateLastPage": 1,
+       "navigatePages": 8,
+       "navigatepageNums": [
+         1
+       ],
+       "nextPage": 0,
+       "pageNum": 1,
+       "pageSize": 10,
+       "pages": 1,
+       "prePage": 0,
+       "size": 2,
+       "startRow": 1,
+       "total": 2
+     },
+     "message": "SUCCESS"
+    }
+    
+  list数据集是嵌套在data中的，这可能和前端框架的表格的控件的异步数据接口要求的数据格式不一致，这种情况我们就要更精确地控制Result中的键值对。
+  
+  本项目的一个例子是`org.web2017.web.rest.ResultGenerator.genSuccessLayUIResult`，它生成的Result就是专门为layUI的表格控件定制的
+  
+  我们只需这样用，就能生成layUI需要的json格式：
+  
+      @GetMapping
+      public Result list(Integer page, Integer limit) {
+          PageInfo pageInfo = userProfileService.findAll(page,limit);
+          return ResultGenerator.genSuccessLayUIResult(pageInfo.getList(),pageInfo.getTotal());
+      }
 
 ####  然后是异常的处理
 
@@ -120,6 +195,10 @@ application-dev1.properties是一些参数，这些参数是路径、包名和jd
   我们需要后置处理所有内部异常，将其转换成json来进行响应。
    
   定义了内部异常转Http rest响应的逻辑，见`org.web2017.web.rest.RestHandlerExceptionResolver`。
+  
+  这要求我们在服务层，所有业务异常都必须包装为`ServiceException`来进行抛出。
+  
+  
   
 ### 3. 关于mybatis
 
@@ -131,9 +210,18 @@ mybatis我们使用了tk的通用Mapper，自定义了一个项目级的Mapper�
 
 因为有通用的Mapper和AbstractService的存在，完成单表的crud几乎不用写代码，程序员可关注于其他复杂的业务逻辑。
 
+通用Mapper的集成分以下几个步骤：
+
+1、导入maven依赖
+
+2、使用`tk.mybatis.spring.mapper.MapperScannerConfigurer`取代`org.mybatis.spring.mapper.MapperScannerConfigurer`，见spring-context.xml
+
+3、可以用`org.web2017.ssm.generator.CodeGenerator`生成符合通用Mapper规范的实体类和Mapper接口
+
+
 #### 分页插件
 
-集成了MyBatis分页插件，用法：org.lanqiao.rbac.base.AbstractService.findAll(java.lang.Integer, java.lang.Integer)
+集成了MyBatis分页插件，用法见：`org.lanqiao.rbac.base.AbstractService.findAll(java.lang.Integer, java.lang.Integer)`
 
       @Override
       public PageInfo findAll(Integer pageNumber, Integer pageSize) {
@@ -148,7 +236,22 @@ mybatis我们使用了tk的通用Mapper，自定义了一个项目级的Mapper�
   
 更多信息请看[Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
   
-注意看context.xml中org.mybatis.spring.SqlSessionFactoryBean的plugins配置。
+注意看`context.xml`中`org.mybatis.spring.SqlSessionFactoryBean`的plugins配置：
+
+    <property name="plugins">
+      <array>
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <!--使用下面的方式配置参数，一行配置一个 ，详情见https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md-->
+            <value>
+              reasonable=true
+              supportMethodsArguments=true
+              returnPageInfo=true
+            </value>
+          </property>
+        </bean>
+      </array>
+    </property>
 
 ### 4. 多数据源
 
@@ -165,12 +268,12 @@ mybatis我们使用了tk的通用Mapper，自定义了一个项目级的Mapper�
       ...
     </bean>
 
-然后是继承org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource实现一个自己的动态数据源切换，
-见org.web2017.multiDataSources.DynamicDataSource
+然后是继承`org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource`实现一个自己的动态数据源切换，
+见`org.web2017.multiDataSources.DynamicDataSource`
 
 这个的路由逻辑是：从当前线程环境中取数据源bean的key，这样spring在mybatis需要数据源的时候就会根据determineCurrentLookupKey返回的key到IOC容器中查找一个DataSource的实例给它
 
-配置这个动态数据源，并在sqlSessionFactory和transactionManager里面注入：
+配置这个动态数据源，并在`sqlSessionFactory`和`transactionManager`里面注入：
 
     <!--多源动态数据源-->
     <bean id="dataSource" class="org.web2017.multiDataSources.DynamicDataSource">
@@ -198,7 +301,7 @@ mybatis我们使用了tk的通用Mapper，自定义了一个项目级的Mapper�
 
 项目技术负责人应该关注这个切面，特别是切入点表达式是否符合你的项目包路径。
 
-在开发阶段，没有主从多数据源，就把多个DataSource的连接信息写成一样就好了。
+在开发阶段，没有主从多数据源，使用`profile="development"`，临近上线了再测试主从Mysql结构是否好使。
  
 ### 5. 多套spring配置
 
@@ -229,39 +332,44 @@ spring支持profile切换来整体切换配置，因此在spring配置文件中�
 在运行程序或者启动web server时，spring该加载哪一套配置呢？在以下地方体现：
 
 - 测试类：
-    
-    @ContextConfiguration("classpath:spring-context.xml")
-    @ActiveProfiles("dev2")
-    public class BaseTester extends AbstractJUnit4SpringContextTests {
-    }
-   
-- jetty插件
 
-      <!--jetty插件-->
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty.version}</version>
-        <configuration>
-          <scanIntervalSeconds>2</scanIntervalSeconds>
-          <reload>manual</reload>
-          <systemProperties>
-            <systemProperty>
-              <name>spring.profiles.active</name>
-              <value>test</value>
-            </systemProperty>
-          </systemProperties>
-          <useTestClasspath>true</useTestClasspath>
+``` java    
+@ContextConfiguration("classpath:spring-context.xml")
+@ActiveProfiles("dev2")
+public class BaseTester extends AbstractJUnit4SpringContextTests {
+}
+```
 
-          <webAppConfig>
-            <contextPath>/${project.artifactId}</contextPath>
-          </webAppConfig>
-          <stopKey/>
-          <stopPort/>
-        </configuration>
-      </plugin>
+- jetty插件的maven依赖，见`web2017\rbac-rest-service\pom.xml`
 
-- 环境变量
+``` xml
+<!--jetty插件-->
+  <plugin>
+    <groupId>org.mortbay.jetty</groupId>
+    <artifactId>jetty-maven-plugin</artifactId>
+    <version>${jetty.version}</version>
+    <configuration>
+      <scanIntervalSeconds>2</scanIntervalSeconds>
+      <reload>manual</reload>
+      <systemProperties>
+        <systemProperty>
+          <name>spring.profiles.active</name>
+          <value>functional</value>
+        </systemProperty>
+      </systemProperties>
+      <useTestClasspath>true</useTestClasspath>
+
+      <webAppConfig>
+        <contextPath>/${project.artifactId}</contextPath>
+      </webAppConfig>
+      <stopKey/>
+      <stopPort/>
+    </configuration>
+  </plugin>
+```
+      
+
+- Java启动参数中设置环境变量
 
     java ... -Dspring.profiles.active=development
     
