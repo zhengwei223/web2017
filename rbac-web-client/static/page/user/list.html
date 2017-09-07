@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>用户列表</title>
+<link rel="stylesheet" href="../../../static/css/layui.css">
+</head>
+<body>
+
+	<table id="userTable" />
+	<script src="../../layui.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		layui.use([ 'table','form','jquery' ], function(table,form,$) {
+			/* 初始化表格 */
+			  var userTable = table.render(
+                  {
+                      elem: '#userTable',  // 原始的table元素
+                      //height:500,
+                      //url:'http://localhost:8080/rbac-rest-service/rbac/user/profile', // 异步数据的地址
+                      url:'./userData.json', // 异步数据的地址
+                      page:true,  // 是否分页
+                      id:'userTable',
+                      cols:[[{field:'id', width:80, sort: true,title:'ID'},
+                           {field:'gender', width:80,title:'性别'},
+                           {field:'nickName', width:80,title:'昵称'},
+                           {field:'realName', width:80,title:'真实姓名'}
+                           ]]
+                  });
+		});
+	</script>
+
+</body>
+</html>
