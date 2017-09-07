@@ -23,6 +23,12 @@ public class ResultGenerator {
                 .setData(data);
     }
 
+    /**
+     *
+     * @param list 数据列表
+     * @param total 总条目数
+     * @return
+     */
     public static LayUIResult genSuccessLayUIResult(List<?> list,Long total) {
         LayUIResult result = new LayUIResult();
         result.setCode(0);

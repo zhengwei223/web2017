@@ -46,6 +46,9 @@ public class AccountAPI {
 
   @PutMapping
   public Result update(Account account) {
+    if(account.getPassword()!=null){
+      account.setPassword(MD5Util.md5(account.getPassword(),SysConst.SALT));
+    }
     accountService.update(account);
     return ResultGenerator.genSuccessResult();
   }
