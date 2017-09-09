@@ -1,34 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户列表</title>
-<link rel="stylesheet" href="../../../static/css/layui.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>RBAC</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <!--<link rel="stylesheet" href="../../css/layui.css" media="all">-->
 </head>
 <body>
 
-	<table id="userTable" />
-	<script src="../../layui.js" charset="utf-8"></script>
+<div style="padding: 15px;">
+    <table id="userTable"/>
+</div>
 
-	<script type="text/javascript">
-		layui.use([ 'table','form','jquery' ], function(table,form,$) {
-			/* 初始化表格 */
-			  var userTable = table.render(
-                  {
-                      elem: '#userTable',  // 原始的table元素
-                      //height:500,
-                      url:'http://localhost:8080/rbac-rest-service/rbac/user/profile', // 异步数据的地址
+
+<!--<script src="../../layui.js" charset="utf-8"></script>-->
+
+<!--<script src="../../js/sys.js"></script>-->
+
+<script type="text/javascript">
+
+    layui.use(['table', 'form', 'jquery'], function (table, form, $) {
+        /* 初始化表格 */
+        var userTable = table.render(
+            {
+                elem: '#userTable',  // 原始的table元素
+                //height:500,
+                url: sys.apiBaseUrl + '/rbac/user/profile', // 异步数据的地址
 //                      url:'./userData.json', // 异步数据的地址
-                      page:true,  // 是否分页
-                      id:'userTable',
-                      cols:[[{field:'id', width:80, sort: true,title:'ID'},
-                           {field:'gender', width:80,title:'性别'},
-                           {field:'nickName', width:80,title:'昵称'},
-                           {field:'realName', width:80,title:'真实姓名'}
-                           ]]
-                  });
-		});
-	</script>
+                page: true,  // 是否分页
+                id: 'userTable',
+                cols: [[{field: 'id', width: 80, sort: true, title: 'ID'},
+                    {field: 'gender', width: 80, title: '性别'},
+                    {field: 'nickName', width: 80, title: '昵称'},
+                    {field: 'realName', width: 100, title: '真实姓名'}
+                ]]
+            });
+    });
+</script>
 
 </body>
 </html>

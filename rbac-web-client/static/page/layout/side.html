@@ -1,0 +1,15 @@
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            {{# layui.each(d,function(index,item){ }}
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">{{item.title}}</a>
+                <dl class="layui-nav-child">
+                    {{# layui.each(item.list,function(index2,item2){ }}
+                    <dd><a href="javascript:load('{{item2.url}}');" class="pjaxlink">{{item2.title}}</a></dd>
+                    {{# }) }}
+                </dl>
+            </li>
+            {{# }) }}
+        </ul>
+    </div>
