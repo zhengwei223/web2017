@@ -17,7 +17,12 @@
       <artifactId>commons</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.lanqiao</groupId>
+      <artifactId>commons</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>test-jar</type>
+    </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache-core</artifactId>
@@ -41,6 +46,21 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>cglib</groupId>-->
+      <!--<artifactId>cglib</artifactId>-->
+      <!--<version>${cglib}</version>-->
+    <!--</dependency>-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
       <version>${spring.baseline.version}</version>
     </dependency>
     <dependency>
@@ -141,5 +161,76 @@
       <version>${nosqlunit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!--web service-->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>${javax.ws.rs.vertion}</version>
+    </dependency>
+    <!--jpa begin-->
+    <!--<dependency>-->
+    <!--<groupId>javax.persistence</groupId>-->
+    <!--<artifactId>persistence-api</artifactId>-->
+    <!--<version>1.0</version>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+    <!--jpa end-->
+
+    <!-- JAX-RS begin -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- JAX-RS end -->
+
   </dependencies>
+  <build>
+    <plugins>
+      <!--jetty插件-->
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-plugin.version}</version>
+        <configuration>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+          <reload>manual</reload>
+          <systemProperties>
+            <!--
+                        <systemProperty>
+                          &lt;!&ndash;此处指定spring的profile&ndash;&gt;
+                          <name>spring.profiles.active</name>
+                          <value>functional</value>
+                        </systemProperty>
+            -->
+          </systemProperties>
+          <useTestClasspath>true</useTestClasspath>
+
+          <webAppConfig>
+            <contextPath>/${project.artifactId}</contextPath>
+          </webAppConfig>
+          <stopKey/>
+          <stopPort/>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

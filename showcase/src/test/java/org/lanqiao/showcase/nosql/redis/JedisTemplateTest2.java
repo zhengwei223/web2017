@@ -26,10 +26,10 @@ public class JedisTemplateTest2 {
   public void setup() {
     //一个真实的Redis连接池
     JedisPool jedisPool = new JedisPoolBuilder()
-        .setDirectHost("localhost:6379")
+        .setDirectHost("10.100.40.185:63799")
         .setPoolName("local")
         .setPoolSize(2)
-        .setPassword("lanqiao678")
+        // .setPassword("")
         .buildPool();
     jedisTemplate = new JedisTemplate(jedisPool);
   }
@@ -65,9 +65,9 @@ public class JedisTemplateTest2 {
     assertThat(jedisTemplate.get(key)).isEqualTo("123");
 
     // del
-    assertThat(jedisTemplate.del(key)).isTrue();
-    assertThat(jedisTemplate.del(key+"nx")).isTrue();
-    assertThat(jedisTemplate.del(notExistKey)).isFalse();
+    // assertThat(jedisTemplate.del(key)).isTrue();
+    // assertThat(jedisTemplate.del(key+"nx")).isTrue();
+    // assertThat(jedisTemplate.del(notExistKey)).isFalse();
   }
 
   @Test

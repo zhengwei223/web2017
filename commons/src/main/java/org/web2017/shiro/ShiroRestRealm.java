@@ -21,21 +21,27 @@ public class ShiroRestRealm extends AuthorizingRealm {
   }
 
   /**
-   * 鉴权
+   * 鉴权，无需比对
+   * 只需根据用户标识，返回其拥有的资源权限组合，比对的逻辑将由shiro框架完成。
    * @param principals
    * @return
    */
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
     SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
+    //userid
     String userId = (String) super.getAvailablePrincipal(principals);
+    //userid可访问的所有url的集合
     Set<String> permissions = accountService.findPermissionsById(userId);
+    //添加至AuthorInfo
     simpleAuthorInfo.addStringPermissions(permissions);
     return simpleAuthorInfo;
   }
 
   /**
-   * 验证
+   * 验证身份信息，但是这里不负责比对的逻辑，我们只需根据principle返回AuthenticationInfo（携带了用户名和密码）
+   * 比对的逻辑将由shiro框架完成
+   *
    * 因为无状态，我们每次都要验证
    * @param token
    * @return

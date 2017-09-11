@@ -120,6 +120,8 @@
     <lucene.version>6.0.1</lucene.version>
     <!--rpc-->
     <dubbo.version>2.5.3</dubbo.version>
+    <javax.ws.rs.vertion>2.0-m10</javax.ws.rs.vertion>
+    <cxf.version>3.1.12</cxf.version>
     <!--no sql-->
     <jedis.version>2.6.1</jedis.version>
     <nosqlunit.version>0.8.0</nosqlunit.version>
@@ -169,6 +171,7 @@
           </dependency>
         </dependencies>
         <configuration>
+          <!--见profiles-->
           <groups>${testcase.groups}</groups>
         </configuration>
       </plugin>

@@ -97,7 +97,7 @@
   <beans profile="production">
     <context:property-placeholder ignore-resource-not-found="true"
                                   location="classpath*:/application.properties"/>
-    <!--shiro配置-->
+    <!--shiro配置bean-->
     <bean class="org.lanqiao.rbac.config.ShiroConfig"/>
 
     <!--多源动态数据源-->

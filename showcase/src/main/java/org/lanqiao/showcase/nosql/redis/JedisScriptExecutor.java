@@ -68,7 +68,7 @@ public class JedisScriptExecutor {
 		String scriptContent;
 		try {
 			Resource resource = new DefaultResourceLoader().getResource(scriptPath);
-			scriptContent = FileUtils.readFileToString(resource.getFile());
+			scriptContent = FileUtils.readFileToString(resource.getFile(),"utf-8");
 		} catch (IOException e) {
 			throw new IllegalArgumentException(scriptPath + " is not exist.", e);
 		}

@@ -49,18 +49,19 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
       SecurityUtils.getSubject().login(new UserIDToken(userid)); // login之后request中才有principle，才能进行下一步鉴权
     else
       return false;
-    // 判断url是否在用户的权限之中
+    //获得用户这一次要访问的资源路径
     final String servletPath = ((HttpServletRequest) request).getServletPath();
+    // 鉴权：判断url是否在用户的权限之中
     return super.isAccessAllowed(request, response, new String[]{servletPath});
   }
 
   private Boolean checkSign(ServletRequest request, String userid, String clientSign) {
     // 有userID和sign，说明登录过，我们还要验证token的合法性，非rest没有这么麻烦
-    // 1. token是否有效?应查数据库得到token；
     // 服务端用token加密参数为serverSign，比对客户端sign
 
     List<String> keys = new ArrayList<String>(request.getParameterMap().keySet());
 
+    //业务参数连接成字符串
     String linkString = "";
 
     for (String key : keys) {
@@ -72,8 +73,8 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
     if (!StringUtils.isEmpty(linkString)) {
       linkString = linkString.substring(0, linkString.length() - 1);
     }
-    String token = accountService.findTokenByUserId(userid);
-    String serverSign = MD5Util.md5(linkString + token);//DigestUtils.md5Hex(linkString + token);
+    String serverToken = accountService.findTokenByUserId(userid);
+    String serverSign = MD5Util.md5(linkString + serverToken);//DigestUtils.md5Hex(linkString + serverToken);
     if (logger.isDebugEnabled()) {
       logger.debug("服务端计算出来的签名是：" + serverSign);
     }

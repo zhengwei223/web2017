@@ -20,4 +20,11 @@
     select * from rbac_menu
     where pid=#{pid}
   </select>
+
+  <select id="">
+    select id,title,url,pid
+    from rbac_menu
+    where is_button=0,state=1
+
+  </select>
 </mapper>

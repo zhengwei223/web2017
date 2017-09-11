@@ -77,7 +77,7 @@
       <groupId>net.sf.dozer</groupId>
       <artifactId>dozer</artifactId>
       <version>${dozer.version}</version>
-      <optional>true</optional>
+      <!--<optional>true</optional>-->
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>

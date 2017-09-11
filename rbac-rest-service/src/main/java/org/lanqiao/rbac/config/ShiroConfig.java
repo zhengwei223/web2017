@@ -19,11 +19,9 @@ import org.lanqiao.rbac.service.AccountService;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Profile;
 import org.web2017.shiro.IAccountService;
 import org.web2017.shiro.ShiroRestRealm;
 import org.web2017.shiro.StatelessAuthcFilter;
@@ -36,17 +34,24 @@ import java.util.Map;
 public class ShiroConfig {
 
 
-  /*<bean id="shiroFilter" class="ShiroFilterFactoryBean" />*/
+  /**<bean id="shiroFilter" class="ShiroFilterFactoryBean" />
+   * 总过滤器
+   * @param securityManager 依赖的安全管理器
+   * @param authcFilter 自定义权限过滤器
+   * */
   @Bean
   @Autowired
   public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, StatelessAuthcFilter authcFilter) {
     ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
+    /*<!-- securityManager -->
+        <property name="securityManager" ref="securityManager" />*/
     bean.setSecurityManager(securityManager);
 
+    /*注册实际的拦截器*/
     Map<String, Filter> filters = bean.getFilters();
-    filters.put("stateLessAuthcFilter", authcFilter);// 无状态http权限验证过滤器
-    filters.put("anon", new AnonymousFilter());// 添加过滤器
-    filters.put("noSessionCreation", new NoSessionCreationFilter());// 添加过滤器
+    filters.put("stateLessAuthcFilter", authcFilter);// 自定义的无状态http权限验证过滤器
+    filters.put("anon", new AnonymousFilter());// shiro提供不做任何处理的过滤器
+    filters.put("noSessionCreation", new NoSessionCreationFilter());// shiro提供的过滤器
 
     // bean.setFilters(filters);
     /*登录跳转链接*/
@@ -57,11 +62,15 @@ public class ShiroConfig {
     /*不同的url用不同的过滤器拦截*/
     bean.getFilterChainDefinitionMap().put("/rbac/account/login", "anon"); // 不拦截的写在前面
     bean.getFilterChainDefinitionMap().put("/rbac/account/unauthorized*", "anon"); // 不拦截的写在前面
-    if (System.getProperty("spring.profiles.active")==null||System.getProperty("spring.profiles.active").equals("production"))
-      bean.getFilterChainDefinitionMap().put("/**", "noSessionCreation,stateLessAuthcFilter"); // 添加路径拦截
-    else
+    // 生产环境开启权限和身份验证
+    if (System.getProperty("spring.profiles.active") == null ||
+        System.getProperty("spring.profiles.active").equals("production")) {
+      // 其余所有路径都会被拦截
+      bean.getFilterChainDefinitionMap().put("/**", "noSessionCreation,stateLessAuthcFilter");
+      // 添加路径拦截
+    } else {
       bean.getFilterChainDefinitionMap().put("/**", "anon");
-
+    }
 
     return bean;
   }
@@ -93,7 +102,7 @@ public class ShiroConfig {
     });
     // 禁用使用Sessions 作为存储策略的实现
     final DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-    subjectDAO.setSessionStorageEvaluator(new DefaultSessionStorageEvaluator(){
+    subjectDAO.setSessionStorageEvaluator(new DefaultSessionStorageEvaluator() {
       @Override
       public boolean isSessionStorageEnabled() {
         return false;
