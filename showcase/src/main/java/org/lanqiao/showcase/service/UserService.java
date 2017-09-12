@@ -17,7 +17,9 @@ public class UserService {
   private CacheManager cacheManager;
   private Cache cache;
   private final String cacheName = "jaxrs-cache-user";
-
+  /**
+   * 这里我们放一些数据到缓存中，而不是放到数据库中，便于快速测试
+   */
   @PostConstruct
   public void init() {
     cache = cacheManager.getCache(cacheName);

@@ -14,8 +14,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.web2017.test.category.FastTest;
+import org.web2017.test.data.RandomData;
 
 import java.util.List;
+import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class, MybatisConfig.class})
@@ -25,10 +27,10 @@ public class UserMapperTest {
   private UserMapper userMapper;
 
   public void addUser() throws Exception {
-    userMapper.addUser( new User("zhangsan","123456",1  ) );
-    userMapper.addUser( new User("lisi","123456",1  ) );
-    userMapper.addUser( new User("wangwu","123456",1  ) );
-    userMapper.addUser( new User("zhaoliu","123456",1  ) );
+    userMapper.addUser( new User(RandomData.randomName("username"),"123456",1  ) );
+    userMapper.addUser( new User(RandomData.randomName("username"),"123456",1  ) );
+    userMapper.addUser( new User(RandomData.randomName("username"),"123456",1  ) );
+    userMapper.addUser( new User(RandomData.randomName("username"),"123456",1  ) );
   }
 
   @Test

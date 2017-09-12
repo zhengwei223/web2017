@@ -17,7 +17,7 @@ import org.web2017.test.category.SlowTest;
 import static org.junit.Assert.*;
 
 @Category(SlowTest.class)
-public class GreetTest {
+public class GreetAPITest {
   @Test
   public void sayHi() throws Exception {
     RestTemplate restTemplate = new RestTemplate(  );

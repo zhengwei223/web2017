@@ -47,11 +47,13 @@
       <version>${spring-boot-version}</version>
       <optional>true</optional>
     </dependency>
+    <!--web mvc-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
       <version>${spring-boot-version}</version>
     </dependency>
+    <!--test套件-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -70,7 +72,7 @@
       <artifactId>fastjson</artifactId>
       <version>${fastjson.version}</version>
     </dependency>
-
+    <!--mysql-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -82,6 +84,7 @@
       <artifactId>HikariCP</artifactId>
       <version>${HikariCP.version}</version>
     </dependency>
+    <!--h2内存数据库-->
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
