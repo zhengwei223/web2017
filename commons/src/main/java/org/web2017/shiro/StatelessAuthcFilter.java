@@ -49,9 +49,10 @@ public class StatelessAuthcFilter extends PermissionsAuthorizationFilter {
       SecurityUtils.getSubject().login(new UserIDToken(userid)); // login之后request中才有principle，才能进行下一步鉴权
     else
       return false;
+
     //获得用户这一次要访问的资源路径
     final String servletPath = ((HttpServletRequest) request).getServletPath();
-    // 鉴权：判断url是否在用户的权限之中
+    // 鉴权：判断url是否在用户的权限之中,注意第三个参数是这次请求的权限字符串，应该和realm中存储的一致
     return super.isAccessAllowed(request, response, new String[]{servletPath});
   }
 
