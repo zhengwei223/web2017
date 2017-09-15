@@ -202,6 +202,35 @@
     </dependency>
     <!-- JAX-RS end -->
 
+    <!-- JMS begin -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-core</artifactId>
+      <version>${activemq.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.activemq.protobuf</groupId>
+          <artifactId>activemq-protobuf</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework.osgi</groupId>
+          <artifactId>spring-osgi-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.fusesource.mqtt-client</groupId>
+          <artifactId>mqtt-client</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- JMS end -->
   </dependencies>
   <build>
     <plugins>

@@ -37,6 +37,17 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${spring.baseline.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.baseline.version}</version>
+    </dependency>
+
     <!-- =========================== -->
     <!-- apache commons dependencies-->
     <!-- =========================== -->
@@ -247,7 +258,13 @@
       <scope>provided</scope>
     </dependency>-->
 
-
+<!--tools-->
+    <!-- email -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>${javax.mail.version}</version>
+    </dependency>
 
   </dependencies>
   <build>

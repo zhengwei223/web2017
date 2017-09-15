@@ -125,6 +125,9 @@
     <!--no sql-->
     <jedis.version>2.6.1</jedis.version>
     <nosqlunit.version>0.8.0</nosqlunit.version>
+
+    <activemq.version>5.7.0</activemq.version>
+    <javax.mail.version>1.4.7</javax.mail.version>
   </properties>
 
   <!--这些依赖自动被子模块继承-->
