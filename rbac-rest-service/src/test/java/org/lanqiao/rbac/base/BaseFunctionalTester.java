@@ -5,9 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 import org.web2017.mapper.JsonMapper;
-import org.web2017.test.category.SlowTest;
+import org.web2017.test.category.Slow;
 
-@Category(SlowTest.class)
+@Category(Slow.class)
 public class BaseFunctionalTester {
   protected static String baseUrl = "http://localhost:8080/rbac-rest-service";
   protected final RestTemplate restTemplate = new RestTemplate();

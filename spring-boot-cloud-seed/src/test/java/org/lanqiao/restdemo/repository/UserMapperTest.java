@@ -1,8 +1,6 @@
 package org.lanqiao.restdemo.repository;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -13,15 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.web2017.test.category.FastTest;
+import org.web2017.test.category.Fast;
 import org.web2017.test.data.RandomData;
 
 import java.util.List;
-import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class, MybatisConfig.class})
-@Category(FastTest.class)
+@Category(Fast.class)
 public class UserMapperTest {
   @Autowired
   private UserMapper userMapper;

@@ -5,7 +5,5 @@
  *******************************************************************************/
 package org.web2017.test.category;
 
-
-public interface SlowTest {
-
+public interface Fast {
 }
