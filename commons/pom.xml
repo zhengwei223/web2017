@@ -133,7 +133,11 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql-connector-java.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>${jedis.version}</version>
+    </dependency>
     <!--shiro dependency-->
     <dependency>
       <groupId>org.apache.shiro</groupId>
@@ -214,7 +218,6 @@
       <version>${selenium.version}</version>
       <scope>test</scope>
     </dependency>
-
     <!--=============================-->
     <!--web container and servlet api-->
     <!--=============================-->
