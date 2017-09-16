@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class UserProfileAPI {
     private UserProfileService userProfileService;
 
     @PostMapping
-    public Result add(UserProfile userProfile) {
+    public Result add(@Valid UserProfile userProfile) {
         userProfileService.save(userProfile);
         return ResultGenerator.genSuccessResult();
     }

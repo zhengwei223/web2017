@@ -268,7 +268,12 @@
       <artifactId>mail</artifactId>
       <version>${javax.mail.version}</version>
     </dependency>
-
+    <!-- JSR303 Bean Validator -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

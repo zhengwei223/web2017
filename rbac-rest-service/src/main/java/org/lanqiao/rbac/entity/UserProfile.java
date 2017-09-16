@@ -6,6 +6,7 @@ import org.web2017.fastjson.serializer.GenderSerializer;
 import tk.mybatis.mapper.entity.IDynamicTableName;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "rbac_user_profile")
 public class UserProfile /*implements IDynamicTableName*/{
@@ -17,6 +18,7 @@ public class UserProfile /*implements IDynamicTableName*/{
     private String nickName;
 
     @Column(name = "real_name")
+    @NotNull
     private String realName;
     @JSONField(serializeUsing = GenderSerializer.class)
     private Boolean gender;
