@@ -5,9 +5,9 @@ package org.web2017.web.rest;
  */
 public enum ResultCode {
     SUCCESS(200),//成功
-    FAIL(400),//失败
-    NOT_VALID(4000),//失败
+    BAD_REQUEST(400),//bad request
     UNAUTHORIZED(401),//未认证（签名错误）
+    FORBIDDEN(403),//Forbidden
     NOT_FOUND(404),//接口不存在
     INTERNAL_SERVER_ERROR(500);//服务器内部错误
 

@@ -83,7 +83,7 @@
     <property name="fileEncodings" value="utf-8"/>
     <property name="cacheSeconds" value="120"/>
   </bean>
-  <!-- JSR303 Validator定义 -->
+  <!-- JSR303/349 Validator定义 -->
   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
     <!--校验实现类，用hibernate-->
     <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>

@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package org.web2017.jsr303;
+package org.web2017.validation;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

@@ -174,7 +174,7 @@
 
 
     <!-- =========================== -->
-    <!-- jsr303 validation dependencies-->
+    <!-- validation validation dependencies-->
     <!-- =========================== -->
     <dependency>
       <groupId>org.hibernate</groupId>

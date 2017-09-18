@@ -183,7 +183,7 @@
     </dependency>
 
     <!-- =========================== -->
-    <!-- jsr303 validation dependencies-->
+    <!-- validation validation dependencies-->
     <!-- =========================== -->
     <dependency>
       <groupId>javax.validation</groupId>

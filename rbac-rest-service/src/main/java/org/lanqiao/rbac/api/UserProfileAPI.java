@@ -1,5 +1,6 @@
 package org.lanqiao.rbac.api;
 
+import org.springframework.validation.annotation.Validated;
 import org.web2017.web.rest.LayUIResult;
 import org.web2017.web.rest.Result;
 import org.web2017.web.rest.ResultCode;
@@ -24,7 +25,7 @@ public class UserProfileAPI {
     private UserProfileService userProfileService;
 
     @PostMapping
-    public Result add(@Valid UserProfile userProfile) {
+    public Result add(@Validated UserProfile userProfile) {
         userProfileService.save(userProfile);
         return ResultGenerator.genSuccessResult();
     }

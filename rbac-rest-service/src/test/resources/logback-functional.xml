@@ -23,13 +23,9 @@
 	<!-- project default level -->
 	<logger name="org.lanqiao" level="debug" />
 	<logger name="org.web2017" level="debug" />
-	
-	
-	<!--log4jdbc -->
-	<!-- <logger name="jdbc.sqlonly" level="INFO"/> -->
-	<!-- log4jdbc专用logger：输出执行的sql及其消耗的时间 -->
-	<logger name="jdbc.sqltiming" level="INFO" />
-	
+
+	<logger name="org.springframework.web" level="debug" />
+
 
 	<root level="warn">
 		<appender-ref ref="console"/>

@@ -1,4 +1,4 @@
-package org.web2017.jsr303;
+package org.web2017.validation;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
