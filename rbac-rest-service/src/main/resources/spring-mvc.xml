@@ -21,7 +21,7 @@
   </context:component-scan>
 
   <!-- 注解驱动的控制器配置 -->
-  <mvc:annotation-driven validator="validator">
+  <mvc:annotation-driven validator="validator" >
     <!-- 解决org.springframework.beans.BeanInstantiationException: Failed to
       instantiate [org.springframework.data.domain.Pageable]: Specified class is
       an interface -->
@@ -51,9 +51,9 @@
 
   <!--<bean class="org.lanqiao.rbac.config.WebMvcConfig" />-->
 
-  <!--<mvc:interceptors>-->
-  <!--<ref bean="signCheckInterceptor"/> &lt;!&ndash;此bean来自注解@Configuration+WebMvcConfig&ndash;&gt;-->
-  <!--</mvc:interceptors>-->
+  <!--<mvc:interceptors>
+    <ref bean="signCheckInterceptor"/> &lt;!&ndash;此bean来自注解@Configuration+WebMvcConfig&ndash;&gt;
+  </mvc:interceptors>-->
 
 
   <!--统一的rest风格的异常处理，发生异常后，封装为json格式返回-->

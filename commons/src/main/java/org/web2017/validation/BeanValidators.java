@@ -16,10 +16,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * JSR303 Validator(Hibernate Validator)工具类.
+ * JSR303、349 Validator(Hibernate Validator)工具类.
  * 
  * ConstraintViolation中包含propertyPath, message 和invalidValue等信息.
- * 提供了各种convert方法，适合不同的i18n需求:
+ * 当前工具类，则是将其提取，组合成更易阅读的格式和数据结构
+ *
+ * 此类提供了各种convert方法，适合不同的i18n需求:
  * 1. List<String>, String内容为message
  * 2. List<String>, String内容为propertyPath + separator + message
  * 3. Map<propertyPath, message>
@@ -50,6 +52,7 @@ public class BeanValidators {
 
 	/**
 	 * 辅助方法, 转换Set<ConstraintViolation>为List<message>
+   *   把每个违例的message放入一个List中
 	 */
 	public static List<String> extractMessage(Set<? extends ConstraintViolation> constraintViolations) {
 		List<String> errorMessages = Lists.newArrayList();
@@ -61,6 +64,7 @@ public class BeanValidators {
 
 	/**
 	 * 辅助方法, 转换ConstraintViolationException中的Set<ConstraintViolations>为Map<property, message>.
+   * 把属性名和违例的message放入map中
 	 */
 	public static Map<String, String> extractPropertyAndMessage(ConstraintViolationException e) {
 		return extractPropertyAndMessage(e.getConstraintViolations());

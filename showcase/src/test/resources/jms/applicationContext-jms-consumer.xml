@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="true">
+  <context:component-scan base-package="org.lanqiao.showcase.jms"/>
+
+  <!--配置connection-factory，指定连接rabbit server参数 -->
+  <rabbit:connection-factory id="connectionFactory"
+                             username="guest" password="guest"
+                             host="10.100.40.185" port="5672"/>
+  <!--定义消息队列 -->
+  <rabbit:queue id="emailSendQueue" name="emailSendQueue" />
+
+  <bean id="msgConsumer" class="org.lanqiao.showcase.jms.EmailSendingRequestConsumer"/>
+  <rabbit:listener-container connection-factory="connectionFactory">
+    <rabbit:listener queues="emailSendQueue" ref="msgConsumer" />
+  </rabbit:listener-container>
+</beans>

@@ -2,6 +2,7 @@ package org.web2017.validation;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,7 +11,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -78,7 +82,7 @@ public class BeanValidatorsTest extends AbstractJUnit4SpringContextTests {
   private static class Customer {
 
     private String name;
-
+    private int age;
     private String email;
 
     @NotBlank
@@ -90,7 +94,7 @@ public class BeanValidatorsTest extends AbstractJUnit4SpringContextTests {
       this.name = name;
     }
 
-    @Email
+    @Email @NotNull
     public String getEmail() {
       return email;
     }
@@ -98,7 +102,36 @@ public class BeanValidatorsTest extends AbstractJUnit4SpringContextTests {
     public void setEmail(String email) {
       this.email = email;
     }
+    @Range(min=0,max=200)
+    public int getAge() {
+      return age;
+    }
 
+    public void setAge(int age) {
+      this.age = age;
+    }
+  }
+
+  public static void main(String[] args) {
+    Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
+    Customer customer = new Customer();
+    customer.setAge(201);
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    // 返回值：违反约束条件信息的集合，每一个违反就形成一个ConstraintViolation
+    Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+    // for(ConstraintViolation violation:violations){
+    //   System.out.println(violation.getPropertyPath()+"------,"+violation.getMessage());
+    // }
+
+    List<String> infos = BeanValidators.extractMessage(violations);
+    System.out.println(infos);
+
+    Map<String,String> infoMap = BeanValidators.extractPropertyAndMessage(violations);
+    System.out.println(infoMap);
+
+    List<String> infoList = BeanValidators.extractPropertyAndMessageAsList(violations);
+    System.out.println(infoList);
   }
 
 }

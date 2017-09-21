@@ -203,7 +203,8 @@
     <!-- JAX-RS end -->
 
     <!-- JMS begin -->
-    <dependency>
+    <!--activemq 依赖-->
+    <!--<dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-core</artifactId>
       <version>${activemq.version}</version>
@@ -229,6 +230,12 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>-->
+    <!--rabbitmq依赖 -->
+    <dependency>
+      <groupId>org.springframework.amqp</groupId>
+      <artifactId>spring-rabbit</artifactId>
+      <version>${rabbit.version}</version>
     </dependency>
     <!-- JMS end -->
   </dependencies>

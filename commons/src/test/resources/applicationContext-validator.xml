@@ -7,7 +7,9 @@
 	default-lazy-init="true">
 	<!-- 校验错误信息国际化资源文件 -->
 	<bean id="validationMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!--资源文件的前缀-->
 		<property name="basename" value="vali"/>
+
 		<property name="fileEncodings" value="utf-8"/>
 		<property name="cacheSeconds" value="120"/>
 	</bean>
