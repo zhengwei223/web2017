@@ -60,6 +60,7 @@
       <artifactId>mybatis-spring-boot-starter</artifactId>
       <version>${mybatis-spring-boot-starter.version}</version>
     </dependency>
+    <!--starter系列 end-->
 
     <!--阿里的json序列化和反序列化工具包-->
     <dependency>
