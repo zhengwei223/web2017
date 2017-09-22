@@ -26,18 +26,20 @@ public class GuavaCacheDemo {
 
   class AccountService {
     public User getUser(Long key) {
-      return null;
+      return new User();
     }
   }
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-  private AccountService accountService;
+  private AccountService accountService = new AccountService();
 
   @Test
   public void demo() throws Exception {
     // 设置缓存最大个数为100，缓存过期时间为5秒
     LoadingCache<Long, User> cache = CacheBuilder.newBuilder().maximumSize(100)
-        .expireAfterAccess(5, TimeUnit.SECONDS).build(new CacheLoader<Long, User>() {
+        .expireAfterAccess(5, TimeUnit.SECONDS).build(
+            // 缓存数据从哪来
+        new CacheLoader<Long, User>() {
           @Override
           public User load(Long key) throws Exception {
             logger.info("fetch from database");

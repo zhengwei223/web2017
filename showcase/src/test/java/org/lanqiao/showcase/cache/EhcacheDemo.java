@@ -38,7 +38,6 @@ public class EhcacheDemo extends AbstractJUnit4SpringContextTests {
     cache = ehcacheManager.getCache(CACHE_NAME);
     String key = "foo";
     String value = "boo";
-    List<Element> list = Lists.newArrayList(new Element(key, value), new Element("foo1", "value1"));
 
     put(key, value);
     Object result = get(key);
@@ -48,6 +47,7 @@ public class EhcacheDemo extends AbstractJUnit4SpringContextTests {
     result = get(key);
     assertThat(result).isNull();
 
+    List<Element> list = Lists.newArrayList(new Element(key, value), new Element("foo1", "value1"));
     cache.putAll(list);
     assertThat(cache.getSize()).isEqualTo(2);
   }

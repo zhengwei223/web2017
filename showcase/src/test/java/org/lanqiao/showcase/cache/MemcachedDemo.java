@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.web2017.cache.SpyMemcachedClient;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,10 +29,18 @@ public class MemcachedDemo extends AbstractJUnit4SpringContextTests {
     String key = "consumer:1";
     String value = "admin";
 
-    spyMemcachedClient.set(key, 60 * 60 * 1, value);
+    spyMemcachedClient.set(key, 3 * 1 * 1, value);
 
     String result = spyMemcachedClient.get(key);
     assertThat(result).isEqualTo(value);
+
+    try {
+      TimeUnit.SECONDS.sleep(5);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    result = spyMemcachedClient.get(key);
+    assertThat(result).isNull();
 
     spyMemcachedClient.delete(key);
     result = spyMemcachedClient.get(key);
