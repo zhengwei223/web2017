@@ -274,6 +274,13 @@
       <artifactId>hibernate-validator</artifactId>
       <version>${hibernate-validator.version}</version>
     </dependency>
+
+    <!-- CACHE begin -->
+    <dependency>
+      <groupId>net.spy</groupId>
+      <artifactId>spymemcached</artifactId>
+      <version>${spymemcached.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
