@@ -12,6 +12,7 @@
 
   <artifactId>spring-boot-cloud-seed</artifactId>
 
+
   <dependencies>
     <dependency>
       <groupId>org.lanqiao</groupId>
@@ -26,14 +27,8 @@
       <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
+
     <!--starter系列-->
-    <!--starter的公共依赖-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-dependencies</artifactId>
-      <version>${spring-boot-version}</version>
-      <type>pom</type>
-    </dependency>
     <!--用于监控app的运行状态-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -90,7 +85,6 @@
       <artifactId>h2</artifactId>
       <version>${h2.version}</version>
     </dependency>
-
 
   </dependencies>
 

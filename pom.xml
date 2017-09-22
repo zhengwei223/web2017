@@ -35,6 +35,7 @@
     <module>commons</module>
     <module>showcase</module>
     <module>ssm-xml-crud</module>
+    <module>spring-cloud-eureka-server</module>
   </modules>
 
   <!-- 设定除中央仓库 (repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查询，如有Nexus私服, 取消注释并指向正确的服务器地址
@@ -72,7 +73,8 @@
     <assertj.version>3.8.0</assertj.version>
     <selenium.version>2.42.2</selenium.version>
     <!--spring-->
-    <spring-boot-version>1.5.6.RELEASE</spring-boot-version>
+    <spring-boot-version>1.5.7.RELEASE</spring-boot-version>
+    <spring-cloud-netflix.version>1.2.7.RELEASE</spring-cloud-netflix.version>
     <spring.baseline.version>4.3.10.RELEASE</spring.baseline.version>
     <aspectjweaver.version>1.8.10</aspectjweaver.version>
     <fastjson.version>1.2.36</fastjson.version>
@@ -140,7 +142,23 @@
 
   <!--dependencyManagement里只是声明依赖，并不实现引入，子模块需要声明依赖，但不写version和scope-->
   <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-netflix</artifactId>
+        <version>${spring-cloud-netflix.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 
   <profiles>
@@ -160,10 +178,10 @@
   <build>
     <plugins>
       <!--boot打包插件-->
-      <!--<plugin>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

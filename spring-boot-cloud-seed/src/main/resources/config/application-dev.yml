@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:db_users;MODE=MYSQL;INIT=RUNSCRIPT FROM 'E:/project/web2017/spring-boot-cloud-seed/src/main/resources/init-table-user.sql'
