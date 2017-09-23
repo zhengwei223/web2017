@@ -24,7 +24,9 @@ public class UserService {
   public void save(User user){
     userDao.save(user);
   }
-  @Cacheable(key = "'User_'+#id")  // 默认以参数为key，查询缓存，命中则返回；未命中执行方法的逻辑，最终将参数和返回值作为k-v存储在缓存中
+
+  // 默认以参数为key，查询缓存，命中则返回；未命中执行方法的逻辑，最终将参数和返回值作为k-v存储在缓存中
+  @Cacheable(key = "'User_'+#id")
   public User findById(Integer id){
     return userDao.findOne(id);
   }

@@ -18,6 +18,7 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
   @Test
   public void testFindAll() {
     save();
+    // 初始化4条，上面又增一条
     assertThat(userDao.findAll().iterator()).hasSize(5);
   }
 
