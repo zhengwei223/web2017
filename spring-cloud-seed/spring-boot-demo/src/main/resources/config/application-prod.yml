@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/rbac
+    username: root
+    password: root123
+    driverClassName: com.mysql.jdbc.Driver
