@@ -1,10 +1,11 @@
 package org.lanqiao.showcase.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="t_team")
-public class Team {
+public class Team implements Serializable {
   private Integer id;
   private String name;
 

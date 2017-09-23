@@ -23,11 +23,8 @@
       <version>1.0-SNAPSHOT</version>
       <type>test-jar</type>
     </dependency>
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache-core</artifactId>
-      <version>${ehcache.version}</version>
-    </dependency>
+
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
@@ -66,6 +63,11 @@
       <version>${hibernate.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>${h2.version}</version>
@@ -76,16 +78,13 @@
       <artifactId>javax.el-api</artifactId>
       <version>2.2.4</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>cglib</groupId>-->
-      <!--<artifactId>cglib</artifactId>-->
-      <!--<version>${cglib}</version>-->
-    <!--</dependency>-->
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.baseline.version}</version>
     </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -96,6 +95,7 @@
       <artifactId>spring-test</artifactId>
       <version>${spring.baseline.version}</version>
     </dependency>
+
     <!-- mockito -->
     <dependency>
       <groupId>org.mockito</groupId>
@@ -103,17 +103,13 @@
       <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
     </dependency>
-
+    <!--loggers-->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
@@ -172,45 +168,32 @@
       <version>${dubbo.version}</version>
     </dependency>
 
+    <!--cache utils -->
     <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-      <version>${jedis.version}</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache-core</artifactId>
+      <version>${ehcache.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-redis</artifactId>
       <version>${spring-data-redis.version}</version>
     </dependency>
 
-    <!-- redis simulator -->
-    <dependency>
-      <groupId>com.lordofthejars</groupId>
-      <artifactId>nosqlunit-redis</artifactId>
-      <version>${nosqlunit.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <!--cache end -->
 
-    <!--web service-->
+    <!--web service and rpc-->
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
       <version>${javax.ws.rs.vertion}</version>
     </dependency>
-    <!--jpa begin-->
-    <!--<dependency>-->
-    <!--<groupId>javax.persistence</groupId>-->
-    <!--<artifactId>persistence-api</artifactId>-->
-    <!--<version>1.0</version>-->
-    <!--</dependency>-->
-
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate-validator.version}</version>
-    </dependency>
-    <!--jpa end-->
 
     <!-- JAX-RS begin -->
     <dependency>
@@ -272,8 +255,10 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
     </dependency>
-
     <!-- JMS end -->
+
+
+
   </dependencies>
   <build>
     <plugins>

@@ -124,7 +124,7 @@
     <javax.ws.rs.vertion>2.0-m10</javax.ws.rs.vertion>
     <cxf.version>3.1.12</cxf.version>
     <!--no sql-->
-    <jedis.version>2.6.1</jedis.version>
+    <jedis.version>2.9.0</jedis.version>
     <spring-data-redis.version>1.8.7.RELEASE</spring-data-redis.version>
     <nosqlunit.version>0.8.0</nosqlunit.version>
 

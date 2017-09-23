@@ -5,23 +5,16 @@
  *******************************************************************************/
 package org.lanqiao.showcase.redis;
 
-import static org.assertj.core.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.web2017.redis.JedisTemplate;
+import org.web2017.redis.pool.JedisPool;
+import org.web2017.redis.pool.JedisPoolBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import org.web2017.redis.JedisTemplate;
-import org.web2017.redis.pool.JedisPool;
-import redis.clients.jedis.Jedis;
-
-import com.lordofthejars.nosqlunit.redis.EmbeddedRedis;
-import com.lordofthejars.nosqlunit.redis.EmbeddedRedis.EmbeddedRedisRuleBuilder;
-import com.lordofthejars.nosqlunit.redis.EmbeddedRedisInstances;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 主要示范JedisTemplate的使用
@@ -30,16 +23,15 @@ public class JedisTemplateTest {
 
   private JedisTemplate jedisTemplate;
 
-  @ClassRule
-  public static EmbeddedRedis embeddedRedisRule = EmbeddedRedisRuleBuilder.newEmbeddedRedisRule().build();
-
   @Before
   public void setup() {
-    //一个模拟的jedis
-    Jedis embeddedRedis = EmbeddedRedisInstances.getInstance().getDefaultJedis();
-    JedisPool jedisPool = Mockito.mock(JedisPool.class);
-    Mockito.when(jedisPool.getResource()).thenReturn(embeddedRedis);
-
+    //一个真实的Redis连接池
+    JedisPool jedisPool = new JedisPoolBuilder()
+        .setDirectHost("10.100.40.185:63799")
+        .setPoolName("local")
+        .setPoolSize(2)
+        // .setPassword("")
+        .buildPool();
     jedisTemplate = new JedisTemplate(jedisPool);
   }
 
@@ -74,13 +66,14 @@ public class JedisTemplateTest {
     assertThat(jedisTemplate.get(key)).isEqualTo("123");
 
     // del
-    assertThat(jedisTemplate.del(key)).isTrue();
-    assertThat(jedisTemplate.del(notExistKey)).isFalse();
+    // assertThat(jedisTemplate.del(key)).isTrue();
+    // assertThat(jedisTemplate.del(key+"nx")).isTrue();
+    // assertThat(jedisTemplate.del(notExistKey)).isFalse();
   }
 
   @Test
   public void hashActions() {
-    String key = "test.string.key";
+    String key = "test.hash.key";
     String field1 = "aa";
     String field2 = "bb";
     String notExistField = field1 + "not.exist";
@@ -98,7 +91,7 @@ public class JedisTemplateTest {
     map.put(field2, value2);
     jedisTemplate.hmset(key, map);
 
-    assertThat(jedisTemplate.hmget(key, new String[] { field1, field2 })).containsExactly(value1, value2);
+    assertThat(jedisTemplate.hmget(key, new String[]{field1, field2})).containsExactly(value1, value2);
 
     // hkeys
     assertThat(jedisTemplate.hkeys(key)).contains(field1, field2);
