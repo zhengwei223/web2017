@@ -54,4 +54,15 @@ public class User implements Serializable{
   public void setTeamId(Integer teamId) {
     this.teamId = teamId;
   }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", status=" + status +
+        ", teamId=" + teamId +
+        '}';
+  }
 }

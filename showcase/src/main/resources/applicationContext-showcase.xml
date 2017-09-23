@@ -6,4 +6,5 @@
   <context:component-scan base-package="org.lanqiao.showcase.service" />
   <import resource="classpath:/rpc_jaxrs/applicationContext-jaxrs-server.xml"/>
   <import resource="classpath:/applicationContext-jpa.xml"/>
+  <import resource="classpath:cache/applicationContext-redis.xml"/>
 </beans>

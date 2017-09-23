@@ -7,10 +7,12 @@
     <groupId>org.lanqiao</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>showcase</artifactId>
-
+  <version>1.0</version>
+  <packaging>war</packaging>
   <dependencies>
     <dependency>
       <groupId>org.lanqiao</groupId>
@@ -189,17 +191,11 @@
     <!--cache end -->
 
     <!--web service and rpc-->
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>${javax.ws.rs.vertion}</version>
-    </dependency>
-
     <!-- JAX-RS begin -->
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1</version>
+      <version>${javax.ws.rs.vertion}</version>
     </dependency>
 
     <dependency>

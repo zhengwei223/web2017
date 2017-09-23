@@ -18,14 +18,14 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     entity.setId(1);
     entity.setUsername(RandomData.randomName("username"));
     entity.setPassword(RandomData.randomName("password"));
-
+    entity.setTeamId(2);
     userService.save(entity);
 
     User user1 = userService.findById(1);
-    System.out.println(user1.getUsername());
+    System.out.println(user1);
     System.out.println("======-====开启缓存后，下面将不执行sql=============");
     user1 = userService.findById(1);
-    System.out.println(user1.getUsername());
+    System.out.println(user1);
 
   }
 }

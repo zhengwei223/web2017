@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@CacheConfig(cacheNames = {"demoCache","teamCache"}, cacheManager = "cManager")
-
+@CacheConfig(cacheNames = {/*"demoCache",*/"teamCache"},cacheManager = "redisCacheManager")
 public class TeamService {
   @Autowired
   private TeamDao teamDao;
