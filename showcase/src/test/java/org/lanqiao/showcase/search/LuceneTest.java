@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LuceneDemo {
+public class LuceneTest {
   private final String INDEX_PATH = "e:\\lucene_demo_index";
   private Directory dir = null;
 

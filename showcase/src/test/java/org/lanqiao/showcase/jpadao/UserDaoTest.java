@@ -1,4 +1,5 @@
-package org.lanqiao.showcase.jpa;
+package org.lanqiao.showcase.jpadao;
+import org.lanqiao.showcase.entity.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,18 +10,19 @@ import org.web2017.test.data.RandomData;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ContextConfiguration("classpath:cache/applicationContext-jpa.xml")
+@ContextConfiguration("classpath:applicationContext-jpa.xml")
 public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
   @Autowired
   private UserDao userDao;
 
   @Test
   public void testFindAll() {
-    assertThat(userDao.findAll().iterator()).hasSize(1);
+    save();
+    assertThat(userDao.findAll().iterator()).hasSize(5);
   }
 
-  @Before
-  public void testSave(){
+
+  private void save(){
     final User entity = new User();
     entity.setUsername(RandomData.randomName("username"));
     entity.setPassword(RandomData.randomName("password"));

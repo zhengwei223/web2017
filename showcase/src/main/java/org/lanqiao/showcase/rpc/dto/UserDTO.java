@@ -13,9 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserDTO {
 
   private Long id;
-  private String loginName;
-  private String name;
-  private String email;
+  private String username;
   private String teamName;
 
   public Long getId() {
@@ -26,28 +24,12 @@ public class UserDTO {
     id = value;
   }
 
-  public String getLoginName() {
-    return loginName;
+  public String getUsername() {
+    return username;
   }
 
-  public void setLoginName(String value) {
-    loginName = value;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String value) {
-    name = value;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String value) {
-    email = value;
+  public void setUsername(String value) {
+    username = value;
   }
 
   public String getTeamName() {

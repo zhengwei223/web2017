@@ -177,6 +177,13 @@
       <artifactId>jedis</artifactId>
       <version>${jedis.version}</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>${spring-data-redis.version}</version>
+    </dependency>
+
     <!-- redis simulator -->
     <dependency>
       <groupId>com.lordofthejars</groupId>
@@ -264,7 +271,6 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <!-- JMS end -->

@@ -13,6 +13,7 @@
 			<!-- WebService的实现Bean定义 -->
 			<bean class="org.lanqiao.showcase.rpc.jaxrs.AccountJaxRsService" />
 		</jaxrs:serviceBeans>
+
 		<jaxrs:providers>
 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider" />
 		</jaxrs:providers>

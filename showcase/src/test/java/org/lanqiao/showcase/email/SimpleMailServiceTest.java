@@ -1,5 +1,6 @@
 package org.lanqiao.showcase.email;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -7,6 +8,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.web2017.email.SimpleMailService;
 
 @ContextConfiguration("classpath:email/applicationContext-email.xml")
+@Ignore
 public class SimpleMailServiceTest extends AbstractJUnit4SpringContextTests {
   @Autowired
   private SimpleMailService simpleMailService;

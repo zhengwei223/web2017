@@ -19,7 +19,7 @@
     <property name="dataSource" ref="dataSource"/>
     <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
     <!--扫描实体@Entity-->
-    <property name="packagesToScan" value="org.lanqiao.showcase.jpa"/>
+    <property name="packagesToScan" value="org.lanqiao.showcase.entity"/>
     <property name="jpaProperties">
       <props>
         <!-- 命名规则 My_NAME->MyName -->
@@ -35,7 +35,7 @@
 
   <!-- Spring Data Jpa配置
   查找和装配DAO-->
-  <jpa:repositories base-package="org.lanqiao.showcase.jpa"
+  <jpa:repositories base-package="org.lanqiao.showcase.jpadao"
                     transaction-manager-ref="transactionManager"
                     entity-manager-factory-ref="entityManagerFactory"/>
 
@@ -52,10 +52,10 @@
   </jdbc:embedded-database>
 
 
-  <bean id="userService" class="org.lanqiao.showcase.jpa.UserService"/>
+  <bean id="userService" class="org.lanqiao.showcase.service.UserService"/>
 
   <cache:annotation-driven cache-manager="cManager"/>
-  <import resource="applicationContext-ehcache.xml"/>
+  <import resource="cache/applicationContext-ehcache.xml"/>
   <bean id="cManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
         p:cacheManager-ref="demoEhcacheManager"/>
 </beans>

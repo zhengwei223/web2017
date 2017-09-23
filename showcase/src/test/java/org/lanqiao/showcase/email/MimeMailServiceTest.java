@@ -1,6 +1,7 @@
 package org.lanqiao.showcase.email;
 
 import freemarker.template.Configuration;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ContextConfiguration("classpath:email/applicationContext-email.xml")
+@Ignore
 public class MimeMailServiceTest extends AbstractJUnit4SpringContextTests{
   @Autowired
   MimeMailService mimeMailService;

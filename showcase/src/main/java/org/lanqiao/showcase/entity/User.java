@@ -1,15 +1,16 @@
-package org.lanqiao.showcase.jpa;
+package org.lanqiao.showcase.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "t_user")
 public class User {
   private Integer id;
   private String username;
   private String password;
   private Integer status;
 
+  private Integer teamId;
   @Id
   @GeneratedValue(strategy =GenerationType.AUTO)
   public Integer getId() {
@@ -42,5 +43,14 @@ public class User {
 
   public void setStatus(Integer status) {
     this.status = status;
+  }
+
+  @Column(name="team_id")
+  public Integer getTeamId() {
+    return teamId;
+  }
+
+  public void setTeamId(Integer teamId) {
+    this.teamId = teamId;
   }
 }
