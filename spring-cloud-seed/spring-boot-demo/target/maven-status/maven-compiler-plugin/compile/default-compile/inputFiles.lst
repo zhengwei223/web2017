@@ -1,0 +1,6 @@
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/entity/User.java
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/endpoint/Greet.java
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/config/MvcConfig.java
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/Main.java
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/config/MybatisConfig.java
+/Users/zhengwei/workspace/web2017/spring-cloud-seed/spring-boot-demo/src/main/java/org/lanqiao/restdemo/repository/UserMapper.java

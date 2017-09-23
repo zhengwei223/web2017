@@ -1,0 +1,3 @@
+org/lanqiao/restdemo/DataSourceTest.class
+org/lanqiao/restdemo/endpoint/GreetAPITest.class
+org/lanqiao/restdemo/repository/UserMapperTest.class

@@ -26,7 +26,7 @@
 
 ## spring boot&cloud 
 
-见 [spring-boot-cloud-seed](./spring-boot-cloud-seed/README.MD)
+见 [spring-cloud-seed](./spring-cloud-seed/README.MD)
 
 
 ## commons 工具包
