@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author calvin
  */
 public class User extends IdEntity {
+  private Integer id;
   private String loginName;
   private String plainPassword;
   private String password;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			  http://www.springframework.org/schema/jdbc
+			  http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+			  http://www.springframework.org/schema/data/jpa
+			  http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx
+		    http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
+       default-lazy-init="true">
+  <!-- Jpa Entity Manager 配置
+  entityManager是crud的API-->
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+    <!--扫描实体@Entity-->
+    <property name="packagesToScan" value="org.lanqiao.showcase.jpa"/>
+    <property name="jpaProperties">
+      <props>
+        <!-- 命名规则 My_NAME->MyName -->
+        <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <!--设置方言-->
+    <property name="databasePlatform" value="org.hibernate.dialect.H2Dialect"/>
+  </bean>
+
+  <!-- Spring Data Jpa配置
+  查找和装配DAO-->
+  <jpa:repositories base-package="org.lanqiao.showcase.jpa"
+                    transaction-manager-ref="transactionManager"
+                    entity-manager-factory-ref="entityManagerFactory"/>
+
+  <!-- Jpa 事务配置 -->
+  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="entityManagerFactory"/>
+  </bean>
+
+  <!-- 使用annotation定义事务 -->
+  <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+  <jdbc:embedded-database id="dataSource" type="H2">
+    <jdbc:script location="classpath:init-table-user.sql"/>
+  </jdbc:embedded-database>
+
+
+  <bean id="userService" class="org.lanqiao.showcase.jpa.UserService"/>
+
+  <cache:annotation-driven cache-manager="cManager"/>
+  <import resource="applicationContext-ehcache.xml"/>
+  <bean id="cManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+        p:cacheManager-ref="demoEhcacheManager"/>
+</beans>
