@@ -4,10 +4,18 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://code.alibabatech.com/schema/dubbo    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+  <!--业务实现bean-->
   <bean id="helloService" class="org.lanqiao.showcase.rpc.dubbo.HelloServiceImpl"/>
+  <!--随便取一个名字-->
+  <dubbo:application name="dubbo-provider-hello" />
+  <!--zookeeper地址和端口-->
+  <dubbo:registry address="zookeeper://10.100.40.185:2181" />
+  <!--服务暴露-->
+  <dubbo:service interface="org.lanqiao.showcase.rpc.dubbo.HelloService" ref="helloService" executes="10" protocol="p3" />
 
-  <dubbo:application name="hello-dubbo"/>
-  <dubbo:registry address="multicast://224.5.6.7:1234"/>
-  <dubbo:service interface="org.lanqiao.showcase.rpc.dubbo.HelloService" ref="helloService" executes="10"/>
+
+  <dubbo:protocol id="p1" name="dubbo" port="20880"/>
+  <dubbo:protocol id="p2" name="dubbo" port="20881"/>
+  <dubbo:protocol id="p3" name="dubbo" port="20882"/>
 
 </beans>
