@@ -27,6 +27,7 @@
     <mysql-connector-java.version>5.1.6</mysql-connector-java.version>
     <h2.version>1.4.180</h2.version>
     <HikariCP.version>2.6.0</HikariCP.version>
+    <java.version>1.8</java.version>
   </properties>
 
   <dependencyManagement>
@@ -88,6 +89,13 @@
         <artifactId>h2</artifactId>
         <version>${h2.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.10.19</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
   <profiles>
@@ -105,6 +113,20 @@
     </profile>
   </profiles>
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <showWarnings>true</showWarnings>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <!--boot打包插件-->
       <plugin>

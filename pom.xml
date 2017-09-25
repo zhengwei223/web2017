@@ -34,6 +34,7 @@
     <module>commons</module>
     <module>showcase</module>
     <module>ssm-xml-crud</module>
+    <module>spring-cloud-seed</module>
   </modules>
 
   <!-- 设定除中央仓库 (repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查询，如有Nexus私服, 取消注释并指向正确的服务器地址

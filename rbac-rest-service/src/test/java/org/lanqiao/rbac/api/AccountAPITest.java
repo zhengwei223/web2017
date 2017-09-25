@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * 启动本例需要先启动web server
+ */
 public class AccountAPITest extends BaseFunctionalTester {
   private static String resourceUrl = baseUrl + "/rbac/account";
   private String pagingQuery = "?pageNumber=1&pageSize=10";

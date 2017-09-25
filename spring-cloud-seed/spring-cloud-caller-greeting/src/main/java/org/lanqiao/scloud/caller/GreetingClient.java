@@ -27,6 +27,7 @@ public class GreetingClient {
   }
 }
 
+/*RestTemplate不需要依赖接口*/
 @Component
 class RestTemplateExample implements CommandLineRunner {
   @Autowired

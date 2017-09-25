@@ -12,7 +12,6 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>spring-cloud-caller-greeting</artifactId>
-
 <dependencies>
   <dependency>
     <groupId>org.springframework.cloud</groupId>
@@ -21,6 +20,24 @@
   <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-feign</artifactId>
+  </dependency>
+  <!--test套件-->
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
   </dependency>
 </dependencies>
 </project>

@@ -22,14 +22,8 @@ public class GreetingFeignClient {
     SpringApplication.run(GreetingFeignClient.class,args);
   }
 }
-// 远调的代理，value是服务名
-@FeignClient(value = "greeting.service")
-// 写法应和服务接口一模一样
-interface GreetingService{
-  @RequestMapping(method = RequestMethod.GET, value = "/greeting/{name}")
-  public String greet(@PathVariable("name") String name) ;
 
-}
+/*FeignClient采用接口注入的方式*/
 @Component
 class FeignClientExample implements CommandLineRunner {
   @Autowired
