@@ -18,11 +18,11 @@
   <bean id="jedisConnectionFactory"
         class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
         destroy-method="destroy">
-    <property name="hostName" value="192.168.100.205" />
-    <property name="port" value="6379" />
+    <property name="hostName" value="10.100.40.185" />
+    <property name="port" value="63799" />
     <property name="timeout" value="15000" />
     <property name="database" value="0" />
-    <property name="password" value="" />
+    <!--<property name="password" value="secret" />-->
     <property name="usePool" value="true" />
     <property name="poolConfig" ref="jedisPoolConfig" />
   </bean>
@@ -48,5 +48,4 @@
     </property>
 
   </bean>
-  <!--<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate"/>-->
 </beans>

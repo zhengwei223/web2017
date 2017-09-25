@@ -15,6 +15,7 @@ public class AccountAPITest extends BaseFunctionalTester {
 
   @Test
   public void list() throws Exception {
+    // 发起get请求，参数1：url 参数2：将结果转换为什么类型
     Result result = restTemplate.getForObject( resourceUrl + pagingQuery, Result.class );
     assertThat( result.getCode() ).isEqualTo( 200 );
     HashMap map = (HashMap) result.getData();

@@ -7,8 +7,6 @@
 
   <context:property-placeholder location="classpath:cache/redis-config.properties"/>
 
-  <!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
-  <cache:annotation-driven cache-manager="redisCacheManager"/>
 
   <!-- redis 相关配置 -->
   <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -31,6 +29,10 @@
       <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
     </property>
   </bean>
+
+
+  <!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
+  <cache:annotation-driven cache-manager="redisCacheManager"/>
 
   <!-- spring自己的缓存管理器，这里定义了缓存位置名称 ，即注解中的value -->
   <bean id="redisCacheManager"
