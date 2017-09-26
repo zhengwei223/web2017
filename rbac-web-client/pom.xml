@@ -17,7 +17,12 @@
     <artifactId>commons</artifactId>
     <version>1.0-SNAPSHOT</version>
   </dependency>
-
+  <dependency>
+    <groupId>org.lanqiao</groupId>
+    <artifactId>rbac-rest-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <classifier>rpc-export</classifier>
+  </dependency>
   <!--test-->
   <dependency>
     <groupId>junit</groupId>
@@ -66,7 +71,12 @@
     <version>${jetty.version}</version>
     <scope>provided</scope>
   </dependency>
-
+  <dependency>
+    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <artifactId>jackson-jaxrs-json-provider</artifactId>
+    <version>${jackson.version}</version>
+    <scope>runtime</scope>
+  </dependency>
   <!--  <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>

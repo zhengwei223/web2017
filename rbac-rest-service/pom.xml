@@ -378,6 +378,29 @@
           <stopPort/>
         </configuration>
       </plugin>
+    <plugin>
+      <artifactId>maven-jar-plugin</artifactId>
+      <executions>
+        <execution>
+          <id>rpc-export</id>
+          <goals>
+            <!--包后缀-->
+            <goal>jar</goal>
+          </goals>
+          <!--对应阶段-->
+          <phase>package</phase>
+          <configuration>
+            <outputDirectory>target</outputDirectory>
+            <!--标识-->
+            <classifier>rpc-export</classifier>
+            <includes>
+              <include>org/lanqiao/rbac/entity/*.class</include>
+            </includes>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+
   </plugins>
 </build>
 

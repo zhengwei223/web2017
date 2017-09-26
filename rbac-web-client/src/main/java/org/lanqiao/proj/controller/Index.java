@@ -15,9 +15,12 @@ public class Index {
 
   @RequestMapping
   public ModelAndView index(){
+    // 发起远程的调用
     Result result = restTemplate.getForObject( "http://localhost:8080/rbac-rest-service/rbac/account?pageNumber=1&pageSize=10" , Result.class );
     final ModelAndView modelAndView = new ModelAndView("index");
-    modelAndView.addObject("result",result);
+    if(result.getCode()==200){
+      modelAndView.addObject("result",result);
+    }
     return modelAndView;
   }
 }

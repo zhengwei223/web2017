@@ -32,5 +32,27 @@
     </bean>
   </mvc:view-resolvers>
 
-  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"></bean>
+  <!--方式一、使用jdk的实现-->
+  <bean id="ky.requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+    <property name="readTimeout" value="10000"/>
+    <property name="connectTimeout" value="5000"/>
+  </bean>
+
+  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+    <constructor-arg ref="ky.requestFactory"/>
+    <property name="messageConverters">
+      <list>
+        <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+          <property name="supportedMediaTypes">
+            <list>
+              <value>text/plain;charset=UTF-8</value>
+              <value>application/json;charset=UTF-8</value>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>

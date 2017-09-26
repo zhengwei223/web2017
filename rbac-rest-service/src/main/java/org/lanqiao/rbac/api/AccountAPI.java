@@ -18,6 +18,7 @@ import org.web2017.web.rest.Result;
 import org.web2017.web.rest.ResultGenerator;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class AccountAPI {
   private AccountService accountService;
 
   @PostMapping
-  public Result add(Account account) {
+  public Result add(@RequestBody @Valid Account account) {
     account.setPassword(MD5Util.md5(account.getPassword(),SysConst.SALT));
     accountService.save(account);
     return ResultGenerator.genSuccessResult();

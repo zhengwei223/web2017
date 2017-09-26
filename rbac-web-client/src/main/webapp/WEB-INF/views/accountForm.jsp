@@ -2,23 +2,16 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-
 <html>
 <head>
-    <title>首页</title>
+    <title>Title</title>
 </head>
 <body>
-${ctx}
-
-<table>
-    <c:if test="${result!=null}">
-    <c:forEach items="${result.data.list}" var="account">
-        <tr>
-            <td>${account.account}</td>
-        </tr>
-    </c:forEach>
-    </c:if>
-
-</table>
+    <form action="${ctx}/account/register" method="post">
+        <input name="account">
+        <input name="password" type="password">
+        <input name="userProfileId">
+        <input type="submit" value="ok">
+    </form>
 </body>
 </html>

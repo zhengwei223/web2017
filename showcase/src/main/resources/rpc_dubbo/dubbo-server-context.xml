@@ -14,7 +14,7 @@
   <dubbo:service interface="org.lanqiao.showcase.rpc.dubbo.HelloService" ref="helloService" executes="10" protocol="p3" />
 
 
-  <dubbo:protocol id="p1" name="dubbo" port="20880"/>
+  <dubbo:protocol id="p1" name="dubbo" port="20880" exchanger=""/>
   <dubbo:protocol id="p2" name="dubbo" port="20881"/>
   <dubbo:protocol id="p3" name="dubbo" port="20882"/>
 

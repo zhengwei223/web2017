@@ -2,6 +2,7 @@ package org.lanqiao.rbac.entity;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "rbac_account")
 public class Account {
@@ -18,6 +19,7 @@ public class Account {
     /**
      * 账户标识
      */
+    @NotNull
     private String account;
 
     private String password;
