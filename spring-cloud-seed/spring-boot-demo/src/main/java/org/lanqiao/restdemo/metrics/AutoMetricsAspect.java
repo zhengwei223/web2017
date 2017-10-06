@@ -27,7 +27,10 @@ public class AutoMetricsAspect {
 
   @Before("publicMethods() && @annotation(countedAnnotation)")
   public void instrumentCounted(JoinPoint jp, Counted countedAnnotation){
-    String name = name(jp.getTarget().getClass(), StringUtils.hasLength(countedAnnotation.name())?countedAnnotation.name():jp.getSignature().getName(),"counter");
+    String countName = countedAnnotation.name();
+    String name = name(jp.getTarget().getClass(),
+        StringUtils.hasLength( countName )? countName :jp.getSignature().getName(),
+        "counter");
     Counter counter = counters.computeIfAbsent(name,key->metricRegistry.counter(key));
     counter.inc();
   }

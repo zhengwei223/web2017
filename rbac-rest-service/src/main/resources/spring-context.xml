@@ -90,6 +90,9 @@
     <property name="validationMessageSource" ref="validationMessageSource"/>
   </bean>
 
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="classpath*:application.properties"/>
+  </bean>
   <!-- production环境 -->
   <beans profile="production">
     <context:property-placeholder ignore-resource-not-found="true"
